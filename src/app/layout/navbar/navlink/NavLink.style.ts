@@ -11,6 +11,7 @@ const StyledNavLink = styled(Link)<StyledNavLinkProps>`
     color: ${colorPallete.gray};
     position: relative;
     margin: 1em;
+    text-align: center;
 
     &::before {
         position: absolute;

@@ -10,7 +10,7 @@ const menuRoutes = [
     {
         name: "Kontakt",
         href: "/kontakt",
-    }
+    },
 ]
 
 export default menuRoutes;

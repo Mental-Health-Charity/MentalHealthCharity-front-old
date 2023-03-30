@@ -2,37 +2,40 @@ import StyledNavbar from "./Navbar.style"
 import Image from "next/image";
 import Logo from "../../../common/images/static/logo.png"
 import DefaultButton from "@/common/components/defaultbutton/DefaultButton.component";
-import Link from "next/link";
 import menuRoutes from "./service";
-import { usePathname } from 'next/navigation';
 import NavLink from "./navlink/NavLink.component";
+import MobileMenu from "./mobilemenu/MobileMenu.component";
+import { useEffect, useState } from "react";
 
 const Navbar = () => {
 
-    const route = usePathname();
-
+    const [isMobileVisible, setIsMobileVisible] = useState(true);
+    console.log(isMobileVisible)
     return (
-        <StyledNavbar>
-            <Image priority alt="Logotype" src={Logo} width={"200"} />
-            <div className="nav_btns_wrapper">
+        <StyledNavbar isMobileVisible={isMobileVisible}>
+            <div className="logo_wrapper">
+                <Image className="nav_logo" priority alt="Logotype" src={Logo} width={"200"} />
+                <MobileMenu setIsMobileVisible={setIsMobileVisible} isMobileVisible={isMobileVisible} />
+            </div>
+            <ul className="nav_btns_wrapper">
                 {
-                    menuRoutes.map((item) =>
+                    menuRoutes.map((item, idx) =>
                         <NavLink
                             name={item.name}
-                            key={item.href}
+                            key={idx}
                             href={item.href}
                         />)
                 }
-            </div>
+            </ul>
             <div className="nav_auth_wrapper">
                 <DefaultButton
                     service={() => console.log("elo")}
                     isFilled={false}
-                    content={"Zaloguj sie"} />
+                    content={"Zaloguj"} />
                 <DefaultButton
                     service={() => console.log("e123lo")}
                     isFilled={true}
-                    content={"Zarejestruj sie"} />
+                    content={"Zarejestruj"} />
             </div>
         </StyledNavbar>
     )
