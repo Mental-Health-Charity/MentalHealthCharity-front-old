@@ -11,14 +11,6 @@ interface DefaultButtonProps {
 
 const DefaultButton = ({ fillType, content, href, fontSize }: DefaultButtonProps) => {
 
-//   const getButtonFillType = (fillType: string) => {
-//     switch (fillType) {
-//       case "yellow": return styles["default_button--yellow"];
-//       case "navy": return styles["default_button--navy"];
-//       default: return styles["default_button--white"];
-//     }
-// }
-
   return (
       <Link
         className={clsx(styles.default_button, {
