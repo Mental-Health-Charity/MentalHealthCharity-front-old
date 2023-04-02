@@ -1,19 +1,28 @@
-import StyledDefaultButton from "./DefaultButton.style"
+import Link from "next/link";
+import styles from "./DefaultButton.module.scss"
 
 interface DefaultButtonProps {
-    isFilled: boolean,
-    service: () => void,
+    fillType: "yellow" | "white" | "navy",
     content: string,
-    fontSize: number,
+    href: string,
+    fontSize?: number,
 }
 
-const DefaultButton = ({isFilled, service, content, fontSize}: DefaultButtonProps) => {
-    
-    return (
-        <StyledDefaultButton fontSize={fontSize ? fontSize : .9} onClick={service} isFilled={isFilled}>
-            {content}
-        </StyledDefaultButton >
-    )
-}
+const DefaultButton = ({ fillType, content, href, fontSize }: DefaultButtonProps) => {
+
+  const getButtonFillType = (fillType: string) => {
+    switch (fillType) {
+      case "yellow": return styles["default_button--yellow"];
+      case "navy": return styles["default_button--navy"];
+      default: return styles["default_button--white"];
+    }
+  }
+
+  return (
+      <Link className={`${styles.default_button} ${getButtonFillType(fillType)}`} href={href}>
+          {content}
+      </Link>
+    );
+};
 
 export default DefaultButton;

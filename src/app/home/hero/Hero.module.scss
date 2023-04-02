@@ -1,0 +1,25 @@
+.hero {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column; 
+    width: 100%;
+    height: auto;
+    padding: 4em;
+    text-align: center;
+
+    &__buttons_wrapper {
+        padding: 3em;
+        display: flex;
+        width: 100%;
+        max-width: 40em;
+        flex-wrap: wrap;
+        justify-content: space-around;
+        & a { margin: 2%; }
+    }
+
+    &__heading {
+        font-size: 3em;
+        margin: 1em;
+    }
+}

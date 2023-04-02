@@ -1,20 +1,17 @@
-import colorPallete from "@/common/styles/Colorpallete";
-import styled from "styled-components";
+@use "../../../common/styles/variables.module" as *;
 
-interface StyledNavbarProps {
-    isMobileVisible: boolean,
-}
-
-const StyledNavbar = styled.nav<StyledNavbarProps>`
-    height: 6em;
+.navbar {
+    height: auto;
+    background-color: $white; 
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding: 1em 0em 1em 0em;
     font-size: 1rem;
     position: relative;
+    
 
-    & .nav_btns_wrapper {
+    &__buttons_wrapper {
         display: flex;
         position: absolute;
         width: 100%;
@@ -23,15 +20,16 @@ const StyledNavbar = styled.nav<StyledNavbarProps>`
         flex-wrap: wrap;
     }
 
-    & .nav_auth_wrapper button {
+    &__auth_wrapper a {
         margin: .5em;
+        
     }
 
-    & .nav_logo, .nav_auth_wrapper {
+    &__logo, &__auth_wrapper {
         margin: 0 3% 0 3%;
     }
 
-    & .logo_wrapper {
+    &__logo_wrapper {
         display: flex;
         align-items: center;
         justify-content: center;
@@ -39,7 +37,7 @@ const StyledNavbar = styled.nav<StyledNavbarProps>`
     }
 
     @media (max-width: 1300px) {
-            & .nav_btns_wrapper {
+            &__buttons_wrapper {
             position: inherit;
             width: auto;
         };
@@ -47,7 +45,6 @@ const StyledNavbar = styled.nav<StyledNavbarProps>`
 
     @media (max-width: 1080px) {
         & {
-            height: ${props => props.isMobileVisible ? "auto" : "8em"};
             overflow: hidden;
             flex-wrap: wrap;
             align-items: center;
@@ -56,16 +53,16 @@ const StyledNavbar = styled.nav<StyledNavbarProps>`
             transition: 1s;
         }
 
-        & .nav_btns_wrapper {
+        &__buttons_wrapper {
             position: inherit;
             width: 100%;
             justify-content: space-around;
             flex-wrap: nowrap;
         };
-        & .logo_wrapper {
+        &__logo_wrapper {
             width: 100%;
         }
-        & .nav_auth_wrapper {
+        &__auth_wrapper {
             margin: 0;
         }
     }
@@ -75,13 +72,8 @@ const StyledNavbar = styled.nav<StyledNavbarProps>`
             padding: 0;
             margin: 0;
         }
-        & .nav_btns_wrapper {
+        &__buttons_wrapper {
             width: 100%;
         }
-
-
-
     }
-`
-
-export default StyledNavbar;
+}

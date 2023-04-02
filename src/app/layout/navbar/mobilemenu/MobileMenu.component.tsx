@@ -1,19 +1,20 @@
-import { Dispatch, SetStateAction } from "react";
-import StyledMobileMenu from "./MobileMenu.style";
+import {  Dispatch, SetStateAction } from "react";
+import styles from "./MobileMenu.module.scss"
+
 
 interface MobileMenuProps {
     setIsMobileVisible: Dispatch<SetStateAction<boolean>>,
     isMobileVisible: boolean,
 }
 
-const MobileMenu = ({setIsMobileVisible, isMobileVisible}:MobileMenuProps) => {
-
+const MobileMenu = ({isMobileVisible, setIsMobileVisible}:MobileMenuProps) => {
+    console.log(isMobileVisible)
     return (
-        <StyledMobileMenu onClick={() => setIsMobileVisible( isMobileVisible ? false : true)}>
-            <span aria-hidden="true" className="hamburger_deco_line"></span>
-            <span aria-hidden="true" className="hamburger_deco_line"></span>
-            <span aria-hidden="true" className="hamburger_deco_line"></span>
-        </StyledMobileMenu>
+        <button className={styles.mobile_menu} onClick={() => setIsMobileVisible( isMobileVisible ? false : true)}>
+            <span aria-hidden="true" className="mobile_menu__deco_line"></span>
+            <span aria-hidden="true" className="mobile_menu__deco_line"></span>
+            <span aria-hidden="true" className="mobile_menu__deco_line"></span>
+        </button>
     )
 }
 

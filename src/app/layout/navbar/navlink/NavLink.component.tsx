@@ -1,5 +1,6 @@
 import { usePathname } from "next/navigation";
-import StyledNavLink from "./NavLink.style";
+import styles from "./NavLink.module.scss"
+import Link from "next/link";
 
 interface NavLinkProps {
     href: string,
@@ -9,11 +10,17 @@ interface NavLinkProps {
 const NavLink = ({href, name}: NavLinkProps) => {
 
     const route = usePathname();
-    
+    const renderDot = () => {
+        if(route === href) {
+            return(<span aria-hidden={true} className={styles.nav_link__dot}></span>)
+        }
+    }
     return (
-        <StyledNavLink isActive={route === href}  href={href}>
+        <Link className={styles.nav_link} href={href}>
             {name}
-        </StyledNavLink>
+            {renderDot()}
+            <span className={styles.nav_link_dot}></span>
+        </Link>
     )
 }
 

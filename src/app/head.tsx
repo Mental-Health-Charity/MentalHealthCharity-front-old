@@ -1,3 +1,5 @@
+import "../common/styles/_global.module.scss"
+
 export default function Head() {
   return (
     <>

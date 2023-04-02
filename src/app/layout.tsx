@@ -1,6 +1,5 @@
 "use client";
-
-import GlobalStyle from "@/common/styles/Global.style"
+import styles from "../common/styles/_global.module.scss"
 import Navbar from "./layout/navbar/Navbar.component";
 
 export default function RootLayout({
@@ -11,10 +10,9 @@ export default function RootLayout({
   return (
     <html lang="pl">
       <head />
-      <body>
-        <GlobalStyle />
-        <Navbar />
-        {children} 
+      <body className={styles.body}>
+          <Navbar />
+          {children} 
       </body>
     </html>
   )

@@ -1,7 +1,4 @@
-import colorPallete from "@/common/styles/Colorpallete";
-import styled from "styled-components";
-
-const StyledMobileMenu = styled.button`
+.mobile_menu {
     display: none;
     position: absolute;
     right: 0; 
@@ -9,16 +6,16 @@ const StyledMobileMenu = styled.button`
     background-color: transparent;
     border: 0;
     height: auto;
-    &:active > .hamburger_deco_line{
+    &:active > .mobile_menu__deco_line{
         transform: scaleX(120%);
     }
 
-    & .hamburger_deco_line {
+    & .mobile_menu__deco_line {
         display: flex;
         width: 40px;
         height: 4px;
         margin: 8px;
-        background-color: ${colorPallete.black};
+        background-color: green;
         border-radius: 20px;
         transition: .2s;
     }
@@ -26,6 +23,4 @@ const StyledMobileMenu = styled.button`
     @media (max-width: 1080px) {
         display: block;
     }
-`
-
-export default StyledMobileMenu;
+}
