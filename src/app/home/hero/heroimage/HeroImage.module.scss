@@ -1,7 +1,7 @@
 @use "../../../../common/styles/variables.module" as *;
 
-$width: 16em;
-$height: 21em;
+$width: 18em;
+$height: 24em;
 
 @mixin card-img {
     width: $width;

@@ -7,8 +7,10 @@
     align-items: center;
     justify-content: center;
     width: 100%;
-    height: fit-content;
+    height: 70vh;
+    min-height: 400px;
     padding: 2em 1em 2em 1em;
+    margin-bottom: 8em;
     text-align: center;
     position: relative;
 
@@ -30,14 +32,14 @@
     &__hero-image--left {
         @include hero-img-card;
         left: 10%;
-        top: 40%;
+        top: 14%;
 
     }
 
     &__hero-image--right {
         @include hero-img-card;
         right: 10%;
-        bottom: -15%;
+        bottom: 0%;
     }
 
     // UI DESIGNER IDEA, NOT MINE!
