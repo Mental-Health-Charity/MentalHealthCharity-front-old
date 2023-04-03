@@ -1,5 +1,5 @@
 import {  Dispatch, SetStateAction } from "react";
-import styles from "./MobileMenu.module.scss"
+import styles from "./MobileMenu.module.scss";
 
 
 interface MobileMenuProps {
@@ -11,9 +11,9 @@ const MobileMenu = ({isMobileVisible, setIsMobileVisible}:MobileMenuProps) => {
     console.log(isMobileVisible)
     return (
         <button className={styles.mobile_menu} onClick={() => setIsMobileVisible( isMobileVisible ? false : true)}>
-            <span aria-hidden="true" className="mobile_menu__deco_line"></span>
-            <span aria-hidden="true" className="mobile_menu__deco_line"></span>
-            <span aria-hidden="true" className="mobile_menu__deco_line"></span>
+            <span aria-hidden="true" className={styles.mobile_menu__deco_line}></span>
+            <span aria-hidden="true" className={styles.mobile_menu__deco_line}></span>
+            <span aria-hidden="true" className={styles.mobile_menu__deco_line}></span>
         </button>
     )
 }

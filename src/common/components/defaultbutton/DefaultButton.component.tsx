@@ -6,7 +6,7 @@ interface DefaultButtonProps {
     fillType: "yellow" | "white" | "navy",
     content: string,
     href: string,
-    fontSize?: number,
+    fontSize: "fsmall" | "fmedium" | "flarge",
 }
 
 const DefaultButton = ({ fillType, content, href, fontSize }: DefaultButtonProps) => {
@@ -17,6 +17,9 @@ const DefaultButton = ({ fillType, content, href, fontSize }: DefaultButtonProps
           [styles["default_button--yellow"]]: fillType === "yellow",
           [styles["default_button--navy"]]: fillType === "navy",
           [styles["default_button--white"]]: fillType === "white",
+          [styles["default_button--fsmall"]]: fontSize === "fsmall",
+          [styles["default_button--fmedium"]]: fontSize === "fmedium",
+          [styles["default_button--flarge"]]: fontSize === "flarge",
         })}
         href={href}>
         {content}

@@ -1,3 +1,5 @@
+@use "../../../../common/styles/variables.module" as *;
+
 .mobile_menu {
     display: none;
     position: absolute;
@@ -15,12 +17,16 @@
         width: 40px;
         height: 4px;
         margin: 8px;
-        background-color: green;
+        background-color: $black;
         border-radius: 20px;
         transition: .2s;
     }
 
     @media (max-width: 1080px) {
         display: block;
+    }
+
+    @media (max-width: 380px) {
+        right: -1em;
     }
 }

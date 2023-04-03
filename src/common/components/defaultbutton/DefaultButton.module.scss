@@ -25,6 +25,10 @@
         color: $black;
     }
 
+    &--fsmall { font-size: .9em; }
+    &--fmedium { font-size: 1.1em; }
+    &--flarge { font-size: 1.3em; }
+
     &:hover {
         box-shadow: inset 3px 3px 3px #1b1b1b3b;
     }

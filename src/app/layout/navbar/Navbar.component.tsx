@@ -4,15 +4,18 @@ import DefaultButton from "@/common/components/defaultbutton/DefaultButton.compo
 import menuRoutes from "./service";
 import NavLink from "./navlink/NavLink.component";
 import MobileMenu from "./mobilemenu/MobileMenu.component";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import styles from "./Navbar.module.scss"
+import clsx from "clsx";
 
 const Navbar = () => {
 
     const [isMobileVisible, setIsMobileVisible] = useState(true);
 
     return (
-        <nav className={styles.navbar}>
+        <nav className={clsx(styles.navbar, {
+            [styles["navbar--unrolled"]]: isMobileVisible,
+        })}>
             <div className={styles.navbar__logo_wrapper}>
                 <Image className={styles.navbar__logo} priority alt="Logotype" src={Logo} width={"200"} />
                 <MobileMenu setIsMobileVisible={setIsMobileVisible} isMobileVisible={isMobileVisible} />
@@ -32,12 +35,12 @@ const Navbar = () => {
                     fillType={"white"}
                     content={"Zaloguj"}
                     href={"/login"}
-                />
+                    fontSize={"fsmall"} />
                 <DefaultButton
                     fillType={"yellow"}
                     content={"Zarejestruj"}
                     href={"/login"}
-                />
+                    fontSize={"fsmall"} />
             </div>
         </nav>
     )

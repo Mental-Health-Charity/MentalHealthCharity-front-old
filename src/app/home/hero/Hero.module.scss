@@ -1,15 +1,19 @@
+@mixin hero-img-card {
+    position: absolute;
+}
+
 .hero {
     display: flex;
     align-items: center;
     justify-content: center;
-    flex-direction: column; 
     width: 100%;
-    height: auto;
-    padding: 4em;
+    height: fit-content;
+    padding: 2em 1em 2em 1em;
     text-align: center;
+    position: relative;
 
     &__buttons_wrapper {
-        padding: 3em;
+        padding: 2em;
         display: flex;
         width: 100%;
         max-width: 40em;
@@ -20,6 +24,33 @@
 
     &__heading {
         font-size: 3em;
-        margin: 1em;
+        margin: 0;
+    }
+
+    &__hero-image--left {
+        @include hero-img-card;
+        left: 10%;
+        top: 40%;
+
+    }
+
+    &__hero-image--right {
+        @include hero-img-card;
+        right: 10%;
+        bottom: -15%;
+    }
+
+    // UI DESIGNER IDEA, NOT MINE!
+    @media(max-width: 1510px) {
+        &__hero-image--left { left: 4%; }
+        &__hero-image--right { right: 5%; }
+    }
+    @media(max-width: 1315px) {
+        &__hero-image--left { left: -7%; }
+        &__hero-image--right { right: -5%; }
+    }
+    @media(max-width: 1085px) {
+        &__hero-image--left { display: none; }
+        &__hero-image--right { display: none; }
     }
 }
