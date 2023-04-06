@@ -4,6 +4,10 @@ import DefaultButton from "@/common/components/defaultbutton/DefaultButton.compo
 import HeroImage from "./heroimage/HeroImage.component";
 import MentalHealthImg from "../../../common/images/static/mhimg.png"
 import MentalHealthImg2 from "../../../common/images/static/mhimg2.png"
+import Image from "next/image";
+import FacebookIcon from "../../../common/images/static/facebook.png";
+import InstagramIcon from "../../../common/images/static/instagram.png";
+import ScrollDownIcon from "../../../common/images/gif/scrolldown.gif"
 
 const Hero = () => {
     return (
@@ -13,11 +17,19 @@ const Hero = () => {
                 <h1 className={styles.hero__heading}>Stowarzyszenie Juz Lepiej</h1>
                 <h2>Przybywam w celu:</h2>
                 <div className={styles.hero__buttons_wrapper}>
-                    <DefaultButton fontSize={"fmedium"} fillType={"white"} content={"Uzyskania pomocy"} href={"/mentee"} ></DefaultButton>
-                    <DefaultButton fontSize={"fmedium"} fillType={"navy"} content={"Niesienia pomocy"} href={"/volunteer"} ></DefaultButton>
+                    <DefaultButton fontSize={"fmedium"} fillType={"white"} content={"Uzyskania pomocy"} href={"/mentee"} />
+                    <DefaultButton fontSize={"fmedium"} fillType={"navy"} content={"Niesienia pomocy"} href={"/volunteer"} />
                 </div>
+                <Image className={styles.hero__main__scrollicon} width={"30"} src={ScrollDownIcon} alt={""} />
             </main>
-
+            <div className={styles.hero__social}>
+                <Link target="blank" rel="noopener" href={"https://facebook.pl/"}>
+                    <Image width={32} src={FacebookIcon} alt={"facebook icon"} />
+                </Link>
+                <Link target="blank" rel="noopener" href={"https://instagram.pl/"}>
+                    <Image width={32} src={InstagramIcon} alt={"instagram icon"} />
+                </Link>
+            </div>
             <HeroImage className={styles['hero__hero-image--left']} alt="mental health graphic" src={MentalHealthImg} width={350} />
         </section>
     )

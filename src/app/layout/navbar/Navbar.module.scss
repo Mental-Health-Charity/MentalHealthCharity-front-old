@@ -8,8 +8,9 @@
     justify-content: space-between;
     padding: 1em 0em 1em 0em;
     font-size: 1rem;
-    position: relative;
-    
+    position: sticky;
+    width: 100%;
+    z-index: 90;
 
     &__buttons_wrapper {
         display: flex;
