@@ -1,0 +1,86 @@
+@use '../../../../styles/variables.module' as *;
+
+.navbar {
+  height: auto;
+  background-color: #ffffff8b;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1em 0em 1em 0em;
+  font-size: 1rem;
+  position: fixed;
+  width: 100%;
+  z-index: 90;
+  backdrop-filter: blur(10px);
+  top: 0;
+
+  &__buttons_wrapper {
+    display: flex;
+    position: absolute;
+    width: 30%;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    padding: 0;
+    left: 50%;
+    right: 50%;
+    transform: translate(-50%, 0);
+  }
+
+  &__auth_wrapper a {
+    margin: 0.5em;
+  }
+
+  &__logo,
+  &__auth_wrapper {
+    margin: 0 3% 0 3%;
+  }
+
+  &__logo_wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+
+  &--unrolled {
+    height: 8em;
+  }
+
+  @media (max-width: 1300px) {
+    &__buttons_wrapper {
+      position: inherit;
+    }
+  }
+
+  @media (max-width: 1080px) {
+    & {
+      overflow: hidden;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      padding: 1em;
+      transition: 1s;
+    }
+
+    &__buttons_wrapper {
+      position: relative;
+      width: 100%;
+      overflow: hidden;
+      justify-content: space-around;
+      flex-wrap: nowrap;
+    }
+    &__logo_wrapper {
+      width: 100%;
+    }
+    &__auth_wrapper {
+      margin: 0;
+    }
+  }
+
+  @media (max-width: 380px) {
+    &__buttons_wrapper {
+      width: 100%;
+    }
+  }
+}

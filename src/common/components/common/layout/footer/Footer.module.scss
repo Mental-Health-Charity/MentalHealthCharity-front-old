@@ -1,0 +1,39 @@
+@use '../../../../styles/variables.module' as *;
+@use '../../../../styles/mixins.module' as *;
+
+.footer {
+  display: grid;
+  align-items: center;
+  grid-template-columns: repeat(auto-fit, 20em);
+  justify-content: space-around;
+  margin-top: 10em;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  padding: 1em;
+  background-color: $navy;
+
+  &__block {
+    @include flex-center-xy;
+    flex-direction: column;
+    width: 100%;
+    list-style: none;
+
+    &__item {
+      @include flex-center-x;
+      color: $white;
+      text-decoration: none;
+      background-color: transparent;
+      border: 0;
+      font-size: 1em;
+      padding: 0;
+      cursor: pointer;
+      margin: 0.5em;
+      transition: 0.5s;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+}

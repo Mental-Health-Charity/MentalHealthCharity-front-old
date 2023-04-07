@@ -1,0 +1,111 @@
+@mixin hero-img-card {
+  position: absolute;
+}
+
+.hero {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 90vh;
+  min-height: 400px;
+  padding: 2em 1em 4em 1em;
+  margin-bottom: 8em;
+  text-align: center;
+  position: relative;
+
+  &::before {
+    display: block;
+    position: absolute;
+    left: 0;
+    width: 100vw;
+    content: '';
+    height: 100%;
+    background-image: url('../../../../common/images/static/herowave.svg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    z-index: -10;
+    opacity: 0.5;
+  }
+
+  &__main {
+    margin-top: 20em;
+  }
+
+  &__buttons_wrapper {
+    padding: 2em;
+    display: flex;
+    width: 100%;
+    max-width: 40em;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    & a {
+      margin: 2%;
+    }
+  }
+
+  &__heading {
+    font-size: 3em;
+    margin: 0;
+  }
+
+  &__hero-image--left {
+    @include hero-img-card;
+    left: 7%;
+    top: 38%;
+  }
+
+  &__hero-image--right {
+    @include hero-img-card;
+    right: 7%;
+    top: 30%;
+  }
+
+  &__social {
+    position: absolute;
+    width: 5em;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    bottom: 0;
+    left: 11%;
+    animation: anim-social 4s infinite;
+    opacity: 0.8;
+    transition: 0.5s;
+  }
+
+  &__social:hover {
+    opacity: 1;
+  }
+
+  &__main__scrollicon {
+    margin-top: 2em;
+  }
+
+  // UI DESIGNER IDEA, NOT MINE!
+  @media (max-width: 1510px) {
+    &__hero-image--left {
+      left: 4%;
+    }
+    &__hero-image--right {
+      right: 5%;
+    }
+  }
+  @media (max-width: 1315px) {
+    &__hero-image--left {
+      left: -7%;
+    }
+    &__hero-image--right {
+      right: -5%;
+    }
+  }
+  @media (max-width: 1085px) {
+    &__hero-image--left {
+      display: none;
+    }
+    &__hero-image--right {
+      display: none;
+    }
+  }
+  // @media(max-height: )
+}

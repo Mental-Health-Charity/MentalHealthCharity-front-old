@@ -1,0 +1,40 @@
+@use '../../../styles/variables.module' as *;
+
+.default_button {
+  width: auto;
+  height: auto;
+  padding: 0.5em 2em 0.5em 2em;
+  font-size: 0.9em;
+  border-radius: 3em;
+  transition: 0.2s;
+  cursor: pointer;
+  text-decoration: none;
+  color: $white;
+
+  &--yellow {
+    background-color: $yellow;
+    border: 2px solid $yellow;
+  }
+  &--navy {
+    background-color: $navy;
+    border: 2px solid $navy;
+  }
+  &--white {
+    border: 2px solid $black;
+    color: $black;
+  }
+
+  &--fsmall {
+    font-size: 0.9em;
+  }
+  &--fmedium {
+    font-size: 1.1em;
+  }
+  &--flarge {
+    font-size: 1.3em;
+  }
+
+  &:hover {
+    box-shadow: inset 3px 3px 3px #1b1b1b3b;
+  }
+}

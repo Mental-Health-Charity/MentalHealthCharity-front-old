@@ -1,0 +1,41 @@
+@use '../../../../styles/variables.module' as *;
+
+$width: 18em;
+$height: 24em;
+
+@mixin card-img {
+  width: $width;
+  height: $height;
+  background-color: $navy;
+  border-radius: 10%;
+}
+
+.hero_image {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  @include card-img;
+  z-index: 2;
+
+  &::before {
+    display: block;
+    position: absolute;
+    content: '';
+    opacity: 100%;
+    @include card-img;
+    z-index: -1;
+    left: 8%;
+    top: -5%;
+    opacity: 30%;
+  }
+
+  &__image {
+    width: 100%;
+    height: auto;
+  }
+
+  & div {
+    overflow: hidden;
+  }
+}

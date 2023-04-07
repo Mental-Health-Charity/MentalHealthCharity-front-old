@@ -1,7 +1,7 @@
-import Image from 'next/image'
-import Hero from './home/hero/Hero.component';
-import About from './home/about/About.component';
-import InfoGrid from './home/infogrid/InfoGrid.component';
+import Image from 'next/image';
+import Hero from '@/common/components/home/hero/Hero.component';
+import About from '@/common/components/home/about/About.component';
+import InfoGrid from '@/common/components/home/infogrid/InfoGrid.component';
 
 function Home() {
   return (
@@ -10,7 +10,7 @@ function Home() {
       <About />
       <InfoGrid />
     </>
-  )
+  );
 }
 
 export default Home;

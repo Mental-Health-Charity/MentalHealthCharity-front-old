@@ -1,28 +1,44 @@
-@use "./variables.module" as *;
-
-
+@use './variables.module' as *;
 
 .body {
-    width: 100svw;
-    min-height: 100svh;
-    background-color: $white;
-    margin: 0;
-    padding: 0;
-    overflow-x: hidden;
+  width: 100svw;
+  min-height: 100svh;
+  margin: 0;
+  padding: 0 0 20em 0;
+  overflow-x: hidden;
+  position: relative;
 
-    * {
-        box-sizing: border-box;
-        font-family: "Poppins";
-    };
-};
+  * {
+    box-sizing: border-box;
+    font-family: 'Poppins';
+  }
+
+  &::-webkit-scrollbar {
+    width: 0.5em;
+  }
+
+  &::-webkit-scrollbar-track {
+    background-color: $white;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: $yellow;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: #555;
+  }
+}
 
 /* latin */
 @font-face {
-    font-family: 'Poppins';
-    font-style: normal;
-    font-weight: 400;
-    font-display: swap;
-    src: url(https://fonts.gstatic.com/s/poppins/v20/pxiEyp8kv8JHgFVrJJfecg.woff2) format('woff2');
-    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-};
-
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/poppins/v20/pxiEyp8kv8JHgFVrJJfecg.woff2)
+    format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+    U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215,
+    U+FEFF, U+FFFD;
+}

@@ -1,10 +1,5 @@
 function VolunteerPanel() {
-
-    return (
-        <section>
-            siemua
-        </section>
-    )
+  return <section>siemua</section>;
 }
 
 export default VolunteerPanel;

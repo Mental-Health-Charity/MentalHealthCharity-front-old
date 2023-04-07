@@ -1,8 +1,5 @@
 function Admin() {
-
-    return (
-        <h1>Admin panel</h1>
-    )
+  return <h1>Admin panel</h1>;
 }
 
 export default Admin;

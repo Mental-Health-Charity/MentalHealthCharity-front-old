@@ -1,19 +1,21 @@
-"use client";
-import styles from "../common/styles/_global.module.scss"
-import Navbar from "./layout/navbar/Navbar.component";
+'use client';
+import Footer from '@/common/components/common/layout/footer/Footer.component';
+import styles from '../common/styles/_global.module.scss';
+import Navbar from '@/common/components/common/layout/navbar/Navbar.component';
 
 export default function RootLayout({
   children,
 }: {
-  children: React.ReactNode
+  children: React.ReactNode;
 }) {
   return (
     <html lang="pl">
       <head />
       <body className={styles.body}>
-          <Navbar />
-          {children} 
+        <Navbar />
+        {children}
+        <Footer />
       </body>
     </html>
-  )
+  );
 }
