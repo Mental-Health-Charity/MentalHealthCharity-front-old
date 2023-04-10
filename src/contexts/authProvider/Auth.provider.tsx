@@ -1,3 +1,4 @@
+import Navbar from '@/common/components/common/layout/navbar/Navbar.component';
 import { createContext, useState, useEffect, useContext } from 'react';
 
 interface User {
@@ -13,17 +14,17 @@ interface LoginUserData {
   password: string;
 }
 
-interface accessToken {
+interface AccessToken {
   access_token: string;
-  token_type: 'bearer';
+  token_type: string;
 }
 
-type AuthContextType = {
+interface AuthContextType {
   user: User | null;
-  login: (LoginData: LoginUserData) => Promise<void>;
+  login: (loginData: LoginUserData) => Promise<void>;
   logout: () => void;
   signIn: (userData: User) => Promise<void>;
-};
+}
 
 const AuthContext = createContext<AuthContextType>({} as AuthContextType);
 
@@ -31,13 +32,16 @@ const useProvideAuth = () => {
   const [user, setUser] = useState<User | null>(null);
 
   const signIn = async (userData: User) => {
-    const res = await fetch('http://localhost:8000/api/v1/users/open', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/users/open`,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(userData),
       },
-      body: JSON.stringify(userData),
-    });
+    );
     const data = await res.json();
     const error = res.ok;
     console.log(error, res.statusText);
@@ -45,26 +49,28 @@ const useProvideAuth = () => {
   };
 
   const login = async (loginData: LoginUserData) => {
-    const res = await fetch('http://localhost:8000/api/v1/login/access-token', {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_ACCESS_TOKEN_URL}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
       },
       body: new URLSearchParams(loginData as any),
     });
-    const data: accessToken = await res.json();
+    const data: AccessToken = await res.json();
     const error = res.ok;
     console.log(error, res.statusText);
     console.log('data: ', data);
 
-    sessionStorage.setItem('jwtToken', data.access_token);
-    sessionStorage.setItem('jwtTokenType', data.token_type);
+    localStorage.setItem('jwtToken', data.access_token);
+    localStorage.setItem('jwtTokenType', data.token_type);
 
-    const userData = await fetch('http://localhost:8000/api/v1/users/me', {
+    const userData = await fetch(`${process.env.NEXT_PUBLIC_LOGIN_ME_URL}`, {
       method: 'get',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `${data.token_type} ${data.access_token}`,
+        Authorization: `${localStorage.getItem(
+          'jwtTokenType',
+        )} ${localStorage.getItem('jwtToken')}`,
       },
     });
     const userDataValue: User = await userData.json();
@@ -79,7 +85,24 @@ const useProvideAuth = () => {
     //clean localstorage
   };
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    if (!localStorage.getItem('jwtToken')) return;
+
+    const fetchMe = async () => {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_LOGIN_ME_URL}`, {
+        method: 'get',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `${localStorage.getItem(
+            'jwtTokenType',
+          )} ${localStorage.getItem('jwtToken')}`,
+        },
+      });
+      const userDataValue: User = await res.json();
+      setUser(userDataValue);
+    };
+    fetchMe();
+  }, []);
 
   return {
     user,
@@ -90,9 +113,17 @@ const useProvideAuth = () => {
 };
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
+  const accessToken = localStorage.getItem('jwtToken');
   const auth = useProvideAuth();
 
-  return <AuthContext.Provider value={auth}>{children}</AuthContext.Provider>;
+  if (accessToken && auth.user)
+    return <AuthContext.Provider value={auth}>{children}</AuthContext.Provider>;
+  return (
+    <AuthContext.Provider value={auth}>
+      <Navbar />
+      <p style={{ marginTop: '20%', fontSize: '2em' }}>LADOWANIE</p>
+    </AuthContext.Provider>
+  );
 };
 
 export const useAuth = () => useContext(AuthContext);
