@@ -4,7 +4,7 @@
 .info-grid {
   @include flex-center-xy;
   padding: 2em;
-  margin-top: 11em;
+  margin: 11em 0 11em 0;
   flex-direction: column;
   height: auto;
 

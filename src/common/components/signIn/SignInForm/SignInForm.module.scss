@@ -1,0 +1,70 @@
+@use '../../../styles/mixins.module' as *;
+@use '../../../styles/variables.module' as *;
+
+.signin {
+  @include flex-center-x;
+  padding: 10em 0 0 0;
+  width: 100%;
+  height: 100svh;
+  min-height: 55em;
+  flex-direction: column;
+
+  &__heading {
+    font-size: 2em;
+  }
+
+  &__form {
+    @include flex-center-xy;
+    position: relative;
+    flex-direction: column;
+    padding: 2em;
+    border-radius: 1em;
+    background: linear-gradient(#ecba45, $yellow);
+    max-width: 30em;
+    color: $gray;
+
+    &::before {
+      position: absolute;
+      display: block;
+      content: '';
+      z-index: -1;
+      width: 100%;
+      height: 100%;
+      background-color: #ecba459b;
+      transform: rotate(6deg);
+    }
+
+    &__submit {
+      @include default-button;
+      border: 2px solid $black;
+      width: 10em;
+
+      &:hover {
+        transform: scaleX(110%);
+      }
+    }
+
+    &__row {
+      @include flex-center-xy;
+      flex-direction: column;
+      border-bottom: 2px solid $white;
+
+      &__label {
+        color: $black;
+        word-wrap: break-word;
+      }
+
+      &__input {
+        background-color: transparent;
+        border: none;
+        width: 20em;
+        font-size: 1.5em;
+        width: 100%;
+        color: $gray;
+        padding: 5px;
+
+
+      }
+    }
+  }
+}

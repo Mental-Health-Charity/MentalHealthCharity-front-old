@@ -13,3 +13,13 @@
   display: flex;
   justify-content: center;
 }
+
+@mixin default-button {
+  width: auto;
+  height: auto;
+  padding: 0.5em 2em 0.5em 2em;
+  font-size: 0.9em;
+  border-radius: 3em;
+  transition: 0.2s;
+  cursor: pointer;
+}

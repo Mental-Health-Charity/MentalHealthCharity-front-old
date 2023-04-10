@@ -1,0 +1,75 @@
+@use '../../../common/styles/mixins.module' as *;
+@use '../../../common/styles/variables.module' as *;
+
+.login {
+  @include flex-center-xy;
+  width: 100%;
+  height: 100svh;
+  flex-direction: column;
+  color: $navy;
+
+  &__desc {
+    font-size: 2em;
+    color: $navy;
+  }
+  &__form {
+    @include flex-center-xy;
+    position: relative;
+    flex-direction: column;
+    padding: 2em;
+    margin: 1em;
+    border-radius: 1em;
+    background: linear-gradient(#2a7dc0, $navy);
+    max-width: 30em;
+
+    &::before {
+      display: block;
+      position: absolute;
+      content: '';
+      height: 100%;
+      width: 100%;
+      background-color: $navy;
+      z-index: -1;
+      rotate: 7deg;
+      opacity: 0.7;
+    }
+
+    &__submit {
+      @include default-button;
+      border: 2px solid $black;
+      font-size: 1em;
+      width: 100%;
+      transition: 0.5s;
+      font-weight: 1000;
+
+      &:hover {
+        background-color: $navy;
+        color: $white;
+        border: 2px solid $white;
+      }
+    }
+
+    &__row {
+      @include flex-center-xy;
+      flex-direction: column;
+      &__label {
+      }
+
+      &__input {
+        background-color: transparent;
+        border: none;
+        border-bottom: 2px solid $white;
+        font-size: 2em;
+        color: $white;
+
+        &:focus {
+          outline: 1px solid $white;
+        }
+
+        &::placeholder {
+          color: $white;
+        }
+      }
+    }
+  }
+}

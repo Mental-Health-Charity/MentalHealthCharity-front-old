@@ -13,6 +13,7 @@
   margin-bottom: 8em;
   text-align: center;
   position: relative;
+  flex-direction: column;
 
   &::before {
     display: block;
@@ -62,16 +63,11 @@
   }
 
   &__social {
-    position: absolute;
-    width: 5em;
     display: flex;
-    align-items: center;
-    justify-content: space-between;
-    bottom: 0;
-    left: 11%;
-    animation: anim-social 4s infinite;
-    opacity: 0.8;
-    transition: 0.5s;
+    justify-content: flex-end;
+    height: 100%;
+    width: 100%;
+    margin-right: 3em;
   }
 
   &__social:hover {
