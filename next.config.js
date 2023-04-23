@@ -4,7 +4,6 @@ const nextConfig = {
     appDir: true,
   },
   distDir: 'build',
-  target: 'serverless',
 };
 
 module.exports = nextConfig;
