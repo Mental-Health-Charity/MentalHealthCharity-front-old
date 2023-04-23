@@ -11,14 +11,14 @@ const NavLink = ({ href, name }: NavLinkProps) => {
   const route = usePathname();
   const renderDot = () => {
     if (route === href) {
-      return <span aria-hidden={true} className={styles.nav_link__dot}></span>;
+      return <span aria-hidden={true} className={styles.navLink__dot}></span>;
     }
   };
   return (
-    <Link className={styles.nav_link} href={href}>
+    <Link className={styles.navLink} href={href}>
       {name}
       {renderDot()}
-      <span className={styles.nav_link_dot}></span>
+      <span className={styles.navLink_dot}></span>
     </Link>
   );
 };
