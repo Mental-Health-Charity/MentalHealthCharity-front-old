@@ -35,12 +35,12 @@ const Hero = () => {
             href={'#'}
           />
         </div>
-        {/* <Image
+        <Image
           className={styles.hero__main__scrollicon}
           width={'30'}
           src={ScrollDownIcon}
           alt={''}
-        /> */}
+        />
       </main>
       <div className={styles.hero__social}>
         <Link target="blank" rel="noopener" href={'https://facebook.pl/'}>
@@ -51,12 +51,12 @@ const Hero = () => {
         </Link>
       </div>
 
-      <HeroImage
+      {/* <HeroImage
         className={styles['hero__hero-image--right']}
         alt="mental health graphic"
         src={MentalHealthImg2}
         width={350}
-      />
+      /> */}
     </section>
   );
 };
