@@ -1,16 +1,22 @@
 {
-  "name": "my-project",
   "version": 2,
   "builds": [
-    { "src": "package.json", "use": "@vercel/static-build" },
-    { "src": "api/**", "use": "@vercel/node" }
+    {
+      "src": "next.config.js",
+      "use": "@vercel/next"
+    }
   ],
   "routes": [
-    { "src": "/api/(.*)", "dest": "api/$1" },
-    { "handle": "filesystem" },
-    { "src": "(.*)", "dest": "/" }
+    {
+      "src": "/api/(.*)",
+      "dest": "http://my-api.com/:1"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/"
+    }
   ],
   "env": {
-    "API_KEY": "my-secret-key"
+    "MY_API_KEY": "secret-key"
   }
 }
