@@ -1,13 +1,13 @@
 import Link from 'next/link';
 import styles from './Hero.module.scss';
 import DefaultButton from '@/common/components/common/defaultbutton/DefaultButton.component';
-import HeroImage from './heroImage/HeroImage.component';
 import MentalHealthImg from '../../../images/static/mhimg.png';
 import MentalHealthImg2 from '../../../images/static/mhimg2.png';
 import Image from 'next/image';
 import FacebookIcon from '../../../images/static/facebook.png';
 import InstagramIcon from '../../../images/static/instagram.png';
 import ScrollDownIcon from '../../../images/gif/scrolldown.gif';
+import HeroImage from '../heroImage/HeroImage.component';
 
 const Hero = () => {
   return (

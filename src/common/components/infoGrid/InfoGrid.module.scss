@@ -1,5 +1,5 @@
-@use '../../../../common/styles/mixins.module' as *;
-@use '../../../../common/styles/variables.module' as *;
+@use '../../../common/styles/mixins.module' as *;
+@use '../../../common/styles/variables.module' as *;
 
 .info-grid {
   @include flex-center-xy;

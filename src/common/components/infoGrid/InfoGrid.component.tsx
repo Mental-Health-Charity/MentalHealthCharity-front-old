@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import styles from './InfoGrid.module.scss';
-import ExampleImage from '../../../images/static/mhimg.png';
-import ExampleImage2 from '../../../images/static/mhimg2.png';
+import ExampleImage from '../../images/static/mhimg.png';
+import ExampleImage2 from '../../images/static/mhimg2.png';
 
 const InfoGrid = () => {
   return (
