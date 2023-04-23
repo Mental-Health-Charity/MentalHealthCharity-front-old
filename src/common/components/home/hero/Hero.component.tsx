@@ -26,13 +26,13 @@ const Hero = () => {
             fontSize={'fmedium'}
             fillType={'white'}
             content={'Uzyskania pomocy'}
-            href={'/mentee'}
+            href={'#'}
           />
           <DefaultButton
             fontSize={'fmedium'}
             fillType={'navy'}
             content={'Niesienia pomocy'}
-            href={'/volunteer'}
+            href={'#'}
           />
         </div>
         <Image
