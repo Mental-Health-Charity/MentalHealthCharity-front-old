@@ -13,12 +13,12 @@ const Hero = () => {
   return (
     <section className={styles.hero}>
       <main className={styles.hero__main}>
-        {/* <HeroImage
+        <HeroImage
           className={styles['hero__hero-image--left']}
           alt="mental health graphic"
           src={MentalHealthImg}
           width={350}
-        /> */}
+        />
         <h1 className={styles.hero__heading}>Stowarzyszenie Juz Lepiej</h1>
         <h2>Przybywam w celu:</h2>
         <div className={styles.hero__buttons_wrapper}>
@@ -51,12 +51,12 @@ const Hero = () => {
         </Link>
       </div>
 
-      {/* <HeroImage
+      <HeroImage
         className={styles['hero__hero-image--right']}
         alt="mental health graphic"
         src={MentalHealthImg2}
         width={350}
-      /> */}
+      />
     </section>
   );
 };

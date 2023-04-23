@@ -1,0 +1,26 @@
+@use '../../../styles/mixins.module' as *;
+@use '../../../styles/variables.module' as *;
+
+.usersearch {
+  @include flex-center-xy;
+  flex-direction: column;
+  background-color: #09375c4b;
+
+  &__wrapper {
+    @include flex-center-x;
+    flex-direction: row;
+    justify-content: space-around;
+    padding: 3em;
+    width: 100%;
+
+    &__controls {
+      &__search {
+        @include default-button;
+        background-color: $yellow;
+        border: 1px solid $black;
+        border-radius: 0.5em;
+        margin: 1em;
+      }
+    }
+  }
+}

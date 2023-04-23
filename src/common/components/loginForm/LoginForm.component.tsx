@@ -3,16 +3,18 @@ import Link from 'next/link';
 import styles from './LoginForm.module.scss';
 import { useState } from 'react';
 import { useAuth } from '@/contexts/authProvider/Auth.provider';
+import { MouseEvent } from 'react';
+import clsx from 'clsx';
 
 const LoginForm = () => {
-  const { login, user, logout } = useAuth();
+  const { login, user, logout, error } = useAuth();
 
   const [loginData, setLoginData] = useState({
     username: '',
     password: '',
   });
 
-  const handleLogin = (e: any) => {
+  const handleLogin = (e: MouseEvent<HTMLInputElement>) => {
     e.preventDefault();
     login(loginData);
     console.log(loginData);
@@ -28,7 +30,9 @@ const LoginForm = () => {
               E-mail
             </label>
             <input
-              className={styles.login__form__row__input}
+              className={clsx(styles.login__form__row__input, {
+                [styles['login__form__row__input--incorrect']]: error,
+              })}
               type="email"
               id="email"
               placeholder="Jan@przyklad.pl"
@@ -48,7 +52,9 @@ const LoginForm = () => {
               Hasło:
             </label>
             <input
-              className={styles.login__form__row__input}
+              className={clsx(styles.login__form__row__input, {
+                [styles['login__form__row__input--incorrect']]: error,
+              })}
               type="password"
               id="password"
               placeholder="Hasło..."
@@ -60,11 +66,14 @@ const LoginForm = () => {
               }
             />
           </p>
+          {error && (
+            <p className={styles.login__form__errorMess}>{error?.detail}</p>
+          )}
           <input
             value="Zaloguj"
             className={styles.login__form__submit}
             type="submit"
-            onClick={(e) => handleLogin(e)}
+            onClick={handleLogin}
           />
         </form>
         <p>
@@ -80,7 +89,7 @@ const LoginForm = () => {
           value="Wyloguj"
           className={styles.login__form__submit}
           type="submit"
-          onClick={() => logout()}
+          onClick={logout}
         />
       </section>
     );

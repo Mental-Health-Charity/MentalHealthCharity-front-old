@@ -5,18 +5,21 @@ import { MouseEvent, useState } from 'react';
 import { useAuth } from '@/contexts/authProvider/Auth.provider';
 
 const SignInForm = () => {
-  const { signIn } = useAuth();
+  const { signIn, error } = useAuth();
 
   const [userData, setUserData] = useState({
-    name: '',
+    full_name: '',
     password: '',
     email: '',
   });
+
+  const [submit, setSubmit] = useState(false);
 
   const handleRegister = (e: MouseEvent) => {
     e.preventDefault();
     console.log(userData);
     signIn(userData);
+    setSubmit(true);
   };
 
   return (
@@ -82,6 +85,15 @@ const SignInForm = () => {
             onClick={(e) => handleRegister(e)}
           />
         </p>
+        {error?.detail && (
+          <p className={styles.signin__form__error}>Wprowadź poprawne dane.</p>
+        )}
+
+        {!error?.detail && submit ? (
+          <p>
+            Konto zostało utworzone! <Link href="/login">Zaloguj się.</Link>
+          </p>
+        ) : null}
         <p>
           <label className={styles.signin__form__row__label} htmlFor="checkbox">
             Akceptuję Regulamin oraz Polityką prywatności oraz potwierdzam

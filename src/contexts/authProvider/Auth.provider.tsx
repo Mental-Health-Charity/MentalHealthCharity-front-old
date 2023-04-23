@@ -1,12 +1,13 @@
 import Navbar from '@/common/components/common/layout/navbar/Navbar.component';
-import { createContext, useState, useEffect, useContext } from 'react';
+import { createContext, useState, useEffect, useContext, use } from 'react';
 
-interface User {
-  name: string;
+export interface User {
+  full_name: string;
   password: string;
   email: string;
   user_role?: string;
   id?: number;
+  is_active?: boolean;
 }
 
 interface LoginUserData {
@@ -17,6 +18,7 @@ interface LoginUserData {
 interface AccessToken {
   access_token: string;
   token_type: string;
+  detail?: string;
 }
 
 interface AuthContextType {
@@ -24,12 +26,14 @@ interface AuthContextType {
   login: (loginData: LoginUserData) => Promise<void>;
   logout: () => void;
   signIn: (userData: User) => Promise<void>;
+  error: AccessToken | undefined;
 }
 
 const AuthContext = createContext<AuthContextType>({} as AuthContextType);
 
 const useProvideAuth = () => {
   const [user, setUser] = useState<User | null>(null);
+  const [error, setError] = useState<AccessToken>();
 
   const signIn = async (userData: User) => {
     const res = await fetch(
@@ -42,13 +46,16 @@ const useProvideAuth = () => {
         body: JSON.stringify(userData),
       },
     );
-    const data = await res.json();
-    const error = res.ok;
-    console.log(error, res.statusText);
-    console.log('data: ', data);
+    const data: AccessToken = await res.json();
+    if (!res.ok) {
+      setError(data);
+      console.log('error: ', data);
+    }
   };
 
   const login = async (loginData: LoginUserData) => {
+    if (typeof window == 'undefined') return;
+
     const res = await fetch(`${process.env.NEXT_PUBLIC_ACCESS_TOKEN_URL}`, {
       method: 'POST',
       headers: {
@@ -56,40 +63,16 @@ const useProvideAuth = () => {
       },
       body: new URLSearchParams(loginData as any),
     });
+
     const data: AccessToken = await res.json();
     const error = res.ok;
     console.log(error, res.statusText);
-    console.log('data: ', data);
 
-    localStorage.setItem('jwtToken', data.access_token);
-    localStorage.setItem('jwtTokenType', data.token_type);
+    if (typeof window !== 'undefined' && res.ok) {
+      localStorage.setItem('jwtToken', data.access_token);
+      localStorage.setItem('jwtTokenType', data.token_type);
 
-    const userData = await fetch(`${process.env.NEXT_PUBLIC_LOGIN_ME_URL}`, {
-      method: 'get',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `${localStorage.getItem(
-          'jwtTokenType',
-        )} ${localStorage.getItem('jwtToken')}`,
-      },
-    });
-    const userDataValue: User = await userData.json();
-    setUser(userDataValue);
-    console.log('USERDATA: ', user);
-
-    //tu walic do localstorage access_token, nastepnie do endpoint userme, i do tego user state.
-  };
-
-  const logout = () => {
-    setUser(null);
-    //clean localstorage
-  };
-
-  useEffect(() => {
-    if (!localStorage.getItem('jwtToken')) return;
-
-    const fetchMe = async () => {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_LOGIN_ME_URL}`, {
+      const userData = await fetch(`${process.env.NEXT_PUBLIC_LOGIN_ME_URL}`, {
         method: 'get',
         headers: {
           'Content-Type': 'application/json',
@@ -98,10 +81,44 @@ const useProvideAuth = () => {
           )} ${localStorage.getItem('jwtToken')}`,
         },
       });
-      const userDataValue: User = await res.json();
+      const userDataValue: User = await userData.json();
       setUser(userDataValue);
-    };
-    fetchMe();
+      console.log('USERDATA: ', user);
+    } else {
+      console.log(data);
+      setError(data);
+    }
+  };
+
+  const logout = () => {
+    setUser(null);
+
+    if (typeof window !== 'undefined') {
+      localStorage.removeItem('jwtToken');
+      localStorage.removeItem('jwtTokenType');
+    }
+  };
+
+  useEffect(() => {
+    if (
+      typeof window !== undefined &&
+      localStorage.getItem('jwtToken') !== null
+    ) {
+      const fetchMe = async () => {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_LOGIN_ME_URL}`, {
+          method: 'get',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `${localStorage.getItem(
+              'jwtTokenType',
+            )} ${localStorage.getItem('jwtToken')}`,
+          },
+        });
+        const userDataValue: User = await res.json();
+        setUser(userDataValue);
+      };
+      fetchMe();
+    }
   }, []);
 
   return {
@@ -109,21 +126,15 @@ const useProvideAuth = () => {
     login,
     logout,
     signIn,
+    error,
   };
 };
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
-  const accessToken = localStorage.getItem('jwtToken');
+  // const accessToken = localStorage.getItem('jwtToken');
   const auth = useProvideAuth();
 
-  if (accessToken && auth.user)
-    return <AuthContext.Provider value={auth}>{children}</AuthContext.Provider>;
-  return (
-    <AuthContext.Provider value={auth}>
-      <Navbar />
-      <p style={{ marginTop: '20%', fontSize: '2em' }}>LADOWANIE</p>
-    </AuthContext.Provider>
-  );
+  return <AuthContext.Provider value={auth}>{children}</AuthContext.Provider>;
 };
 
 export const useAuth = () => useContext(AuthContext);

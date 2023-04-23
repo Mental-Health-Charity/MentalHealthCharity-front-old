@@ -22,6 +22,10 @@
     background: linear-gradient(#2a7dc0, $navy);
     max-width: 30em;
 
+    &__errorMess {
+      color: $error;
+    }
+
     &::before {
       display: block;
       position: absolute;
@@ -52,8 +56,6 @@
     &__row {
       @include flex-center-xy;
       flex-direction: column;
-      &__label {
-      }
 
       &__input {
         background-color: transparent;
@@ -61,6 +63,10 @@
         border-bottom: 2px solid $white;
         font-size: 2em;
         color: $white;
+
+        &--incorrect {
+          border: 2px solid red;
+        }
 
         &:focus {
           outline: 1px solid $white;
