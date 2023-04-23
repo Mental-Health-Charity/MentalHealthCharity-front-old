@@ -13,12 +13,12 @@ const Hero = () => {
   return (
     <section className={styles.hero}>
       <main className={styles.hero__main}>
-        <HeroImage
+        {/* <HeroImage
           className={styles['hero__hero-image--left']}
           alt="mental health graphic"
           src={MentalHealthImg}
           width={350}
-        />
+        /> */}
         <h1 className={styles.hero__heading}>Stowarzyszenie Juz Lepiej</h1>
         <h2>Przybywam w celu:</h2>
         <div className={styles.hero__buttons_wrapper}>
@@ -35,12 +35,12 @@ const Hero = () => {
             href={'#'}
           />
         </div>
-        <Image
+        {/* <Image
           className={styles.hero__main__scrollicon}
           width={'30'}
           src={ScrollDownIcon}
           alt={''}
-        />
+        /> */}
       </main>
       <div className={styles.hero__social}>
         <Link target="blank" rel="noopener" href={'https://facebook.pl/'}>
