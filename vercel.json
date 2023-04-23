@@ -1,0 +1,16 @@
+{
+  "name": "my-project",
+  "version": 2,
+  "builds": [
+    { "src": "package.json", "use": "@vercel/static-build" },
+    { "src": "api/**", "use": "@vercel/node" }
+  ],
+  "routes": [
+    { "src": "/api/(.*)", "dest": "api/$1" },
+    { "handle": "filesystem" },
+    { "src": "(.*)", "dest": "/" }
+  ],
+  "env": {
+    "API_KEY": "my-secret-key"
+  }
+}
