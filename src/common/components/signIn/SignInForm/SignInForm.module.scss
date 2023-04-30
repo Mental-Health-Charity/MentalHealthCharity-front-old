@@ -8,10 +8,7 @@
   height: 100svh;
   min-height: 55em;
   flex-direction: column;
-
-  &__heading {
-    font-size: 2em;
-  }
+  margin: 0;
 
   &__form {
     @include flex-center-xy;
@@ -22,6 +19,10 @@
     background: linear-gradient(#ecba45, $yellow);
     max-width: 30em;
     color: $gray;
+
+    @media (max-width: 550px) {
+      max-width: 85svw;
+    }
 
     &__error {
       color: red;

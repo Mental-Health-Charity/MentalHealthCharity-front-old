@@ -1,13 +1,14 @@
 import Image from 'next/image';
 import Logo from '../../../../images/static/logo.png';
 import DefaultButton from '@/common/components/common/defaultbutton/DefaultButton.component';
-import menuRoutes from './service';
+import { menuRoutes } from '@/utils/routes';
 import NavLink from '../navLink/NavLink.component';
 import MobileMenu from '../mobileMenu/MobileMenu.component';
 import { useState } from 'react';
 import styles from './Navbar.module.scss';
 import clsx from 'clsx';
 import { useAuth } from '@/contexts/authProvider/Auth.provider';
+import Link from 'next/link';
 
 const Navbar = () => {
   const [isMobileVisible, setIsMobileVisible] = useState(true);
@@ -18,7 +19,7 @@ const Navbar = () => {
         [styles['navbar--unrolled']]: isMobileVisible,
       })}
     >
-      <div className={styles.navbar__logo_wrapper}>
+      <div className={styles.navbar__logoWrapper}>
         <Image
           className={styles.navbar__logo}
           priority
@@ -31,19 +32,24 @@ const Navbar = () => {
           isMobileVisible={isMobileVisible}
         />
       </div>
-      <ul className={styles.navbar__buttons_wrapper}>
+      <ul className={styles.navbar__buttonsWrapper}>
         {menuRoutes.map((item, idx) => (
           <NavLink name={item.name} key={idx} href={item.href} />
         ))}
       </ul>
-      <div className={styles.navbar__auth_wrapper}>
+      <div className={styles.navbar__authWrapper}>
         {user ? (
-          <DefaultButton
-            fillType={'white'}
-            content={user.email}
+          <Link
+            className={styles.navbar__authWrapper__loggedUser}
             href={'/login'}
-            fontSize={'fsmall'}
-          />
+          >
+            <span
+              aria-hidden="true"
+              className={styles.navbar__authWrapper__loggedUser__dot}
+            ></span>
+            {user.user_role === 'admin' && '(admin) '}
+            {user.full_name === null ? 'Anonim' : user.full_name}
+          </Link>
         ) : (
           <>
             <DefaultButton

@@ -6,6 +6,7 @@ $max-width: 140em;
 
 .about {
   @include flex-center-xy;
+  position: relative; //for Floating component
   width: 100%;
   height: auto;
   padding: 1em;

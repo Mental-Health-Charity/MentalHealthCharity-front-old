@@ -1,4 +1,6 @@
+import Floating from '../../common/floating/Floating.component';
 import styles from './About.module.scss';
+import fishIcon from '../../../images/gif/fish.gif';
 
 const About = () => {
   return (
@@ -20,6 +22,7 @@ const About = () => {
           voluptates ipsa nisi ad?
         </p>
       </article>
+      <Floating offsetLeft={74} offsetTop={120} icon={fishIcon} />
     </section>
   );
 };

@@ -1,5 +1,16 @@
-@mixin hero-img-card {
+@mixin hero-wave {
+  display: block;
   position: absolute;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  content: '';
+  height: 80%;
+  background-image: url('../../../../common/images/static/herowave.svg');
+  background-repeat: no-repeat;
+  background-size: cover;
+  z-index: -10;
+  opacity: 0.5;
 }
 
 .hero {
@@ -16,17 +27,34 @@
   flex-direction: column;
 
   &::before {
-    display: block;
-    position: absolute;
-    left: 0;
-    width: 100vw;
-    content: '';
+    @include hero-wave;
+    animation: wave1 14s infinite;
+  }
+
+  &::after {
+    @include hero-wave;
+    animation: wave2 10s infinite;
     height: 100%;
-    background-image: url('../../../../common/images/static/herowave.svg');
-    background-repeat: no-repeat;
-    background-size: cover;
-    z-index: -10;
-    opacity: 0.5;
+  }
+
+  @keyframes wave1 {
+    0%,
+    100% {
+      transform: translateZ(100%);
+    }
+    50% {
+      transform: scale(150%);
+    }
+  }
+
+  @keyframes wave2 {
+    0%,
+    100% {
+      transform: translateZ(100%);
+    }
+    50% {
+      transform: scale(130%);
+    }
   }
 
   &__main {
@@ -50,14 +78,14 @@
     margin: 0;
   }
 
-  &__hero-image--left {
-    @include hero-img-card;
+  &__heroImageLeft {
+    position: absolute;
     left: 7%;
     top: 38%;
   }
 
-  &__hero-image--right {
-    @include hero-img-card;
+  &__heroImageRight {
+    position: absolute;
     right: 7%;
     top: 30%;
   }

@@ -1,19 +1,19 @@
 @use '../../../common/styles/mixins.module' as *;
 @use '../../../common/styles/variables.module' as *;
 
-.info-grid {
+.infoGrid {
   @include flex-center-xy;
+  position: relative; //for Floating components
   padding: 2em;
   margin: 11em 0 11em 0;
   flex-direction: column;
-  height: auto;
 
   &__heading {
     font-size: 2em;
     margin-bottom: 2em;
   }
 
-  &__blocks-wrapper {
+  &__blocksWrapper {
     display: grid;
     align-items: center;
     justify-content: space-around;
@@ -22,40 +22,40 @@
     grid-template-columns: repeat(auto-fit, 18em);
     grid-template-rows: repeat(auto-fit, 18em);
     gap: 2em;
-  }
 
-  &__blocks-wrapper__block {
-    @include flex-center-xy;
-    flex-direction: column;
-    height: 100%;
-    width: 100%;
-    background-color: $yellow;
-    border-radius: 15%;
-    padding: 1em;
-    position: relative;
-  }
+    &__block {
+      @include flex-center-xy;
+      flex-direction: column;
+      height: 100%;
+      width: 100%;
+      background-color: $yellow;
+      border-radius: 15%;
+      padding: 2em;
+      position: relative;
 
-  &__blocks-wrapper__block::before {
-    display: block;
-    position: absolute;
-    content: '';
-    min-height: 100%;
-    min-width: 100%;
-    background-color: $yellow;
-    opacity: 0.4;
-    border-radius: 15%;
-    transform: rotate(10deg);
-    bottom: 0px;
-    z-index: -1;
-    transition: 0.3s;
-  }
+      &__image {
+        height: 100%;
+        width: 100%;
+      }
 
-  &__blocks-wrapper__block:hover::before {
-    transform: rotate(20deg);
-  }
+      &::before {
+        display: block;
+        position: absolute;
+        content: '';
+        min-height: 100%;
+        min-width: 100%;
+        background-color: $yellow;
+        opacity: 0.4;
+        border-radius: 15%;
+        transform: rotate(10deg);
+        bottom: 0px;
+        z-index: -1;
+        transition: 0.3s;
+      }
 
-  &__blocks-wrapper__block__image {
-    height: 80%;
-    width: auto;
+      &:hover::before {
+        transform: rotate(20deg);
+      }
+    }
   }
 }

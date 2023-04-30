@@ -5,6 +5,7 @@ import { useState } from 'react';
 import { useAuth } from '@/contexts/authProvider/Auth.provider';
 import { MouseEvent } from 'react';
 import clsx from 'clsx';
+import UserInfo from './UserInfo/UserInfo.component';
 
 const LoginForm = () => {
   const { login, user, logout, error } = useAuth();
@@ -83,14 +84,14 @@ const LoginForm = () => {
     );
   } else {
     return (
-      <section className={styles.login}>
-        <p>Zalogowano jako {user.email}</p>
-        <input
-          value="Wyloguj"
-          className={styles.login__form__submit}
-          type="submit"
-          onClick={logout}
-        />
+      <section
+        style={{
+          background:
+            'linear-gradient(rgba(168, 220, 255, 0.384), rgba(137, 196, 235, 0.521))',
+        }}
+        className={styles.login}
+      >
+        <UserInfo />
       </section>
     );
   }

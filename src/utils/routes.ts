@@ -1,4 +1,4 @@
-const menuRoutes = [
+export const menuRoutes = [
   {
     name: 'O nas',
     href: '/',
@@ -13,4 +13,8 @@ const menuRoutes = [
   },
 ];
 
-export default menuRoutes;
+export const panelRoutes = {
+  volunteerPanel: '/panelWolotariusza',
+  menteePanel: '/panelPodpiecznego',
+  adminPanel: '/admin',
+};
