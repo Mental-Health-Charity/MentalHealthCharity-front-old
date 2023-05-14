@@ -2,11 +2,16 @@
 @use '../../../styles/mixins.module' as *;
 
 .wrapper {
-  @include flex-center-x;
-  padding: 2em;
+  @include flex-center-xy;
+  padding: 9em 2em 2em 2em;
   flex-direction: column;
   width: 100%;
-  background-color: #09375c2b;
+  background-color: $navy;
+  min-height: 100svh;
+
+  &__return {
+    color: $white;
+  }
 
   &__warning {
     font-size: 0.7em;

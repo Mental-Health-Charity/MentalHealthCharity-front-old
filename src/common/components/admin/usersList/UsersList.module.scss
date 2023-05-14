@@ -2,8 +2,19 @@
 @use '../../../styles/mixins.module' as *;
 
 .wrapper {
-  background-color: #09375c2b;
-  padding: 8em;
+  background-color: $navy;
+  padding: 9em;
+  color: $white;
+
+  &__input {
+    @include default-input;
+    margin: 0.4em;
+  }
+
+  &__return {
+    color: $white;
+    text-align: center;
+  }
 
   &__heading {
     text-align: center;
@@ -19,12 +30,16 @@
     height: 30em;
     overflow-y: scroll;
     padding: 0;
+    box-shadow: 0em 0em 0.9em $lightNavy;
   }
 
   &__submit {
     @include default-button;
-    background-color: $yellow;
-    border: 1px solid $black;
+    min-height: 3.2em;
+    background-color: $lightNavy;
+    color: $white;
+    border: 1px solid $navy;
     border-radius: 0.5em;
+    margin: 1em;
   }
 }

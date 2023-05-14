@@ -1,0 +1,83 @@
+@use '../../../../styles/mixins.module' as *;
+@use '../../../../styles/variables.module' as *;
+
+.chatItem {
+  position: relative;
+  padding: 0.7em;
+  background-color: $white;
+  border-radius: 0.3em;
+  color: $navy;
+  font-size: 1.1em;
+
+  &::before {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 0.7em;
+    background-color: rgb(5, 250, 5);
+    content: '';
+  }
+
+  &__name {
+    font-weight: 1000;
+    text-align: center;
+    margin: 0.3em;
+  }
+
+  &__date {
+    font-size: 0.8em;
+  }
+
+  &__active {
+    @include flex-center-x;
+    justify-content: space-between;
+
+    &__button {
+      @include default-button;
+      padding: 0.1em;
+      background-color: $white;
+      color: red;
+      border-radius: 0;
+      border: 0.175em solid red;
+
+      &:active {
+        background-color: red;
+        color: $white;
+      }
+    }
+  }
+
+  &__participants {
+    border: 0.1em solid $navy;
+    padding: 0.5em;
+
+    &__list {
+      padding: 0;
+
+      &__participant {
+        @include flex-center-xy;
+        margin: 0.6em 0em 0.6em 0em;
+        justify-content: space-between;
+        list-style: none;
+        background-color: #6fa5d15e;
+
+        &__remove {
+          @include default-button;
+          padding: 0.1em;
+          background-color: $white;
+          color: red;
+          border-radius: 0;
+          font-size: 0.7em;
+          border: 0.175em solid red;
+          margin-left: 2em;
+
+          &:active {
+            background-color: red;
+            color: $white;
+          }
+        }
+      }
+    }
+  }
+}

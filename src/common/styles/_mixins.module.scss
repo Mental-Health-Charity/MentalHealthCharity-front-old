@@ -14,6 +14,19 @@
   justify-content: center;
 }
 
+@mixin default-input {
+  border-radius: 0.5em;
+  font-size: 1.2em;
+  padding: 0.3em;
+  background-color: #6b8ba59b;
+  border: 0.2em solid #6fa5d1;
+  color: #fff;
+
+  &::placeholder {
+    color: #fff;
+  }
+}
+
 @mixin default-button {
   width: auto;
   height: auto;

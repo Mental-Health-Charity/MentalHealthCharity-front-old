@@ -4,6 +4,7 @@ import styles from './UsersList.module.scss';
 import { use, useEffect, useState } from 'react';
 import { User, useAuth } from '@/contexts/authProvider/Auth.provider';
 import RowList from './rowList/RowList.component';
+import Link from 'next/link';
 
 const UsersList = () => {
   const [users, setUsers] = useState<User[]>();
@@ -16,7 +17,7 @@ const UsersList = () => {
 
   useEffect(() => {
     listUsers();
-    console.log('pobieranie...');
+    console.log('downloading...');
   }, []);
 
   const listUsers = async () => {
@@ -27,7 +28,10 @@ const UsersList = () => {
 
   return (
     <section className={styles.wrapper}>
-      <h2 className={styles.wrapper__heading}>Globalna lista użytkowników</h2>
+      <Link className={styles.wrapper__return} href="/admin">
+        &#x2190; Powrót do dashboard
+      </Link>
+      <h1 className={styles.wrapper__heading}>Globalna lista użytkowników</h1>
       <p className={styles.wrapper__heading}>
         załadowano {users ? users.length : 0} użytkowników
       </p>

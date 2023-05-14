@@ -1,13 +1,16 @@
+'use client';
+
 import { useAdmin } from '@/contexts/adminProvider/Admin.provider';
 import RowList from '../usersList/rowList/RowList.component';
 import styles from './UserEditor.module.scss';
-import { use, useState } from 'react';
+import { useState } from 'react';
 import { User } from '@/contexts/authProvider/Auth.provider';
 import Image from 'next/image';
 import VerifyIcon from '../../../images/static/check.png';
 import { MouseEvent } from 'react';
 import userInit from '@/utils/userInit';
 import MergeUserPopUp from './mergeUserPopUp/MergeUserPopUp.component';
+import Link from 'next/link';
 
 const UserEditor = () => {
   const { getUserById } = useAdmin();
@@ -37,7 +40,10 @@ const UserEditor = () => {
 
   return (
     <section className={styles.wrapper}>
-      <h2 className={styles.wrapper__heading}>Edytuj użytkownika</h2>
+      <Link className={styles.wrapper__return} href="/admin">
+        &#x2190; Powrót do dashboard
+      </Link>
+      <h1 className={styles.wrapper__heading}>Edytuj użytkownika</h1>
       <p className={styles.wrapper__warning}>
         *Uwaga! Operacja wysokiego ryzyka. Przed wykonaniem jakichkolwiek
         operacji w poniższym formularzu upewnij się, że wiesz co robisz i jesteś

@@ -1,0 +1,12 @@
+@use '../../../styles/mixins.module' as *;
+
+.table {
+  &__content {
+    @include flex-center-xy;
+    gap: 2em;
+    flex-wrap: wrap;
+    padding: 1em;
+    height: auto;
+    width: 100%;
+  }
+}

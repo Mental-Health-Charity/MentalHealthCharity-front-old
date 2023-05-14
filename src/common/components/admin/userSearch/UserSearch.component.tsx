@@ -1,8 +1,10 @@
+'use client';
 import { useAdmin } from '@/contexts/adminProvider/Admin.provider';
 import RowList from '../usersList/rowList/RowList.component';
 import styles from './UserSearch.module.scss';
 import { useState } from 'react';
 import { User } from '@/contexts/authProvider/Auth.provider';
+import Link from 'next/link';
 
 const UserSearch = () => {
   const { getUserById } = useAdmin();
@@ -16,11 +18,17 @@ const UserSearch = () => {
 
   return (
     <section className={styles.usersearch}>
-      <h2>Wyszukaj użytkownika</h2>
+      <Link className={styles.usersearch__return} href="/admin">
+        &#x2190; Powrót do dashboard
+      </Link>
+      <h1 className={styles.usersearch__heading}>Wyszukaj użytkownika</h1>
       <div className={styles.usersearch__wrapper}>
         <div className={styles.usersearch__wrapper__controls}>
-          <p>Wprowadź ID użytkownika</p>
+          <p className={styles.usersearch__wrapper__controls__desc}>
+            Wprowadź ID użytkownika
+          </p>
           <input
+            className={styles.usersearch__wrapper__controls__input}
             placeholder="ID"
             type="number"
             onChange={(e) => setID(e.target.valueAsNumber)}
