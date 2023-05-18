@@ -1,8 +1,7 @@
-function Admin() {
+import DashBoard from '@/common/components/admin/dashBoard/DashBoard.component';
 
-    return (
-        <h1>Admin panel</h1>
-    )
+function Admin() {
+  return <DashBoard />;
 }
 
 export default Admin;

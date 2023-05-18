@@ -1,0 +1,135 @@
+@mixin hero-wave {
+  display: block;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  content: '';
+  height: 80%;
+  background-image: url('../../../../common/images/static/herowave.svg');
+  background-repeat: no-repeat;
+  background-size: cover;
+  z-index: -10;
+  opacity: 0.5;
+}
+
+.hero {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 90vh;
+  min-height: 400px;
+  padding: 2em 1em 4em 1em;
+  margin-bottom: 8em;
+  text-align: center;
+  position: relative;
+  flex-direction: column;
+
+  &::before {
+    @include hero-wave;
+    animation: wave1 14s infinite;
+  }
+
+  &::after {
+    @include hero-wave;
+    animation: wave2 10s infinite;
+    height: 100%;
+  }
+
+  @keyframes wave1 {
+    0%,
+    100% {
+      transform: translateZ(100%);
+    }
+    50% {
+      transform: scale(150%);
+    }
+  }
+
+  @keyframes wave2 {
+    0%,
+    100% {
+      transform: translateZ(100%);
+    }
+    50% {
+      transform: scale(130%);
+    }
+  }
+
+  &__main {
+    margin-top: 20em;
+  }
+
+  &__buttons_wrapper {
+    padding: 2em;
+    display: flex;
+    width: 100%;
+    max-width: 40em;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    & a {
+      margin: 2%;
+    }
+  }
+
+  &__heading {
+    font-size: 3em;
+    margin: 0;
+  }
+
+  &__heroImageLeft {
+    position: absolute;
+    left: 7%;
+    top: 38%;
+  }
+
+  &__heroImageRight {
+    position: absolute;
+    right: 7%;
+    top: 30%;
+  }
+
+  &__social {
+    display: flex;
+    justify-content: flex-end;
+    height: 100%;
+    width: 100%;
+    margin-right: 3em;
+  }
+
+  &__social:hover {
+    opacity: 1;
+  }
+
+  &__main__scrollicon {
+    margin-top: 2em;
+  }
+
+  // UI DESIGNER IDEA, NOT MINE!
+  @media (max-width: 1510px) {
+    &__hero-image--left {
+      left: 4%;
+    }
+    &__hero-image--right {
+      right: 5%;
+    }
+  }
+  @media (max-width: 1315px) {
+    &__hero-image--left {
+      left: -7%;
+    }
+    &__hero-image--right {
+      right: -5%;
+    }
+  }
+  @media (max-width: 1085px) {
+    &__hero-image--left {
+      display: none;
+    }
+    &__hero-image--right {
+      display: none;
+    }
+  }
+  // @media(max-height: )
+}

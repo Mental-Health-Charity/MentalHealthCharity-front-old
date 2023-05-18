@@ -1,0 +1,82 @@
+@use '../../../../styles/variables.module' as *;
+@use '../../../../styles/mixins.module' as *;
+
+.popUp {
+  @include flex-center-xy;
+  flex-direction: column;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  padding-top: 4em;
+  transform: translate(-50%, -50%);
+  min-height: 100%;
+  width: 100%;
+  backdrop-filter: blur(4px);
+
+  &__sendButton,
+  &__cancelButton {
+    padding: 0.5em;
+    font-size: 0.8em;
+    border-radius: 1em;
+    margin: 0.4em;
+    border: 2px solid $white;
+    color: $white;
+    font-weight: 1000;
+    cursor: pointer;
+  }
+
+  &__sendButton {
+    background-color: green;
+  }
+
+  &__cancelButton {
+    background-color: red;
+  }
+
+  &__wrapper {
+    background-color: $navy;
+    @include flex-center-xy;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    width: 50%;
+    min-width: 23em;
+    height: fit-content;
+    border-radius: 2em;
+
+    &__arrow {
+      transform: rotate(270deg);
+      border-radius: 1em;
+    }
+
+    &__column {
+      color: $white;
+      padding: 1em;
+      font-size: 1.1em;
+
+      &__row {
+        list-style: none;
+        margin: 0.4em 0 0.4em 0;
+        background-color: #ffffff1b;
+      }
+    }
+
+    @media (max-width: 1610px) {
+      width: 70%;
+    }
+    @media (max-width: 1110px) {
+      width: 90%;
+    }
+    @media (max-width: 950px) {
+      flex-direction: column;
+      font-size: 0.8rem;
+      width: 100%;
+      border-radius: 0;
+
+      &__arrow {
+        rotate: 90deg;
+        height: 2em;
+        width: 2em;
+      }
+    }
+  }
+}

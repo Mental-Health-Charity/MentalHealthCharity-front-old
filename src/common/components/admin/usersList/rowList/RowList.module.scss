@@ -1,0 +1,42 @@
+@use '../../../../styles/variables.module' as *;
+
+.rowlist {
+  width: 20em;
+  height: fit-content;
+  padding: 1em;
+  overflow-wrap: break-word;
+  color: $white;
+  background-color: $navy;
+  list-style: none;
+
+  &__id {
+    background-color: $yellow;
+    padding: 0.1em;
+    color: $gray;
+    text-align: center;
+  }
+
+  &__email,
+  &__name,
+  &__role {
+    margin: 0;
+  }
+
+  &__email {
+    background-color: #ffffff2b;
+  }
+  &__name {
+    background-color: #2b2b2b2b;
+  }
+  &__role {
+    background-color: #ffffff2b;
+  }
+  &__banned {
+    background-color: red;
+    color: #ffff;
+  }
+  &__active {
+    background-color: green;
+    color: #ffff;
+  }
+}

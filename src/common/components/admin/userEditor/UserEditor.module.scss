@@ -1,0 +1,55 @@
+@use '../../../styles/variables.module' as *;
+@use '../../../styles/mixins.module' as *;
+
+.wrapper {
+  @include flex-center-xy;
+  padding: 9em 2em 2em 2em;
+  flex-direction: column;
+  width: 100%;
+  background-color: $navy;
+  min-height: 100svh;
+
+  &__return {
+    color: $white;
+  }
+
+  &__warning {
+    font-size: 0.7em;
+    margin: 0;
+    color: red;
+  }
+
+  &__form {
+    margin-top: 2em;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    height: 100%;
+
+    .form__user__legend {
+      color: $navy;
+      font-size: 1.1em;
+      font-weight: 1000;
+    }
+
+    .form__user,
+    .form__userEditor {
+      flex: 1;
+      background-color: rgba(248, 248, 248);
+      padding: 1em;
+      margin: 1em;
+    }
+
+    .form__userEditor__heading {
+      margin: 0;
+      padding: 0;
+      color: $navy;
+    }
+
+    .form__userEditor__row,
+    .form__user__row {
+      display: flex;
+      flex-direction: column;
+    }
+  }
+}

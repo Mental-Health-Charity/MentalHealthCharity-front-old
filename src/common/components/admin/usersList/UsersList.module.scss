@@ -1,0 +1,45 @@
+@use '../../../styles/variables.module' as *;
+@use '../../../styles/mixins.module' as *;
+
+.wrapper {
+  background-color: $navy;
+  padding: 9em;
+  color: $white;
+
+  &__input {
+    @include default-input;
+    margin: 0.4em;
+  }
+
+  &__return {
+    color: $white;
+    text-align: center;
+  }
+
+  &__heading {
+    text-align: center;
+  }
+
+  &__list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, 20em);
+    grid-template-rows: repeat(auto-fit, 1fr);
+    justify-content: center;
+    gap: 0.5em;
+    width: 100%;
+    height: 30em;
+    overflow-y: scroll;
+    padding: 0;
+    box-shadow: 0em 0em 0.9em $lightNavy;
+  }
+
+  &__submit {
+    @include default-button;
+    min-height: 3.2em;
+    background-color: $lightNavy;
+    color: $white;
+    border: 1px solid $navy;
+    border-radius: 0.5em;
+    margin: 1em;
+  }
+}

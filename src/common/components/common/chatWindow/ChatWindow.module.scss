@@ -1,0 +1,110 @@
+@use '../../../styles/variables.module' as *;
+@use '../../../styles/mixins.module' as *;
+
+.chatWindow {
+  padding: 2em;
+  background: linear-gradient(
+    to right bottom,
+    rgb(245, 248, 255),
+    rgb(240, 244, 253)
+  );
+  display: flex;
+  flex-wrap: wrap;
+  border-radius: 2em;
+
+  &__heading {
+    color: $navy;
+    width: 100%;
+    margin: 0.1em;
+  }
+
+  &__chatsList {
+    display: flex;
+    flex-direction: column;
+    padding: 2em;
+    gap: 1em;
+    max-height: 100%;
+
+    @media (max-width: 1022px) {
+      & {
+        flex-direction: row;
+        flex-wrap: wrap;
+      }
+    }
+  }
+
+  &__chat {
+    min-width: 40em;
+
+    @media (max-width: 1022px) {
+      & {
+        min-width: 100%;
+      }
+    }
+    &__heading {
+      background-color: $white;
+      padding: 0.5em 3em 0.5em 3em;
+      width: 100%;
+      border-radius: 1em;
+      box-shadow: 0.2em 0.2em 0.2em #1b1b1b1b;
+    }
+
+    &__name {
+      color: $navy;
+      margin: 0.1em;
+    }
+
+    &__participants {
+      margin: 0.1em;
+      color: $gray;
+    }
+
+    &__messages {
+      display: flex;
+      flex-direction: column-reverse;
+      gap: 1em;
+      padding: 2em;
+      background-color: $white;
+      border-radius: 2em;
+      box-shadow: 0.1em 0.1em 0.1em #1b1b1b4b;
+      height: 30em;
+      overflow-y: scroll;
+      max-width: 100%;
+    }
+
+    &__chatForm {
+      @include flex-center-xy;
+      background-color: $white;
+      padding: 1em;
+      border-radius: 1em;
+
+      &__send {
+        min-height: 3em;
+        margin: 0.5em;
+        background-color: $navy;
+        border: 0;
+        color: $white;
+        border-radius: 0.5em;
+        cursor: pointer;
+        border: 0.1em solid $navy;
+        transition: 0.3s;
+
+        &:hover {
+          background-color: $white;
+          color: $navy;
+        }
+      }
+
+      &__input {
+        width: 90%;
+        height: 100%;
+        border: 0.1em solid $navy;
+        font-size: 1.2em;
+        min-height: 3em;
+        border-radius: 1em;
+        padding: 0.5em;
+        resize: vertical;
+      }
+    }
+  }
+}

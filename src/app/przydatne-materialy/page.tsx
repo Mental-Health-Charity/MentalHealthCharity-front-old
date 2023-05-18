@@ -1,8 +1,7 @@
-const PrzydatneMaterialy = () => {
-    
-    return (
-        <p>Materialy</p>
-    )
+import PrzydatneMaterialy from '@/common/components/przydatneMaterialy/PrzydatneMaterialy.component';
+
+function page() {
+  return <PrzydatneMaterialy />;
 }
 
-export default PrzydatneMaterialy;
+export default page;

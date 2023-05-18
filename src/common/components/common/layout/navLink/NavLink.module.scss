@@ -1,0 +1,24 @@
+@use '../../../../styles/variables.module' as *;
+
+.navLink {
+  text-decoration: none;
+  color: $black;
+  position: relative;
+  margin: 1em;
+  text-align: center;
+
+  &__dot {
+    position: absolute;
+    content: '';
+    width: 10px;
+    height: 10px;
+    background-color: $yellow;
+    border-radius: 50%;
+    bottom: -0.6em;
+    left: 50%;
+    right: 50%;
+    scale: 100%;
+    transform: translate(-50%, 0);
+    translate: 1s;
+  }
+}

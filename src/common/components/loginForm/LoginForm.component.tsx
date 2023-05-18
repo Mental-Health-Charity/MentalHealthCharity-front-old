@@ -1,0 +1,100 @@
+'use client';
+import Link from 'next/link';
+import styles from './LoginForm.module.scss';
+import { useState } from 'react';
+import { useAuth } from '@/contexts/authProvider/Auth.provider';
+import { MouseEvent } from 'react';
+import clsx from 'clsx';
+import UserInfo from './UserInfo/UserInfo.component';
+
+const LoginForm = () => {
+  const { login, user, logout, error } = useAuth();
+
+  const [loginData, setLoginData] = useState({
+    username: '',
+    password: '',
+  });
+
+  const handleLogin = (e: MouseEvent<HTMLInputElement>) => {
+    e.preventDefault();
+    login(loginData);
+    console.log(loginData);
+  };
+
+  if (!user) {
+    return (
+      <section className={styles.login}>
+        <h1 className={styles.login__desc}>Zaloguj</h1>
+        <form className={styles.login__form}>
+          <p className={styles.login__form__row}>
+            <label className={styles.login__form__row__label} htmlFor="email">
+              E-mail
+            </label>
+            <input
+              className={clsx(styles.login__form__row__input, {
+                [styles['login__form__row__input--incorrect']]: error,
+              })}
+              type="email"
+              id="email"
+              placeholder="Jan@przyklad.pl"
+              onChange={(e) =>
+                setLoginData((prev) => ({
+                  ...prev,
+                  username: e.target.value,
+                }))
+              }
+            />
+          </p>
+          <p className={styles.login__form__row}>
+            <label
+              className={styles.login__form__row__label}
+              htmlFor="password"
+            >
+              Hasło:
+            </label>
+            <input
+              className={clsx(styles.login__form__row__input, {
+                [styles['login__form__row__input--incorrect']]: error,
+              })}
+              type="password"
+              id="password"
+              placeholder="Hasło..."
+              onChange={(e) =>
+                setLoginData((prev) => ({
+                  ...prev,
+                  password: e.target.value,
+                }))
+              }
+            />
+          </p>
+          {error && (
+            <p className={styles.login__form__errorMess}>{error?.detail}</p>
+          )}
+          <input
+            value="Zaloguj"
+            className={styles.login__form__submit}
+            type="submit"
+            onClick={handleLogin}
+          />
+        </form>
+        <p>
+          Nie masz jeszcze konta? <Link href={'/signIn'}>Zarejestruj sie!</Link>
+        </p>
+      </section>
+    );
+  } else {
+    return (
+      <section
+        style={{
+          background:
+            'linear-gradient(rgba(168, 220, 255, 0.384), rgba(137, 196, 235, 0.521))',
+        }}
+        className={styles.login}
+      >
+        <UserInfo />
+      </section>
+    );
+  }
+};
+
+export default LoginForm;

@@ -1,0 +1,38 @@
+@use '../../../styles/variables.module' as *;
+@use '../../../styles/mixins.module' as *;
+
+.dashboard {
+  @include flex-center-xy;
+  min-height: 100svh;
+  background: linear-gradient($lightNavy, $navy);
+  flex-direction: column;
+  color: $white;
+  padding: 11em 2em 2em 2em;
+
+  &__container {
+    @include flex-center-xy;
+    width: 100%;
+    flex-wrap: wrap;
+    height: 100%;
+    padding: 2em;
+    gap: 2em;
+
+    &__button {
+      padding: 2em;
+      font-size: 1.4em;
+      border: 0.5em solid #09375c9b;
+      border-radius: 1em;
+      background-color: $white;
+      text-decoration: none;
+      color: $navy;
+      font-weight: 1000;
+      transition: 0.5s;
+
+      &:hover {
+        background-color: $navy;
+        color: $white;
+        border: 0.5em solid #6b8ba59b;
+      }
+    }
+  }
+}

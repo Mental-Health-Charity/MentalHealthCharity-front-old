@@ -1,0 +1,34 @@
+@use '../../styles/mixins.module' as *;
+@use '../../styles/variables.module' as *;
+
+.articlesWrapper {
+  width: 100%;
+  min-height: 100vh;
+  padding-top: 8em;
+  background-color: rgba(168, 220, 255, 0.418);
+  animation: showIn 1s forwards;
+
+  @keyframes showIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 100%;
+    }
+  }
+
+  &__heading {
+    text-align: center;
+    color: $navy;
+    font-size: 2em;
+  }
+
+  &__articles {
+    @include flex-center-xy;
+    width: 100%;
+    height: fit-content;
+    padding: 2em;
+    flex-wrap: wrap;
+    gap: 2em;
+  }
+}
