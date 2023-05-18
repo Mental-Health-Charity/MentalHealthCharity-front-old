@@ -1,11 +1,17 @@
 'use client';
 import Link from 'next/link';
 import styles from './SignInForm.module.scss';
-import { MouseEvent, useState } from 'react';
+import { FormEvent, MouseEvent, useState } from 'react';
 import { useAuth } from '@/contexts/authProvider/Auth.provider';
+import { NextRouter } from 'next/router';
 
-const SignInForm = () => {
+interface Error {
+  detail: string;
+}
+
+const SignInForm = (router: any) => {
   const { signIn, error } = useAuth();
+  const [formSubmited, setFormSubmited] = useState(false);
 
   const [userData, setUserData] = useState({
     full_name: '',
@@ -13,24 +19,28 @@ const SignInForm = () => {
     email: '',
   });
 
-  const [submit, setSubmit] = useState(false);
-
-  const handleRegister = (e: MouseEvent) => {
+  const handleRegister = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log(userData);
-    signIn(userData);
-    setSubmit(true);
+    try {
+      signIn(userData);
+    } catch (error) {
+      console.log(error);
+    }
+    setFormSubmited(true);
   };
 
   return (
     <section className={styles.signin}>
       <h1 className={styles.signin__heading}>Utwórz nowe konto</h1>
-      <form className={styles.signin__form}>
+
+      <form onSubmit={(e) => handleRegister(e)} className={styles.signin__form}>
         <p className={styles.signin__form__row}>
           <label className={styles.signin__form__row__label} htmlFor="username">
             Imię
           </label>
           <input
+            required
             className={styles.signin__form__row__input}
             id="username"
             type="text"
@@ -38,7 +48,7 @@ const SignInForm = () => {
             onChange={(e) =>
               setUserData((prev) => ({
                 ...prev,
-                name: e.target.value,
+                full_name: e.target.value,
               }))
             }
           />
@@ -48,6 +58,7 @@ const SignInForm = () => {
             E-mail
           </label>
           <input
+            required
             className={styles.signin__form__row__input}
             id="email"
             type="email"
@@ -65,6 +76,7 @@ const SignInForm = () => {
             Hasło
           </label>
           <input
+            required
             className={styles.signin__form__row__input}
             id="password"
             type="password"
@@ -82,18 +94,17 @@ const SignInForm = () => {
             className={styles.signin__form__submit}
             type="submit"
             value="Utwórz"
-            onClick={(e) => handleRegister(e)}
           />
         </p>
-        {error?.detail && (
-          <p className={styles.signin__form__error}>Wprowadź poprawne dane.</p>
+        {error?.detail && formSubmited && (
+          <p className={styles.signin__form__error}>ERROR: {error?.detail}</p>
         )}
-
-        {!error?.detail && submit ? (
-          <p>
+        {error === undefined && formSubmited && (
+          <p className={styles.signin__form__success}>
             Konto zostało utworzone! <Link href="/login">Zaloguj się.</Link>
           </p>
-        ) : null}
+        )}
+
         <p>
           <label className={styles.signin__form__row__label} htmlFor="checkbox">
             Akceptuję Regulamin oraz Polityką prywatności oraz potwierdzam

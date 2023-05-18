@@ -51,7 +51,7 @@ const useProvideChat = () => {
       content: content,
     };
     await fetch(
-      `${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/message/${chatId}/`,
+      `${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/message/${chatId}`,
       {
         method: 'post',
         headers,

@@ -29,7 +29,6 @@ const ChatWindow = () => {
   };
 
   const handleReadMessages = async (chat: Chat) => {
-    setIsLoading(true);
     try {
       const data = await getMessages(1, 100, chat?.id);
       setMessages(data);
@@ -37,12 +36,18 @@ const ChatWindow = () => {
     } catch (error) {
       console.log('ERROR while retrieving data ', error);
     }
-    setIsLoading(false);
   };
 
   useEffect(() => {
     readChats(1);
-  }, []);
+    if (selectedChat) {
+      const interval = setInterval(() => {
+        handleReadMessages(selectedChat);
+        console.log('POBIERAM');
+      }, 5000);
+      return () => clearInterval(interval);
+    }
+  }, [selectedChat]);
 
   const handleSendMessage = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -60,10 +65,6 @@ const ChatWindow = () => {
       console.log('ERROR: Chat is not selected or message is not a string!');
     }
   };
-
-  // ONLY FOR TESTING:
-
-  // ONLY FOR TESTING
 
   return (
     <div className={styles.chatWindow}>

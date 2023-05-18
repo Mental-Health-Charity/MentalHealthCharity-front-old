@@ -28,6 +28,10 @@
       color: red;
     }
 
+    &__success {
+      color: green;
+    }
+
     &::before {
       position: absolute;
       display: block;

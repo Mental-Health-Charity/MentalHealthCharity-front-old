@@ -15,6 +15,6 @@ export const menuRoutes = [
 
 export const panelRoutes = {
   volunteerPanel: '/panelWolotariusza',
-  menteePanel: '/panelPodpiecznego',
+  menteePanel: '/panelPodopiecznego',
   adminPanel: '/admin',
 };
