@@ -28,7 +28,7 @@ const LoginForm = () => {
         <form className={styles.login__form}>
           <p className={styles.login__form__row}>
             <label className={styles.login__form__row__label} htmlFor="email">
-              E-mail
+              Email
             </label>
             <input
               className={clsx(styles.login__form__row__input, {
