@@ -15,3 +15,18 @@ export interface Chat {
   is_active: boolean;
   participants?: User[];
 }
+
+export interface Message {
+  content: string;
+  id: number;
+  sender: User;
+  creation_date: string;
+}
+
+export interface Messages {
+  items: Message[];
+  total: number;
+  page: number;
+  size: number;
+  pages: number;
+}

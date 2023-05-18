@@ -1,22 +1,22 @@
 'use client';
 
 import AccessDenied from '@/common/components/admin/accessDenied/AccessDenied.component';
-import { AdminProvider } from '@/contexts/adminProvider/Admin.provider';
 import { useAuth } from '@/contexts/authProvider/Auth.provider';
+import { ChatProvider } from '@/contexts/chatProvider/Chat.provider';
 
-export default function AdminLayout({
+export default function VolunteerLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
   const { user } = useAuth();
   return (
-    <AdminProvider>
-      {user?.user_role === 'admin' ? (
+    <ChatProvider>
+      {user?.user_role === 'volunteer' || user?.user_role === 'admin' ? (
         children
       ) : (
-        <AccessDenied minRole={'admin'} />
+        <AccessDenied minRole={'volunteer'} />
       )}
-    </AdminProvider>
+    </ChatProvider>
   );
 }

@@ -2,7 +2,7 @@ import { createContext, useContext, SetStateAction, Dispatch } from 'react';
 import { User } from '../authProvider/Auth.provider';
 import { ChatData } from '@/utils/chatTypes';
 
-interface AuthContextType {
+interface AdminContextType {
   getUsers: (limit: { from: number; to: number }) => Promise<User[]>;
   getUserById: (id: number) => Promise<User>;
   editUser: (id: number, userData: User) => Promise<User>;
@@ -12,7 +12,8 @@ interface AuthContextType {
   removeParticipant: (chatId: number, userId: number) => Promise<void>;
 }
 
-const AdminContext = createContext<AuthContextType>({} as AuthContextType);
+const AdminContext = createContext<AdminContextType>({} as AdminContextType);
+
 const useProvideAdmin = () => {
   const getLocalStorageAuthToken = (headers: URLSearchParams | Headers) => {
     headers.append(

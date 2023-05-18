@@ -1,0 +1,19 @@
+@use '../../../styles/variables.module' as *;
+@use '../../../styles/mixins.module' as *;
+
+.menteeHero {
+  @include flex-center-xy;
+  padding-top: 8em;
+  width: 100%;
+  min-height: 70svh;
+
+  &__content {
+    position: relative;
+    padding: 1em;
+    color: $navy;
+    width: 80%;
+    max-width: 50em;
+    text-align: center;
+    font-size: 1.2em;
+  }
+}
