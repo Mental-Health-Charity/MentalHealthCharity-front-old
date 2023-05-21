@@ -4,7 +4,7 @@ import ChatMessage from './chatMessage/ChatMessage.component';
 import ChatShortcut from './chatShortcut/ChatShortcut.component';
 import { FormEvent, useEffect, useState } from 'react';
 import { Chat, ChatData, Message, Messages } from '@/utils/chatTypes';
-import { useAuth } from '@/contexts/authProvider/Auth.provider';
+import { User, useAuth } from '@/contexts/authProvider/Auth.provider';
 import Image from 'next/image';
 import LoadingIcon from '../../../images/static/loading.svg';
 import { ToastContainer, toast } from 'react-toastify';
@@ -44,6 +44,33 @@ const ChatWindow = () => {
       console.log(messages);
     } catch (error) {
       console.log('ERROR while retrieving data ', error);
+    }
+  };
+
+  const getUserRole = (participant: User) => {
+    switch (participant.user_role) {
+      case 'admin':
+        return (
+          <span
+            className={
+              styles.chatWindow__chat__participants__participant__roleAdmin
+            }
+          >
+            [Admin]
+          </span>
+        );
+      case 'volunteer':
+        return (
+          <span
+            className={
+              styles.chatWindow__chat__participants__participant__roleVolunteer
+            }
+          >
+            [Wolontariusz]
+          </span>
+        );
+      default:
+        return null;
     }
   };
 
@@ -100,8 +127,27 @@ const ChatWindow = () => {
             {selectedChat
               ? selectedChat.participants?.map((user, index) => {
                   return (
-                    <li key={index}>
-                      {user.full_name ? user.full_name : 'Anonim'}
+                    <li
+                      className={
+                        styles.chatWindow__chat__participants__participant
+                      }
+                      key={index}
+                    >
+                      {getUserRole(user)}
+                      <p
+                        className={
+                          styles.chatWindow__chat__participants__participant__name
+                        }
+                      >
+                        {user.full_name ? user.full_name : 'Anonim'}
+                      </p>
+                      <p
+                        className={
+                          styles.chatWindow__chat__participants__participant__id
+                        }
+                      >
+                        ({user.id})
+                      </p>
                     </li>
                   );
                 })

@@ -60,6 +60,39 @@
     &__participants {
       margin: 0.1em;
       color: $gray;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5em;
+
+      &__participant {
+        margin: 0;
+        padding: 0;
+        display: flex;
+        gap: 0.1em;
+        font-size: 0.9em;
+
+        &__roleAdmin {
+          color: $error;
+          font-weight: 1000;
+        }
+
+        &__roleVolunteer {
+          color: $lightNavy;
+          font-weight: 1000;
+        }
+
+        &__name {
+          margin: 0em;
+          font-weight: 1000;
+          color: $yellow;
+          text-shadow: 0.1em 0.1em 0.1em #1b1b1b1b;
+        }
+
+        &__id {
+          font-size: 0.8em;
+          color: $gray;
+        }
+      }
     }
 
     &__messages {

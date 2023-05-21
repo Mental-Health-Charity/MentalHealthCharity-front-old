@@ -9,6 +9,10 @@
   width: fit-content;
   max-width: 80%;
 
+  @media (max-width: 550px) {
+    max-width: 12em;
+  }
+
   &--authorMe {
     align-self: flex-end;
   }
