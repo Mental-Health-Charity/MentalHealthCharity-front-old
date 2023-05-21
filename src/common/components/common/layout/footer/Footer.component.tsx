@@ -20,7 +20,7 @@ const Footer = () => {
           </Link>
         </li>
         <li>
-          <Link className={styles.footer__block__item} href="/O nas">
+          <Link className={styles.footer__block__item} href="/kontakt">
             Kontakt
           </Link>
         </li>
@@ -34,7 +34,7 @@ const Footer = () => {
             className={styles.footer__block__item}
             target="_blank"
             rel="noopener"
-            href="https://instagram.pl"
+            href="https://instagram.com"
           >
             Nazwa
             <Image width={32} src={InstagramLogo} alt="Instagram icon" />
@@ -45,7 +45,7 @@ const Footer = () => {
             className={styles.footer__block__item}
             target="_blank"
             rel="noopener"
-            href="https://facebook.pl"
+            href="https://facebook.com"
           >
             Nazwa
             <Image width={32} src={FacebookLogo} alt="Facebook icon" />
