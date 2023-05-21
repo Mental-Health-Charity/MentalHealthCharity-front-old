@@ -3,8 +3,10 @@
 
 .login {
   @include flex-center-xy;
+  padding-top: 9em;
   width: 100%;
-  min-height: 100svh;
+  height: 100svh;
+  min-height: fit-content;
   flex-direction: column;
   color: $navy;
 

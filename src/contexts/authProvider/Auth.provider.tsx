@@ -1,4 +1,6 @@
 import Navbar from '@/common/components/common/layout/navbar/Navbar.component';
+import { failurePopUp, successPopUp } from '@/utils/defaultNotifications';
+import { useRouter } from 'next/navigation';
 import { createContext, useState, useEffect, useContext, use } from 'react';
 
 export interface User {
@@ -34,6 +36,7 @@ const AuthContext = createContext<AuthContextType>({} as AuthContextType);
 const useProvideAuth = () => {
   const [user, setUser] = useState<User | null>(null);
   const [error, setError] = useState<AccessToken>();
+  const { push } = useRouter();
 
   const signIn = async (userData: User) => {
     const res = await fetch(
@@ -47,8 +50,17 @@ const useProvideAuth = () => {
       },
     );
     const data: AccessToken = await res.json();
-    if (!res.ok) {
+    if (res.ok) {
+      setError(undefined);
+      successPopUp('Pomyślnie utworzono nowe konto.');
+      console.log('SUCCESS: Created new account! ', res.ok);
+      push('login');
+    } else {
       setError(data);
+      failurePopUp(
+        'Wystąpił błąd podczas rejestracji. Wprowadź poprawne dane.',
+      );
+      console.log('FAILURE: response:', res.ok);
       console.log('error: ', data);
     }
   };
@@ -84,9 +96,12 @@ const useProvideAuth = () => {
       const userDataValue: User = await userData.json();
       setUser(userDataValue);
       console.log('USERDATA: ', user);
+      setError(undefined);
+      successPopUp('Pomyślnie zalogowano!');
     } else {
-      console.log(data);
       setError(data);
+      console.log('error: ', data);
+      failurePopUp('Wystąpił błąd, niepoprawne dane.');
     }
   };
 

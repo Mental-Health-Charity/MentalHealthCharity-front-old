@@ -1,6 +1,7 @@
 import { createContext, useContext, SetStateAction, Dispatch } from 'react';
 import { User } from '../authProvider/Auth.provider';
 import { ChatData } from '@/utils/chatTypes';
+import { getLocalStorageAuthToken } from '@/utils/getLocalStorageAuthToken';
 
 interface AdminContextType {
   getUsers: (limit: { from: number; to: number }) => Promise<User[]>;
@@ -15,15 +16,6 @@ interface AdminContextType {
 const AdminContext = createContext<AdminContextType>({} as AdminContextType);
 
 const useProvideAdmin = () => {
-  const getLocalStorageAuthToken = (headers: URLSearchParams | Headers) => {
-    headers.append(
-      'Authorization',
-      `${localStorage.getItem('jwtTokenType')} ${localStorage.getItem(
-        'jwtToken',
-      )}`,
-    );
-  };
-
   const getUsers = async (limit: { from: number; to: number }) => {
     const headers = new URLSearchParams();
     getLocalStorageAuthToken(headers);
@@ -55,6 +47,7 @@ const useProvideAdmin = () => {
   const editUser = async (id: number, userData: User) => {
     const headers = new URLSearchParams();
     getLocalStorageAuthToken(headers);
+    headers.append('Content-Type', 'application/json');
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/users/${id}`,
       {

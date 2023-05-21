@@ -3,7 +3,7 @@
 import { useAdmin } from '@/contexts/adminProvider/Admin.provider';
 import RowList from '../usersList/rowList/RowList.component';
 import styles from './UserEditor.module.scss';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { User } from '@/contexts/authProvider/Auth.provider';
 import Image from 'next/image';
 import VerifyIcon from '../../../images/static/check.png';
@@ -11,6 +11,7 @@ import { MouseEvent } from 'react';
 import userInit from '@/utils/userInit';
 import MergeUserPopUp from './mergeUserPopUp/MergeUserPopUp.component';
 import Link from 'next/link';
+import { infoPopUp } from '@/utils/defaultNotifications';
 
 const UserEditor = () => {
   const { getUserById } = useAdmin();
@@ -24,6 +25,12 @@ const UserEditor = () => {
     setUser(result);
     setNewUser(result);
   };
+
+  useEffect(() => {
+    infoPopUp(
+      'Uwaga, funkcja edycji użytkownika wymaga poprawy technicznej, na ten moment WYMUSZA zmiany hasła, używaj rozważnie.',
+    );
+  }, []);
 
   const handleMerge = (e: MouseEvent) => {
     e.preventDefault();
@@ -48,7 +55,10 @@ const UserEditor = () => {
         *Uwaga! Operacja wysokiego ryzyka. Przed wykonaniem jakichkolwiek
         operacji w poniższym formularzu upewnij się, że wiesz co robisz i jesteś
         świadomy konsekwencji poniższych kroków. Jeśli nie, skontaktuj się z
-        odpowiednim działem!
+        odpowiednim działem! Obecna wersja tego edytora WYMAGA wprowadzenia
+        zmiany hasła wraz z edycją użytkownika, znaczy to, że MUSISZ zmienić
+        hasło edytowanego użytkownika. Oczywiście pracujemy nad tym i zostanie
+        to już niedługo naprawione.
       </p>
       <form className={styles.wrapper__form}>
         <div className={styles.form__user}>

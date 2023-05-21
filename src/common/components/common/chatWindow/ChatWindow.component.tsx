@@ -2,11 +2,18 @@ import { useChat } from '@/contexts/chatProvider/Chat.provider';
 import styles from './ChatWindow.module.scss';
 import ChatMessage from './chatMessage/ChatMessage.component';
 import ChatShortcut from './chatShortcut/ChatShortcut.component';
-import { FormEvent, useEffect, useRef, useState } from 'react';
+import { FormEvent, useEffect, useState } from 'react';
 import { Chat, ChatData, Message, Messages } from '@/utils/chatTypes';
 import { useAuth } from '@/contexts/authProvider/Auth.provider';
 import Image from 'next/image';
 import LoadingIcon from '../../../images/static/loading.svg';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import {
+  failurePopUp,
+  infoPopUp,
+  successPopUp,
+} from '@/utils/defaultNotifications';
 
 const ChatWindow = () => {
   const { getChats, getMessages, sendMessage } = useChat();
@@ -22,8 +29,10 @@ const ChatWindow = () => {
     try {
       const data: ChatData = await getChats(page, 30);
       setChats(data);
+      user && successPopUp('Wczytano dostępne czaty!');
     } catch (error) {
       console.log('Error retrieving data ', error);
+      failurePopUp('Wystąpił błąd podczas wczytywania czatów...');
     }
     setIsLoading(false);
   };

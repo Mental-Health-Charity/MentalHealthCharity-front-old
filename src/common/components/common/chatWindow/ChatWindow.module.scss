@@ -23,22 +23,25 @@
     flex-direction: column;
     padding: 2em;
     gap: 1em;
-    max-height: 100%;
+    max-height: 40em;
+    overflow-y: scroll;
 
     @media (max-width: 1022px) {
       & {
         flex-direction: row;
         flex-wrap: wrap;
+        overflow-y: auto;
+        max-height: fit-content;
       }
     }
   }
 
   &__chat {
-    min-width: 40em;
+    width: 40em;
 
     @media (max-width: 1022px) {
       & {
-        min-width: 100%;
+        width: 100%;
       }
     }
     &__heading {

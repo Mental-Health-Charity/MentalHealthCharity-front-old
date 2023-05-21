@@ -6,6 +6,7 @@
   flex-direction: column;
   padding: 0.1em;
   list-style: none;
+  width: fit-content;
   max-width: 80%;
 
   &--authorMe {
@@ -38,6 +39,7 @@
     &__content {
       font-size: 1.1em;
       margin: 0.2em;
+      word-wrap: break-word;
     }
   }
 

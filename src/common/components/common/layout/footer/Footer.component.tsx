@@ -4,7 +4,6 @@ import Logo from '../../../../images/static/logo.png';
 import InstagramLogo from '../../../../images/static/instagram.png';
 import FacebookLogo from '../../../../images/static/facebook.png';
 import styles from './Footer.module.scss';
-
 const Footer = () => {
   return (
     <footer className={styles.footer}>
