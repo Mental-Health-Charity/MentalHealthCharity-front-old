@@ -19,12 +19,13 @@
   }
 
   &__chatsList {
+    @include listScrollBar;
     display: flex;
     flex-direction: column;
     padding: 2em;
     gap: 1em;
     max-height: 40em;
-    overflow-y: scroll;
+    overflow-y: auto;
 
     @media (max-width: 1022px) {
       & {
@@ -96,6 +97,7 @@
     }
 
     &__messages {
+      @include listScrollBar;
       display: flex;
       flex-direction: column-reverse;
       gap: 1em;
@@ -104,7 +106,7 @@
       border-radius: 2em;
       box-shadow: 0.1em 0.1em 0.1em #1b1b1b4b;
       height: 30em;
-      overflow-y: scroll;
+      overflow-y: auto;
       max-width: 100%;
     }
 

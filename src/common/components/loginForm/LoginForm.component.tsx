@@ -85,13 +85,7 @@ const LoginForm = () => {
     );
   } else {
     return (
-      <section
-        style={{
-          background:
-            'linear-gradient(rgba(168, 220, 255, 0.384), rgba(137, 196, 235, 0.521))',
-        }}
-        className={styles.login}
-      >
+      <section className={styles.login}>
         <UserInfo />
       </section>
     );
