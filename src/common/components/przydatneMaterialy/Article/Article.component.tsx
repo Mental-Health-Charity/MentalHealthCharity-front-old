@@ -22,7 +22,7 @@ const Article = () => {
       </div>
       <h2 className={styles.article__title}>Placeholder title</h2>
       <p className={styles.article__content}>
-        Lored ipsum dolor sit amet, consectetur adipisicing elit. Animi placeat
+        Lores ipsum dolor sit amet, consectetur adipisicing elit. Animi placeat
         eaque modi, dolor itaque temporibus quas neque provident hic accusamus!d
       </p>
       <Link className={styles.article__readMore} href={'/slug'}>
