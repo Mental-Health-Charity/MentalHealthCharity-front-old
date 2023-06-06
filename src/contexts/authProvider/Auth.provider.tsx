@@ -1,4 +1,11 @@
-import Navbar from '@/common/components/common/layout/navbar/Navbar.component';
+'use client';
+
+import {
+  createCookies,
+  expireCookie,
+  getCookies,
+  isCookieExist,
+} from '@/utils/cookies';
 import { failurePopUp, successPopUp } from '@/utils/defaultNotifications';
 import { useRouter } from 'next/navigation';
 import { createContext, useState, useEffect, useContext, use } from 'react';
@@ -33,8 +40,8 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType>({} as AuthContextType);
 
-const useProvideAuth = () => {
-  const [user, setUser] = useState<User | null>(null);
+const useProvideAuth = (userData: User | null) => {
+  const [user, setUser] = useState<User | null>(userData);
   const [error, setError] = useState<AccessToken>();
   const { push } = useRouter();
 
@@ -53,7 +60,6 @@ const useProvideAuth = () => {
     if (res.ok) {
       setError(undefined);
       successPopUp('Pomyślnie utworzono nowe konto.');
-      console.log('SUCCESS: Created new account! ', res.ok);
       push('login');
     } else {
       setError(data);
@@ -66,8 +72,6 @@ const useProvideAuth = () => {
   };
 
   const login = async (loginData: LoginUserData) => {
-    if (typeof window == 'undefined') return;
-
     const res = await fetch(`${process.env.NEXT_PUBLIC_ACCESS_TOKEN_URL}`, {
       method: 'POST',
       headers: {
@@ -80,19 +84,20 @@ const useProvideAuth = () => {
     const error = res.ok;
     console.log(error, res.statusText);
 
-    if (typeof window !== 'undefined' && res.ok) {
-      localStorage.setItem('jwtToken', data.access_token);
-      localStorage.setItem('jwtTokenType', data.token_type);
+    if (res.ok) {
+      createCookies('jwtToken', data.access_token, { secure: true });
+      createCookies('jwtTokenType', data.token_type, { secure: true });
+
+      const authorization = `${data.token_type} ${data.access_token}`;
 
       const userData = await fetch(`${process.env.NEXT_PUBLIC_LOGIN_ME_URL}`, {
         method: 'get',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `${localStorage.getItem(
-            'jwtTokenType',
-          )} ${localStorage.getItem('jwtToken')}`,
+          Authorization: authorization,
         },
       });
+
       const userDataValue: User = await userData.json();
       setUser(userDataValue);
       console.log('USERDATA: ', user);
@@ -108,33 +113,9 @@ const useProvideAuth = () => {
   const logout = () => {
     setUser(null);
 
-    if (typeof window !== 'undefined') {
-      localStorage.removeItem('jwtToken');
-      localStorage.removeItem('jwtTokenType');
-    }
+    expireCookie('jwtToken');
+    expireCookie('jwtTokenType');
   };
-
-  useEffect(() => {
-    if (
-      typeof window !== undefined &&
-      localStorage.getItem('jwtToken') !== null
-    ) {
-      const fetchMe = async () => {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_LOGIN_ME_URL}`, {
-          method: 'get',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `${localStorage.getItem(
-              'jwtTokenType',
-            )} ${localStorage.getItem('jwtToken')}`,
-          },
-        });
-        const userDataValue: User = await res.json();
-        setUser(userDataValue);
-      };
-      fetchMe();
-    }
-  }, []);
 
   return {
     user,
@@ -145,9 +126,14 @@ const useProvideAuth = () => {
   };
 };
 
-export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
-  // const accessToken = localStorage.getItem('jwtToken');
-  const auth = useProvideAuth();
+export const AuthProvider = ({
+  children,
+  user,
+}: {
+  children: React.ReactNode;
+  user: User | null;
+}) => {
+  const auth = useProvideAuth(user);
 
   return <AuthContext.Provider value={auth}>{children}</AuthContext.Provider>;
 };

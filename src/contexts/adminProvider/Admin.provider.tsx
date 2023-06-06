@@ -1,7 +1,7 @@
 import { createContext, useContext, SetStateAction, Dispatch } from 'react';
 import { User } from '../authProvider/Auth.provider';
 import { ChatData } from '@/utils/chatTypes';
-import { getLocalStorageAuthToken } from '@/utils/getLocalStorageAuthToken';
+import { getCookiesAuth } from '@/utils/getLocalStorageAuthToken';
 
 interface AdminContextType {
   getUsers: (limit: { from: number; to: number }) => Promise<User[]>;
@@ -18,7 +18,7 @@ const AdminContext = createContext<AdminContextType>({} as AdminContextType);
 const useProvideAdmin = () => {
   const getUsers = async (limit: { from: number; to: number }) => {
     const headers = new URLSearchParams();
-    getLocalStorageAuthToken(headers);
+    getCookiesAuth(headers);
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/users/?skip=${limit.from}&limit=${limit.to}`,
       {
@@ -32,7 +32,7 @@ const useProvideAdmin = () => {
 
   const getUserById = async (id: number) => {
     const headers = new URLSearchParams();
-    getLocalStorageAuthToken(headers);
+    getCookiesAuth(headers);
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/users/${id}`,
       {
@@ -46,7 +46,7 @@ const useProvideAdmin = () => {
 
   const editUser = async (id: number, userData: User) => {
     const headers = new URLSearchParams();
-    getLocalStorageAuthToken(headers);
+    getCookiesAuth(headers);
     headers.append('Content-Type', 'application/json');
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/users/${id}`,
@@ -62,7 +62,7 @@ const useProvideAdmin = () => {
 
   const getChats = async (page: number, size: number) => {
     const headers = new URLSearchParams();
-    getLocalStorageAuthToken(headers);
+    getCookiesAuth(headers);
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/chat/?page=${page}&size=${size}`,
       {
@@ -76,7 +76,7 @@ const useProvideAdmin = () => {
 
   const createChat = async (name: string) => {
     const headers = new Headers();
-    getLocalStorageAuthToken(headers);
+    getCookiesAuth(headers);
     headers.append('Content-Type', 'application/json');
 
     const body = {
@@ -92,7 +92,7 @@ const useProvideAdmin = () => {
 
   const addParticipant = async (chatId: number, userId: number) => {
     const headers = new Headers();
-    getLocalStorageAuthToken(headers);
+    getCookiesAuth(headers);
     headers.append('Content-Type', 'application/json');
 
     await fetch(
@@ -106,7 +106,7 @@ const useProvideAdmin = () => {
 
   const removeParticipant = async (chatId: number, userId: number) => {
     const headers = new Headers();
-    getLocalStorageAuthToken(headers);
+    getCookiesAuth(headers);
     headers.append('Content-Type', 'application/json');
 
     await fetch(

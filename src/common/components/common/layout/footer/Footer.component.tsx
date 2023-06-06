@@ -1,9 +1,11 @@
+'use client';
 import Image from 'next/image';
 import Link from 'next/link';
 import Logo from '../../../../images/static/logo.png';
 import InstagramLogo from '../../../../images/static/instagram.png';
 import FacebookLogo from '../../../../images/static/facebook.png';
 import styles from './Footer.module.scss';
+import { ToastContainer } from 'react-toastify';
 const Footer = () => {
   return (
     <footer className={styles.footer}>
@@ -52,6 +54,7 @@ const Footer = () => {
           </Link>
         </li>
       </ul>
+      <ToastContainer />
     </footer>
   );
 };
