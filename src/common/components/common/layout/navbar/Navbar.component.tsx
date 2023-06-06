@@ -1,3 +1,5 @@
+'use client';
+
 import Image from 'next/image';
 import Logo from '../../../../images/static/logo.png';
 import DefaultButton from '@/common/components/common/defaultbutton/DefaultButton.component';
