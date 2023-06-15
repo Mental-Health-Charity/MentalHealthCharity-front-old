@@ -1,12 +1,13 @@
 import { getCookies, isCookieExist } from './cookies';
 
-export const getCookiesAuth = (headers: URLSearchParams | Headers) => {
+export const getCookiesAuth = async (headers: URLSearchParams | Headers) => {
   const jwtTokenType = getCookies('jwtTokenType');
   const jwtToken = getCookies('jwtToken');
 
   console.log(jwtTokenType, jwtToken);
 
-  headers.append('Authorization', `${jwtTokenType} ${jwtToken}`);
+  const authorizationHeader = `${jwtTokenType} ${jwtToken}`;
+  return authorizationHeader;
 };
 
 export const restoreUserSession = async () => {
