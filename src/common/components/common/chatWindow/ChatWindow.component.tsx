@@ -3,17 +3,13 @@ import styles from './ChatWindow.module.scss';
 import ChatMessage from './chatMessage/ChatMessage.component';
 import ChatShortcut from './chatShortcut/ChatShortcut.component';
 import { FormEvent, useEffect, useState } from 'react';
-import { Chat, ChatData, Message, Messages } from '@/utils/chatTypes';
+import { Chat, ChatData, Messages } from '@/utils/chatTypes';
 import { User, useAuth } from '@/contexts/authProvider/Auth.provider';
 import Image from 'next/image';
 import LoadingIcon from '../../../images/static/loading.svg';
-import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import {
-  failurePopUp,
-  infoPopUp,
-  successPopUp,
-} from '@/utils/defaultNotifications';
+import { failurePopUp, successPopUp } from '@/utils/defaultNotifications';
+import Roles from '@/utils/roles';
 
 const ChatWindow = () => {
   const { getChats, getMessages, sendMessage } = useChat();
@@ -29,6 +25,7 @@ const ChatWindow = () => {
     try {
       const data: ChatData = await getChats(page, 30);
       setChats(data);
+      console.log(data);
       user && successPopUp('Wczytano dostępne czaty!');
     } catch (error) {
       console.log('Error retrieving data ', error);
@@ -49,7 +46,7 @@ const ChatWindow = () => {
 
   const getUserRole = (participant: User) => {
     switch (participant.user_role) {
-      case 'admin':
+      case Roles.admin:
         return (
           <span
             className={
@@ -59,7 +56,7 @@ const ChatWindow = () => {
             [Admin]
           </span>
         );
-      case 'volunteer':
+      case Roles.volunteer:
         return (
           <span
             className={
@@ -75,14 +72,18 @@ const ChatWindow = () => {
   };
 
   useEffect(() => {
+    // == WARNING !!! WARNING !!! WARNING !!! WARNING !!! WARNING !!! WARNING !!! WARNING !!! ==
+    // THIS CODE BELOW IS AN NON-OPTIMIZED PROTOTYPE USED ONLY FOR EARLY-ACCESS VERSION OF CHAT
+    // THE REASON FOR THIS SOLUTION IS BACKEND WHICH CURRENTLY DOESN'T SUPPORT WEBSOCKETS.
     readChats(1);
     if (selectedChat) {
       const interval = setInterval(() => {
         handleReadMessages(selectedChat);
-        console.log('POBIERAM');
+        console.log('downloading...');
       }, 5000);
       return () => clearInterval(interval);
     }
+    // == END == == END == == END == == END == == END == == END == == END == == END == == END ==
   }, [selectedChat]);
 
   const handleSendMessage = async (e: FormEvent<HTMLFormElement>) => {

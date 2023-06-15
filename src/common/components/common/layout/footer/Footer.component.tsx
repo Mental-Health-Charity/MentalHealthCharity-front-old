@@ -54,7 +54,6 @@ const Footer = () => {
           </Link>
         </li>
       </ul>
-      <ToastContainer />
     </footer>
   );
 };

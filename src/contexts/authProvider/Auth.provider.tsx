@@ -45,7 +45,7 @@ const useProvideAuth = (userData: User | null) => {
   const [error, setError] = useState<AccessToken>();
   const { push } = useRouter();
 
-  const signIn = async (userData: User) => {
+  const signIn = async (newUserParams: User) => {
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/users/open`,
       {
@@ -53,7 +53,7 @@ const useProvideAuth = (userData: User | null) => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(userData),
+        body: JSON.stringify(newUserParams),
       },
     );
     const data: AccessToken = await res.json();
@@ -71,13 +71,13 @@ const useProvideAuth = (userData: User | null) => {
     }
   };
 
-  const login = async (loginData: LoginUserData) => {
+  const login = async (loginDataParams: LoginUserData) => {
     const res = await fetch(`${process.env.NEXT_PUBLIC_ACCESS_TOKEN_URL}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
       },
-      body: new URLSearchParams(loginData as any),
+      body: new URLSearchParams(loginDataParams as any),
     });
 
     const data: AccessToken = await res.json();
@@ -90,15 +90,18 @@ const useProvideAuth = (userData: User | null) => {
 
       const authorization = `${data.token_type} ${data.access_token}`;
 
-      const userData = await fetch(`${process.env.NEXT_PUBLIC_LOGIN_ME_URL}`, {
-        method: 'get',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: authorization,
+      const getUserData = await fetch(
+        `${process.env.NEXT_PUBLIC_LOGIN_ME_URL}`,
+        {
+          method: 'get',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: authorization,
+          },
         },
-      });
+      );
 
-      const userDataValue: User = await userData.json();
+      const userDataValue: User = await getUserData.json();
       setUser(userDataValue);
       console.log('USERDATA: ', user);
       setError(undefined);
@@ -112,7 +115,6 @@ const useProvideAuth = (userData: User | null) => {
 
   const logout = () => {
     setUser(null);
-
     expireCookie('jwtToken');
     expireCookie('jwtTokenType');
   };
