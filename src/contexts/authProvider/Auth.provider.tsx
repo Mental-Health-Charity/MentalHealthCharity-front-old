@@ -9,6 +9,7 @@ import {
 import { failurePopUp, successPopUp } from '@/utils/defaultNotifications';
 import { useRouter } from 'next/navigation';
 import { createContext, useState, useEffect, useContext, use } from 'react';
+import { CookiesProvider } from 'react-cookie';
 
 export interface User {
   full_name: string;

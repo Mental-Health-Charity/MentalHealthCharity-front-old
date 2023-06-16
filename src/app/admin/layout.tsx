@@ -4,6 +4,7 @@ import AccessDenied from '@/common/components/admin/accessDenied/AccessDenied.co
 import { AdminProvider } from '@/contexts/adminProvider/Admin.provider';
 import { useAuth } from '@/contexts/authProvider/Auth.provider';
 import Roles from '@/utils/roles';
+import { CookiesProvider } from 'react-cookie';
 
 export default function AdminLayout({
   children,
@@ -12,12 +13,14 @@ export default function AdminLayout({
 }) {
   const { user } = useAuth();
   return (
-    <AdminProvider>
-      {user?.user_role === Roles.admin ? (
-        children
-      ) : (
-        <AccessDenied minRole={'Admin'} />
-      )}
-    </AdminProvider>
+    <CookiesProvider>
+      <AdminProvider>
+        {user?.user_role === Roles.admin ? (
+          children
+        ) : (
+          <AccessDenied minRole={'Admin'} />
+        )}
+      </AdminProvider>
+    </CookiesProvider>
   );
 }
