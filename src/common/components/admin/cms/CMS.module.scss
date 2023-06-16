@@ -1,0 +1,65 @@
+@use '../../../styles/variables.module' as *;
+@use '../../../styles/mixins.module' as *;
+
+.cmsWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8em 2em 2em 2em;
+  width: 100%;
+  min-height: 100vh;
+  background-color: $lightNavy;
+
+  &__editor {
+    width: 90vw;
+    min-height: 50vh;
+
+    &__legend {
+      width: 100%;
+      text-align: center;
+      font-size: 1.3em;
+      background-color: $white;
+      color: $lightNavy;
+      box-shadow: 0.1em 0.1em 0.1em $white;
+    }
+
+    &__row {
+      display: flex;
+      border: 0.125em solid #ffffffa9;
+      padding: 0.4em;
+
+      &__label {
+        color: #ffffffa9;
+        flex-direction: row;
+        font-weight: 1000;
+        margin: 0 2em auto 0;
+        align-self: flex-start;
+        font-size: 1.3em;
+      }
+
+      &__input,
+      &__textarea {
+        background-color: transparent;
+        font-size: 1.3em;
+        border: none;
+        color: $white;
+        width: 100%;
+
+        &:focus {
+          outline: none;
+          text-shadow: 0.1em 0.1em 0.1em $navy;
+        }
+
+        &::placeholder {
+          color: $white;
+          opacity: 0.6;
+        }
+      }
+
+      &__textarea {
+        min-height: 100%;
+        background-color: red;
+      }
+    }
+  }
+}

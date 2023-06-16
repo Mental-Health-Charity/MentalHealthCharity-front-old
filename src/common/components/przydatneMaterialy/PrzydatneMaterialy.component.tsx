@@ -24,7 +24,7 @@ const PrzydatneMaterialy = () => {
   };
 
   const loadArticles = () => {
-    if (!loading && articles) {
+    if (!loading && articles && articles?.items) {
       successPopUp('Załadowano artykuły :)');
       return articles.items.map((article: Article, index) => (
         <ArticleItem
@@ -36,8 +36,13 @@ const PrzydatneMaterialy = () => {
           src={article.banner_url}
         />
       ));
-    } else if (!loading && articles && articles.items.length === 0) {
-      return <p>Nie znaleziono materiałów</p>;
+    } else if (!loading && articles && !articles.items) {
+      return (
+        <p>
+          Nie znaleziono materiałów dostępnych do wyświetlenia... Spróbuj
+          ponownie później.
+        </p>
+      );
     } else {
       return (
         <Image src={LoadingIcon} alt="Ikona ładowania" width={60} height={60} />
