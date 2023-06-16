@@ -33,6 +33,15 @@ const DashBoard = () => {
         >
           Zarzadzaj chatami
         </Link>
+        <Link className={styles.dashboard__container__button} href="/admin/CMS">
+          Artykuły (CMS)
+        </Link>
+        <Link
+          className={styles.dashboard__container__button}
+          href="/admin/zarzadzajChatami"
+        >
+          Zarzadzanie rekrutacją
+        </Link>
       </div>
     </section>
   );

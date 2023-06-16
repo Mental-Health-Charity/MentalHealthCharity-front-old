@@ -4,17 +4,18 @@ import { panelRoutes } from '@/utils/routes';
 import Link from 'next/link';
 import Image from 'next/image';
 import defaultUserPic from '../../../images/static/user.png';
+import Roles from '@/utils/roles';
 
 const UserInfo = () => {
   const { user, logout } = useAuth();
 
   const getUserRole = () => {
     switch (user?.user_role) {
-      case 'user':
+      case Roles.user:
         return panelRoutes.menteePanel;
-      case 'volunteer':
+      case Roles.volunteer:
         return panelRoutes.volunteerPanel;
-      case 'admin':
+      case Roles.admin:
         return panelRoutes.adminPanel;
       default:
         return '#';
