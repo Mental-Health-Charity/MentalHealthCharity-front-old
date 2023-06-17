@@ -18,7 +18,7 @@ interface AdminContextType {
     title: string,
     content: string,
     bannerUrl: string,
-    requiredRole: Roles,
+    requiredRole: string,
   ) => Promise<void>;
 }
 
@@ -124,7 +124,7 @@ const useProvideAdmin = () => {
     title: string,
     content: string,
     bannerUrl: string,
-    requiredRole: Roles,
+    requiredRole: string,
   ) => {
     const headers = await getCookiesAuth();
 

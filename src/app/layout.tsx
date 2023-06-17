@@ -6,6 +6,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { restoreUserSession } from '@/utils/cookies';
 import { ToastContainer } from 'react-toastify';
 import {} from 'react-cookie';
+import ModalPortal from '@/common/components/common/layout/modalPortal/ModalPortal.component';
 
 export default async function RootLayout({
   children,
@@ -22,14 +23,9 @@ export default async function RootLayout({
           <Navbar />
           {children}
           <Footer />
-          <Modal />
+          <ModalPortal />
         </AuthProvider>
       </body>
     </html>
   );
 }
-
-const Modal = () => {
-  'use client';
-  return <ToastContainer />;
-};
