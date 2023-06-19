@@ -50,6 +50,11 @@
     <li>[ ] Include official name and graphics from charity organization (Waiting legalization of charity)</li>
     <li>[ ] More fixes...</li>
 </ul>
+
+<h3>Showcase</h3>
+<ul>
+  <li><blockquote class="imgur-embed-pub" lang="en" data-id="a/jUIKeTw" data-context="false" ><a href="//imgur.com/a/jUIKeTw"></a></blockquote><script async src="//s.imgur.com/min/embed.js" charset="utf-8"></script></li>
+</ul>
   
   <h3 id="license">License</h3>
   <hr>
