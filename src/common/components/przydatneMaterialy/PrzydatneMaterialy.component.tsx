@@ -43,7 +43,8 @@ const PrzydatneMaterialy = () => {
       return (
         <p>
           Nie znaleziono materiałów dostępnych do wyświetlenia... Spróbuj
-          ponownie później.
+          ponownie później, lub spróbuj się zalogować. Aktualnie występuje błąd
+          endpointu do publicznego odczytywania artykułów.
         </p>
       );
     } else {
