@@ -59,7 +59,7 @@
   </li>
         <li>
   <p>Chat editor (Admin only)</p>
-    ![351724497_794274415722645_6153750844050342967_n](https://github.com/Mental-Health-Charity/MentalHealthCharity-front/assets/109872362/e6496c49-5afc-45ea-87ca-425ef21dadb3)
+    https://github.com/Mental-Health-Charity/MentalHealthCharity-front/assets/109872362/e6496c49-5afc-45ea-87ca-425ef21dadb3
 
   </li>
     <li>
