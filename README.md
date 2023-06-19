@@ -63,11 +63,9 @@
 
 
   </li>
-    <li>
   <p>Admin Panel</p>
     ![351685641_651409333157961_8189186067910390682_n](https://github.com/Mental-Health-Charity/MentalHealthCharity-front/assets/109872362/3a9c85a3-054d-409b-b15c-4426b8933a16)
 
-  </li>
     <li>
   <p>Build-in CMS working prototype (Admin only)</p>
     ![351538228_1327561874785003_586398623341066874_n](https://github.com/Mental-Health-Charity/MentalHealthCharity-front/assets/109872362/c255a8d4-f1ea-476d-91c6-3cfd2fbb6559)
