@@ -7,6 +7,7 @@ import { failurePopUp, successPopUp } from '@/utils/defaultNotifications';
 import Image from 'next/image';
 import LoadingIcon from '../../images/static/loading.svg';
 import Table from '../common/table/Table.component';
+import { getVolunteerCourses } from '../volunteer/volunteerCourses/lib/getVolunteerCourses';
 
 const PrzydatneMaterialy = () => {
   const [articles, setArticles] = useState<Articles>();
@@ -14,7 +15,8 @@ const PrzydatneMaterialy = () => {
 
   const getAllArticles = async (page: number) => {
     try {
-      const articles = await getArticles(page, 15);
+      // public endpoint is broken at this moment.
+      const articles = await getVolunteerCourses(page, 15);
       setArticles(articles);
       setLoading(true);
     } catch (error) {
