@@ -53,11 +53,33 @@
 
 <h3>Showcase</h3>
 <ul>
-  Chat:
+  <li>
+  <p>Chat</p>
+    https://github.com/Mental-Health-Charity/MentalHealthCharity-front/assets/109872362/f420c162-277d-4a7d-9fd5-b228326b821f
+  </li>
+        <li>
+  <p>Chat editor (Admin only)</p>
+    ![351724497_794274415722645_6153750844050342967_n](https://github.com/Mental-Health-Charity/MentalHealthCharity-front/assets/109872362/e6496c49-5afc-45ea-87ca-425ef21dadb3)
 
-https://github.com/Mental-Health-Charity/MentalHealthCharity-front/assets/109872362/f420c162-277d-4a7d-9fd5-b228326b821f
+  </li>
+    <li>
+  <p>Admin Panel</p>
+    ![351685641_651409333157961_8189186067910390682_n](https://github.com/Mental-Health-Charity/MentalHealthCharity-front/assets/109872362/3a9c85a3-054d-409b-b15c-4426b8933a16)
 
+  </li>
+    <li>
+  <p>Build-in CMS working prototype (Admin only)</p>
+    ![351538228_1327561874785003_586398623341066874_n](https://github.com/Mental-Health-Charity/MentalHealthCharity-front/assets/109872362/c255a8d4-f1ea-476d-91c6-3cfd2fbb6559)
+  </li>
+      <li>
+  <p>Get user from database (Admin only)</p>
+    ![351675404_2156061757917097_2371028127513099912_n](https://github.com/Mental-Health-Charity/MentalHealthCharity-front/assets/109872362/7bc11304-37c4-4449-9f20-7b1ab274b1e4)
+  </li>
+        <li>
+  <p>Volunteer panel (Volunteer only)</p>
+    ![352409236_274554688568897_2579187260593930955_n](https://github.com/Mental-Health-Charity/MentalHealthCharity-front/assets/109872362/1ed5acd8-97be-4568-ad40-2c9bea5e52c5)
 
+  </li>
 </ul>
   
   <h3 id="license">License</h3>
