@@ -1,6 +1,6 @@
 
   <h2 align="center">Project for a Mental Health Charity Organisation</h2>
-  <p align="center">NOTE: The project is in the early development phase. There may be bugs, and solutions that will change in later phases of the project</p>
+  <p align="center">NOTE: The project is in the early stage of development There may be bugs, and solutions that will change in later phases of the project</p>
   <p>live: <a href="https://mentalhealthcharity-front-production.up.railway.app/" target="_blank" rel="noopener">LIVE</a>
   
   <details>
@@ -54,8 +54,31 @@
 <h3>Showcase</h3>
 <ul>
   
-<p>Chat</p>
-https://github.com/Mental-Health-Charity/MentalHealthCharity-front/assets/109872362/14d2641a-d1b0-4ce7-94d3-06b67e9d9ff9
+<p>CHAT</p>
+
+
+https://github.com/Mental-Health-Charity/MentalHealthCharity-front/assets/109872362/372eff1b-be54-447c-89fa-f57e603704bf
+
+<p>Chat editor (admin only)</p>
+
+![351724497_794274415722645_6153750844050342967_n](https://github.com/Mental-Health-Charity/MentalHealthCharity-front/assets/109872362/4d9bdf5c-d33f-485e-a3aa-ef9c534f171d)
+
+<p>Volunteer panel (volunteer only)</p>
+
+![352409236_274554688568897_2579187260593930955_n](https://github.com/Mental-Health-Charity/MentalHealthCharity-front/assets/109872362/9e3e119b-e62f-4ac3-b338-73632b79f499)
+
+<p>Admin panel (admin-only)</p>
+
+![351685641_651409333157961_8189186067910390682_n](https://github.com/Mental-Health-Charity/MentalHealthCharity-front/assets/109872362/7c90314e-57e4-4bfb-a818-7d5215988001)
+
+
+<p>build-in CMS</p>
+
+![351538228_1327561874785003_586398623341066874_n](https://github.com/Mental-Health-Charity/MentalHealthCharity-front/assets/109872362/87fcb327-58c9-49ee-9cd5-3cfaa019c1eb)
+
+<p>User search from database (Admin only)</p>
+
+![351675404_2156061757917097_2371028127513099912_n](https://github.com/Mental-Health-Charity/MentalHealthCharity-front/assets/109872362/6de6be2c-229b-4b9f-b50f-13ce292bc466)
 
 
 </ul>
