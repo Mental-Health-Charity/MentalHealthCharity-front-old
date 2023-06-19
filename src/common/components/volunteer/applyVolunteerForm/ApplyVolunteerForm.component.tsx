@@ -1,10 +1,8 @@
-'use client';
-import { FormEvent, useState } from 'react';
-import styles from './ContactForm.module.scss';
 import { failurePopUp } from '@/utils/defaultNotifications';
-import Link from 'next/link';
+import styles from './ApplyVolunteerForm.module.scss';
+import { FormEvent, useState } from 'react';
 
-const ContactForm = () => {
+const ApplyVolunteerForm = () => {
   // ATTENTION !!!
   // All the code below is implemented only to present the concept
   //of how the site works, the forms will be written from scratch.
@@ -22,9 +20,12 @@ const ContactForm = () => {
 
   return (
     <section className={styles.formWrapper}>
-      <h2 className={styles.formWrapper__heading}>Formularz kontaktowy</h2>
+      <h2 className={styles.formWrapper__heading}>
+        Formularz podaniowy na stanowisko wolontariusza
+      </h2>
       <p className={styles.formWrapper__desc}>
-        Wyślij wiadomość bezpośrednio do administracji serwisu
+        Dziękujemy za chęci niesienia pomocy innym, wypełnij proszę poniższy
+        formularz, aby dział rekrutacji mógł się z Tobą skontaktować
       </p>
       <form
         onSubmit={(e) => handleForm(e)}
@@ -51,7 +52,7 @@ const ContactForm = () => {
         />
 
         <label className={styles.formWrapper__form__label} htmlFor="email">
-          Adres email
+          Adres email (kontaktowy)
         </label>
         <input
           className={styles.formWrapper__form__input}
@@ -61,7 +62,27 @@ const ContactForm = () => {
         />
 
         <label className={styles.formWrapper__form__label} htmlFor="about">
-          Wiadomość
+          Pytanie 2. Lorem ipsum...
+        </label>
+        <textarea
+          className={styles.formWrapper__form__input}
+          id="about"
+          name="about"
+          placeholder="Wiadomość..."
+        />
+
+        <label className={styles.formWrapper__form__label} htmlFor="about">
+          Pytanie 2. Lorem ipsum...
+        </label>
+        <textarea
+          className={styles.formWrapper__form__input}
+          id="about"
+          name="about"
+          placeholder="Wiadomość..."
+        />
+
+        <label className={styles.formWrapper__form__label} htmlFor="about">
+          Pytanie 3. Lorem ipsum...
         </label>
         <textarea
           className={styles.formWrapper__form__input}
@@ -76,44 +97,8 @@ const ContactForm = () => {
           value={'Wyślij'}
         />
       </form>
-
-      <h2 className={styles.formWrapper__subContactHeading}>Lub...</h2>
-      <ul className={styles.formWrapper__subContactList}>
-        <li className={styles.formWrapper__subContactList__option}>
-          <Link
-            className={styles.formWrapper__subContactList__option__link}
-            href={'mailto:fundacja@fundacja.org'}
-          >
-            fundacja@fundacja.org
-          </Link>
-        </li>
-        <li className={styles.formWrapper__subContactList__option}>
-          <Link
-            className={styles.formWrapper__subContactList__option__link}
-            href={'mailto:fundacjaIT@fundacja.org'}
-          >
-            fundacjaIT@fundacja.org
-          </Link>
-        </li>
-        <li className={styles.formWrapper__subContactList__option}>
-          <Link
-            className={styles.formWrapper__subContactList__option__link}
-            href={'mailto:fundacjaRekrutacja@fundacja.org'}
-          >
-            fundacjaRekrutacja@fundacja.org
-          </Link>
-        </li>
-        <li className={styles.formWrapper__subContactList__option}>
-          <Link
-            className={styles.formWrapper__subContactList__option__link}
-            href={'mailto:fundacjaAdmin@fundacja.org'}
-          >
-            fundacjaAdmin@fundacja.org
-          </Link>
-        </li>
-      </ul>
     </section>
   );
 };
 
-export default ContactForm;
+export default ApplyVolunteerForm;

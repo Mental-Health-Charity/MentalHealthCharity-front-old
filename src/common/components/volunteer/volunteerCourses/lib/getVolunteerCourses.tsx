@@ -18,11 +18,14 @@ export interface Articles {
   pages: number;
 }
 
-export const getArticles = async (page: number, size: number) => {
+export const getVolunteerCourses = async (page: number, size: number) => {
+  const headers = await getCookiesAuth();
+
   const res = await fetch(
-    `https://mentalhealthcharity-backend-production.up.railway.app/api/v1/article/public/?page=${page}&size=${size}`,
+    `https://mentalhealthcharity-backend-production.up.railway.app/api/v1/article/?page=${page}&size=${size}`,
     {
       method: 'get',
+      headers,
     },
   );
 

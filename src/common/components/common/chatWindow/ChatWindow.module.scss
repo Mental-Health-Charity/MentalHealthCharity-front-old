@@ -27,12 +27,26 @@
     max-height: 40em;
     overflow-y: auto;
 
+    &__error {
+      max-width: 12em;
+      background-color: $yellow;
+      padding: 1em;
+      color: $gray;
+      border-radius: 1em;
+    }
+
     @media (max-width: 1022px) {
       & {
         flex-direction: row;
         flex-wrap: wrap;
         overflow-y: auto;
         max-height: fit-content;
+
+        &__error {
+          max-width: 100%;
+          background-color: $error;
+          padding: 1em;
+        }
       }
     }
   }

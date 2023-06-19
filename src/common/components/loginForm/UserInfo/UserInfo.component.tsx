@@ -49,14 +49,6 @@ const UserInfo = () => {
           <p className={styles.userWrapper__list__item__value}>{user?.email}</p>
         </li>
         <li className={styles.userWrapper__list__item}>
-          <p className={styles.userWrapper__list__item__label}>status konta:</p>
-          <p className={styles.userWrapper__list__item__value}>
-            {user?.is_active === true
-              ? 'Brak blokad konta'
-              : 'Konto zablokowane!'}
-          </p>
-        </li>
-        <li className={styles.userWrapper__list__item}>
           <p className={styles.userWrapper__list__item__label}>Uprawnienia:</p>
           <p className={styles.userWrapper__list__item__value}>
             {user?.user_role}

@@ -10,7 +10,7 @@ import {
 } from '@/utils/defaultNotifications';
 import { useAdmin } from '@/contexts/adminProvider/Admin.provider';
 import { useAuth } from '@/contexts/authProvider/Auth.provider';
-import ArticleItem from '../../przydatneMaterialy/articleItem/ArticleItem.component';
+import ArticleItem from '../../common/articleItem/ArticleItem.component';
 
 const CMS = () => {
   const [title, setTitle] = useState<string>();
@@ -29,7 +29,7 @@ const CMS = () => {
       bannerUrl &&
       title &&
       content &&
-      !bannerUrl.includes('i.imgur.com')
+      bannerUrl.includes('i.imgur.com')
     ) {
       try {
         createArticle(title, content, bannerUrl, permsToRead);
@@ -58,7 +58,11 @@ const CMS = () => {
   return (
     <div className={styles.cmsWrapper}>
       <form
-        onSubmit={(e) => e.preventDefault()}
+        onSubmit={(e) => {
+          e.preventDefault();
+          sendArticleToDB();
+          console.log('WYSLANO');
+        }}
         className={styles.cmsWrapper__editor}
       >
         <legend className={styles.cmsWrapper__editor__legend}>
@@ -175,19 +179,15 @@ const CMS = () => {
           </select>
         </p>
         <p className={styles.cmsWrapper__editor__row}>
-          <input
+          {/* <input
             type="submit"
             value="Pobierz w PDF"
             className={styles.cmsWrapper__editor__row__download}
-          />
+          /> */}
           <input
             type="submit"
             value="Opublikuj"
             className={styles.cmsWrapper__editor__row__publish}
-            onClick={(e) => {
-              e.preventDefault();
-              sendArticleToDB();
-            }}
           />
         </p>
       </form>

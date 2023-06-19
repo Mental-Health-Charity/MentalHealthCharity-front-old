@@ -10,6 +10,7 @@ import LoadingIcon from '../../../images/static/loading.svg';
 import 'react-toastify/dist/ReactToastify.css';
 import { failurePopUp, successPopUp } from '@/utils/defaultNotifications';
 import Roles from '@/utils/roles';
+import SadEmoteLoadingFailIcon from '../../../images/static/sademotefailloading.svg';
 
 const ChatWindow = () => {
   const { getChats, getMessages, sendMessage } = useChat();
@@ -107,8 +108,8 @@ const ChatWindow = () => {
     <div className={styles.chatWindow}>
       <h2 className={styles.chatWindow__heading}>Chat</h2>
       <ul className={styles.chatWindow__chatsList}>
-        {chats?.items?.map((chat, index) => {
-          return (
+        {chats && chats.items?.length > 0 ? (
+          chats.items.map((chat, index) => (
             <ChatShortcut
               handleReadMessages={handleReadMessages}
               setSelectedChat={setSelectedChat}
@@ -116,8 +117,19 @@ const ChatWindow = () => {
               chat={chat}
               participants={chat.participants}
             />
-          );
-        })}
+          ))
+        ) : (
+          <div className={styles.chatWindow__chatsList__error}>
+            <h3 className={styles.chatWindow__chatsList__error__heading}>
+              Ups... Brak dostępnych czatów
+            </h3>
+            {user?.user_role === Roles.user && (
+              <p className={styles.chatWindow__chatsList__error__content}>
+                Wypełnij formularz, aby przypisać Ci konkretnego wolontariusza.
+              </p>
+            )}
+          </div>
+        )}
       </ul>
       <div className={styles.chatWindow__chat}>
         <div className={styles.chatWindow__chat__heading}>

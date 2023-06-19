@@ -1,19 +1,20 @@
 'use client';
 import { useEffect, useState } from 'react';
-import ArticleItem from './articleItem/ArticleItem.component';
+import ArticleItem from '../common/articleItem/ArticleItem.component';
 import styles from './PrzydatneMaterialy.module.scss';
 import { Article, Articles, getArticles } from './lib/getArticles';
 import { failurePopUp, successPopUp } from '@/utils/defaultNotifications';
 import Image from 'next/image';
 import LoadingIcon from '../../images/static/loading.svg';
+import Table from '../common/table/Table.component';
 
 const PrzydatneMaterialy = () => {
   const [articles, setArticles] = useState<Articles>();
   const [loading, setLoading] = useState(true);
 
-  const getAllArticles = async () => {
+  const getAllArticles = async (page: number) => {
     try {
-      const articles = await getArticles();
+      const articles = await getArticles(page, 15);
       setArticles(articles);
       setLoading(true);
     } catch (error) {
@@ -51,7 +52,7 @@ const PrzydatneMaterialy = () => {
   };
 
   useEffect(() => {
-    getAllArticles();
+    getAllArticles(1);
   }, []);
 
   return (
@@ -62,7 +63,15 @@ const PrzydatneMaterialy = () => {
       >
         Wszystkie artykuły
       </h1>
-      <div className={styles.articlesWrapper__articles}>{loadArticles()}</div>
+      <div className={styles.articlesWrapper__articles}>
+        <Table
+          page={articles ? articles.page : 1}
+          pages={articles ? articles.pages : 1}
+          handleReads={getAllArticles}
+        >
+          {loadArticles()}
+        </Table>
+      </div>
     </section>
   );
 };

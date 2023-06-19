@@ -13,7 +13,7 @@ const VolunteerDashboard = () => {
         opcję...
       </p>
       <div className={styles.dashboard__container}>
-        <Link className={styles.dashboard__container__button} href="/">
+        <Link className={styles.dashboard__container__button} href="/login">
           Mój profil
         </Link>
         <Link
@@ -24,6 +24,12 @@ const VolunteerDashboard = () => {
         </Link>
         <Link className={styles.dashboard__container__button} href="/">
           Notatki
+        </Link>
+        <Link
+          className={styles.dashboard__container__button}
+          href="/panelWolontariusza/szkolenia"
+        >
+          Materiały do szkoleń
         </Link>
       </div>
     </section>

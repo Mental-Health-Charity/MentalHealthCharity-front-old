@@ -3,26 +3,45 @@ import Link from 'next/link';
 import styles from './SignInForm.module.scss';
 import { FormEvent, useState } from 'react';
 import { useAuth } from '@/contexts/authProvider/Auth.provider';
-import { infoPopUp } from '@/utils/defaultNotifications';
+import { failurePopUp, infoPopUp } from '@/utils/defaultNotifications';
+
+interface userDataType {
+  full_name: string;
+  password: string;
+  email: string;
+}
 
 const SignInForm = () => {
   const { signIn, error } = useAuth();
   const [formSubmited, setFormSubmited] = useState(false);
-  const [userData, setUserData] = useState({
+  const [userData, setUserData] = useState<userDataType>({
     full_name: '',
     password: '',
     email: '',
   });
+  const [isCheckedTOS, setIsCheckedTOS] = useState(false);
 
   const handleRegister = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(userData);
-    try {
-      signIn(userData);
-    } catch (error) {
-      console.log(error);
+
+    if (!isCheckedTOS) {
+      failurePopUp(
+        'Aby kontynuować rejestrację, należy zaakceptować regulamin serwisu.',
+      );
+      return;
     }
-    setFormSubmited(true);
+
+    if (userData) {
+      console.log(userData);
+      try {
+        signIn(userData);
+      } catch (error) {
+        console.log(error);
+      }
+      setFormSubmited(true);
+    } else {
+      failurePopUp('Dane nie mogą być puste!');
+    }
   };
 
   return (
@@ -106,6 +125,7 @@ const SignInForm = () => {
             className={styles.signin__form__label}
             id="checkbox"
             type="checkbox"
+            onChange={() => setIsCheckedTOS(isCheckedTOS ? false : true)}
           />
         </p>
       </form>

@@ -10,7 +10,6 @@ interface TableProps {
 const Table = ({ children, handleReads, page, pages }: TableProps) => {
   const getPages = () => {
     const array = Array.from({ length: pages }, (_, index) => index + 1);
-    console.log(array);
     return array.map((number, index) => (
       <button
         onClick={() => {
