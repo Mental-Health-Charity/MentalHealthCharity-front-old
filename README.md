@@ -53,7 +53,11 @@
 
 <h3>Showcase</h3>
 <ul>
-  <li><blockquote class="imgur-embed-pub" lang="en" data-id="a/jUIKeTw" data-context="false" ><a href="//imgur.com/a/jUIKeTw"></a></blockquote><script async src="//s.imgur.com/min/embed.js" charset="utf-8"></script></li>
+  Chat:
+
+https://github.com/Mental-Health-Charity/MentalHealthCharity-front/assets/109872362/f420c162-277d-4a7d-9fd5-b228326b821f
+
+
 </ul>
   
   <h3 id="license">License</h3>
