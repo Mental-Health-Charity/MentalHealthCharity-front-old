@@ -1,10 +1,14 @@
 'use client';
 import { FormEvent } from 'react';
 import styles from './MenteeForm.module.scss';
+import { failurePopUp } from '@/utils/defaultNotifications';
 
 const MenteeForm = () => {
   const handleForm = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    failurePopUp(
+      'Brak podłączonej obsługi formularzy! Formularze kontaktowe aktualnie są makietą. Prawdziwe formularze zostaną wprowadzone, po wprowadzeniu usługi od strony BACKEND (system)',
+    );
   };
 
   return (

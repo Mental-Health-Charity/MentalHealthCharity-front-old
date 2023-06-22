@@ -15,7 +15,7 @@ const PrzydatneMaterialy = () => {
 
   const getAllArticles = async (page: number) => {
     try {
-      // public endpoint is broken at this moment.
+      // read public articles endpoint is broken at this moment.
       const articles = await getVolunteerCourses(page, 15);
       setArticles(articles);
       setLoading(true);
@@ -42,9 +42,9 @@ const PrzydatneMaterialy = () => {
     } else if (!loading && articles && !articles.items) {
       return (
         <p>
-          Nie znaleziono materiałów dostępnych do wyświetlenia... Spróbuj
-          ponownie później, lub spróbuj się zalogować. Aktualnie występuje błąd
-          endpointu do publicznego odczytywania artykułów.
+          Endpoint do odczytania postów bez autoryzacji użytkownika jest
+          zepsuty. Prosimy o zalogowanie, aby wyświetlić artykuły. Błąd
+          występuje tylko w wersji testowej i zostanie naprawiony.
         </p>
       );
     } else {

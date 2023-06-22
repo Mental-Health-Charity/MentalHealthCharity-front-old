@@ -1,0 +1,28 @@
+@use '../../../styles/variables.module' as *;
+@use '../../../styles/mixins.module' as *;
+
+.errorWrapper {
+  @include flex-center-xy;
+  flex-direction: column;
+  padding: 8em 2em 8em 2em;
+  min-height: 100svh;
+
+  &__heading {
+    font-size: 2em;
+    text-shadow: 0.1em 0.1em 0.1em #1b1b1b4b;
+    color: $error;
+    border: 0.1em solid $error;
+    padding: 1em;
+    text-align: center;
+  }
+
+  &__content {
+    font-weight: 1000;
+    font-size: 1.2em;
+  }
+
+  &__errorCode {
+    color: $error;
+    font-weight: 1000;
+  }
+}
