@@ -1,0 +1,6 @@
+User-agent: *
+Disallow: /admin/ZarzadzajUzytkownikami
+Disallow: /admin/wyszukajUzytkownika
+Disallow: /admin/listaUzytkownikow
+Disallow: /admin/zarzadzajChatami
+Disallow: /admin/CMS
