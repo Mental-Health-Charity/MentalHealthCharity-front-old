@@ -39,9 +39,8 @@ const UserEditor = () => {
       <Link className={styles.wrapper__return} href="/admin">
         &#x2190; Powrót do dashboard
       </Link>
-      <dialog>ddawdawdddd</dialog>
-      <div>
-        <div>
+      <div className={styles.wrapper__editor}>
+        <div className={styles.wrapper__editor__heading}>
           <h1>Edytuj użytkownika | wprowadź ID</h1>
           <input
             type="number"
@@ -50,6 +49,7 @@ const UserEditor = () => {
           />
         </div>
         <form
+          className={styles.wrapper__editor__form}
           onSubmit={(e) => {
             e.preventDefault();
             if (
@@ -65,9 +65,10 @@ const UserEditor = () => {
             }
           }}
         >
-          <p>
-            <label>imie:</label>
+          <p className={styles.wrapper__editor__form__row}>
+            <label className={styles.wrapper__editor__form__label}>imie:</label>
             <input
+              className={styles.wrapper__editor__form__input}
               type="text"
               placeholder="Wpisz imie..."
               value={editedTargetUser?.full_name}
@@ -79,9 +80,12 @@ const UserEditor = () => {
               }}
             />
           </p>
-          <p>
-            <label>e-mail:</label>
+          <p className={styles.wrapper__editor__form__row}>
+            <label className={styles.wrapper__editor__form__label}>
+              e-mail:
+            </label>
             <input
+              className={styles.wrapper__editor__form__input}
               type="text"
               placeholder="Wpisz email..."
               value={editedTargetUser?.email}
@@ -93,9 +97,12 @@ const UserEditor = () => {
               }}
             />
           </p>
-          <p>
-            <label>hasło:</label>
+          <p className={styles.wrapper__editor__form__row}>
+            <label className={styles.wrapper__editor__form__label}>
+              hasło:
+            </label>
             <input
+              className={styles.wrapper__editor__form__input}
               required
               type="text"
               placeholder="Wpisz hasło..."
@@ -108,9 +115,12 @@ const UserEditor = () => {
               }}
             />
           </p>
-          <p>
-            <label>uprawnienia:</label>
+          <p className={styles.wrapper__editor__form__row}>
+            <label className={styles.wrapper__editor__form__label}>
+              uprawnienia:
+            </label>
             <select
+              className={styles.wrapper__editor__form__select}
               onChange={(e) => {
                 setEditedTargetUser((prev) => ({
                   ...prev,
@@ -127,7 +137,11 @@ const UserEditor = () => {
               <option value={Roles.admin}>Admin</option>
             </select>
           </p>
-          <input type="submit" value="Wyślij zmiany" />
+          <input
+            className={styles.wrapper__editor__form__submit}
+            type="submit"
+            value="Wyślij zmiany"
+          />
         </form>
       </div>
       {isModalVisible && (

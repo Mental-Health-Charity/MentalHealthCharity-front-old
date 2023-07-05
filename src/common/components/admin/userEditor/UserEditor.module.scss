@@ -7,49 +7,80 @@
   flex-direction: column;
   width: 100%;
   background-color: $navy;
-  min-height: 100svh;
+  min-height: 100vh;
 
   &__return {
     color: $white;
+    font-size: 1.2em;
+    margin-bottom: 1em;
+    text-decoration: none;
+    transition: color 0.3s;
   }
 
-  &__warning {
-    font-size: 0.7em;
-    margin: 0;
-    color: red;
-  }
+  &__editor {
+    background-color: $white;
+    border-radius: 5px;
+    padding: 2em;
+    width: 100%;
+    max-width: 40em;
 
-  &__form {
-    margin-top: 2em;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    height: 100%;
+    &__heading {
+      text-align: center;
+      margin-bottom: 2em;
 
-    .form__user__legend {
-      color: $navy;
-      font-size: 1.1em;
-      font-weight: 1000;
+      h1 {
+        font-size: 1.8em;
+        color: $navy;
+      }
+
+      input[type='number'] {
+        margin-top: 1em;
+        padding: 0.5em;
+        width: 100%;
+        border-radius: 3px;
+        border: 1px solid $gray;
+        font-size: 1em;
+      }
     }
 
-    .form__user,
-    .form__userEditor {
-      flex: 1;
-      background-color: rgba(248, 248, 248);
-      padding: 1em;
-      margin: 1em;
-    }
+    &__form {
+      margin-top: 2em;
 
-    .form__userEditor__heading {
-      margin: 0;
-      padding: 0;
-      color: $navy;
-    }
+      &__row {
+        margin-bottom: 1.5em;
+      }
 
-    .form__userEditor__row,
-    .form__user__row {
-      display: flex;
-      flex-direction: column;
+      &__label {
+        display: inline-block;
+        width: 100px;
+        font-size: 1.1em;
+        color: $navy;
+      }
+
+      &__input,
+      &__select {
+        padding: 0.5em;
+        width: 100%;
+        border-radius: 3px;
+        border: 1px solid $gray;
+        font-size: 1em;
+      }
+
+      &__submit {
+        margin-top: 2em;
+        padding: 0.7em 1.2em;
+        border-radius: 3px;
+        border: none;
+        background-color: $navy;
+        color: $white;
+        font-size: 1.2em;
+        cursor: pointer;
+        transition: background-color 0.3s;
+
+        &:hover {
+          background-color: darken($navy, 10%);
+        }
+      }
     }
   }
 }
