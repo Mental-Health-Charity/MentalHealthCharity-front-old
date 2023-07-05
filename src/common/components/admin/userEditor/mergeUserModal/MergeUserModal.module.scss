@@ -1,0 +1,69 @@
+@use '../../../../styles/mixins.module' as *;
+@use '../../../../styles/variables.module' as *;
+
+.modal {
+  @include flex-center-xy;
+  flex-direction: column;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  padding-top: 4em;
+  transform: translate(-50%, -50%);
+  min-height: 100%;
+  width: 100%;
+  backdrop-filter: blur(4px);
+
+  &__content {
+    @include flex-center-xy;
+    flex-direction: column;
+    background-color: $white;
+    padding: 2em;
+    border-radius: 0.5em;
+
+    &__compare {
+      @include flex-center-xy;
+      flex-wrap: wrap;
+      gap: 1em;
+
+      &__before,
+      &__after {
+        list-style: none;
+        padding: 0;
+        background-color: red;
+
+        li {
+          background-color: $gray;
+          margin: 0.1em;
+          padding: 0.1em;
+          color: $white;
+        }
+      }
+
+      &__after {
+        background-color: green;
+      }
+    }
+
+    &__send,
+    &__cancel {
+      border: none;
+      cursor: pointer;
+      line-height: 1.2rem;
+      font-weight: 900;
+      background: #007a5a;
+      padding: 0.5em 1em 0.5em;
+      font-size: 15px;
+      margin: 0.1em;
+      border-radius: 0.1em;
+      color: $white;
+      transition: all 75ms ease-in-out;
+      &:hover {
+        box-shadow: 0 1px 4px rgb(0 0 0 / 30%);
+      }
+    }
+
+    &__cancel {
+      background-color: red;
+    }
+  }
+}
