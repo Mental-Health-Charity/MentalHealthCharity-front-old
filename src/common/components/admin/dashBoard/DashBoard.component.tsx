@@ -17,6 +17,12 @@ const DashBoard = () => {
         </Link>
         <Link
           className={styles.dashboard__container__button}
+          href="/admin/zgloszenia"
+        >
+          Zgłoszenia
+        </Link>
+        <Link
+          className={styles.dashboard__container__button}
           href="/admin/listaUzytkownikow"
         >
           Lista użytkowników

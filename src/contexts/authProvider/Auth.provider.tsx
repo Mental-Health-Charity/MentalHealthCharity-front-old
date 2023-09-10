@@ -4,9 +4,12 @@ import {
   createCookies,
   expireCookie,
   getCookies,
+  getCookiesAuth,
   isCookieExist,
 } from '@/utils/cookies';
 import { failurePopUp, successPopUp } from '@/utils/defaultNotifications';
+import Roles from '@/utils/roles';
+import { headers } from 'next/headers';
 import { useRouter } from 'next/navigation';
 import { createContext, useState, useEffect, useContext, use } from 'react';
 import { CookiesProvider } from 'react-cookie';
@@ -15,9 +18,16 @@ export interface User {
   full_name: string;
   password: string;
   email: string;
-  user_role?: string;
-  id?: number;
-  is_active?: boolean;
+  user_role: Roles;
+  id: number;
+  is_active: boolean;
+}
+
+export interface EditUser {
+  full_name: string;
+  user_role: Roles;
+  is_active: boolean;
+  password?: string;
 }
 
 interface LoginUserData {
@@ -31,11 +41,20 @@ interface AccessToken {
   detail?: string;
 }
 
+export interface PublicProfile {
+  avatar_url: string;
+  description: string;
+}
+
 interface AuthContextType {
   user: User | null;
   login: (loginData: LoginUserData) => Promise<void>;
   logout: () => void;
   signIn: (userData: User) => Promise<void>;
+  editPublicProfile: (
+    id: number,
+    publicProfileData: PublicProfile,
+  ) => Promise<User>;
   error: AccessToken | undefined;
 }
 
@@ -70,6 +89,24 @@ const useProvideAuth = (userData: User | null) => {
       console.log('FAILURE: response:', res.ok);
       console.log('error: ', data);
     }
+  };
+
+  const editPublicProfile = async (
+    id: number,
+    publicProfileData: PublicProfile,
+  ) => {
+    const headers = await getCookiesAuth();
+
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/user-public-profile/${id}`,
+      {
+        method: 'put',
+        headers,
+        body: JSON.stringify(publicProfileData),
+      },
+    );
+    const data = await res.json();
+    return data as User;
   };
 
   const login = async (loginDataParams: LoginUserData) => {
@@ -126,6 +163,7 @@ const useProvideAuth = (userData: User | null) => {
     logout,
     signIn,
     error,
+    editPublicProfile,
   };
 };
 

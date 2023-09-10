@@ -1,25 +1,46 @@
 import { createContext, useContext, SetStateAction, Dispatch } from 'react';
-import { User } from '../authProvider/Auth.provider';
+import { EditUser, User } from '../authProvider/Auth.provider';
 import { ChatData } from '@/utils/chatTypes';
-import { getCookies, getCookiesAuth } from '@/utils/cookies';
-import Cookies from 'js-cookie';
-import { Article } from '@/common/components/przydatneMaterialy/lib/getArticles';
+import { getCookiesAuth } from '@/utils/cookies';
 import Roles from '@/utils/roles';
 
 interface AdminContextType {
   getUsers: (limit: { from: number; to: number }) => Promise<User[]>;
   getUserById: (id: number) => Promise<User>;
-  editUser: (id: number, userData: User) => Promise<User>;
+  editUser: (id: number, userData: EditUser) => Promise<User>;
   getChats: (page: number, size: number) => Promise<ChatData>;
   createChat: (name: string) => Promise<void>;
   addParticipant: (chatId: number, userId: number) => Promise<void>;
   removeParticipant: (chatId: number, userId: number) => Promise<void>;
-  createArticle: (
-    title: string,
-    content: string,
-    bannerUrl: string,
-    requiredRole: string,
-  ) => Promise<void>;
+  createArticle: (article: Article) => Promise<void>;
+  getArticleCategory: (
+    page: number,
+    size: number,
+  ) => Promise<ArticleCategoryList>;
+  createArticleCategory: (name: string) => Promise<void>;
+}
+
+export interface Article {
+  title: string;
+  content: string;
+  banner_url: string;
+  video_url: string;
+  article_category_id?: number;
+  required_role: 'ANYONE' | Roles.admin | Roles.volunteer;
+}
+
+export interface ArticleCategory {
+  name: string;
+  id: number;
+  is_active: boolean;
+}
+
+export interface ArticleCategoryList {
+  items: Array<ArticleCategory>;
+  total: number;
+  page: number;
+  size: number;
+  pages: number;
 }
 
 const AdminContext = createContext<AdminContextType>({} as AdminContextType);
@@ -53,11 +74,11 @@ const useProvideAdmin = () => {
     return data as User;
   };
 
-  const editUser = async (id: number, userData: User) => {
+  const editUser = async (id: number, userData: EditUser) => {
     const headers = await getCookiesAuth();
 
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/users/${id}`,
+      `${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/users/${id}/edit-as-admin`,
       {
         method: 'put',
         headers,
@@ -82,6 +103,20 @@ const useProvideAdmin = () => {
     return data as ChatData;
   };
 
+  const getArticleCategory = async (page: number, size: number) => {
+    const headers = await getCookiesAuth();
+
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/article-category/?page=${page}&size=${size}`,
+      {
+        method: 'get',
+        headers,
+      },
+    );
+    const data = await res.json();
+    return data as ArticleCategoryList;
+  };
+
   const createChat = async (name: string) => {
     const headers = await getCookiesAuth();
 
@@ -94,6 +129,23 @@ const useProvideAdmin = () => {
       headers,
       body: JSON.stringify(body),
     });
+  };
+
+  const createArticleCategory = async (name: string) => {
+    const headers = await getCookiesAuth();
+
+    const body = {
+      name: name,
+    };
+
+    await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/article-category/`,
+      {
+        method: 'post',
+        headers,
+        body: JSON.stringify(body),
+      },
+    );
   };
 
   const addParticipant = async (chatId: number, userId: number) => {
@@ -120,25 +172,13 @@ const useProvideAdmin = () => {
     );
   };
 
-  const createArticle = async (
-    title: string,
-    content: string,
-    bannerUrl: string,
-    requiredRole: string,
-  ) => {
+  const createArticle = async (article: Article) => {
     const headers = await getCookiesAuth();
-
-    const body = {
-      title: title,
-      content: content,
-      banner_url: bannerUrl,
-      required_role: requiredRole,
-    };
 
     await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/article/`, {
       method: 'post',
       headers,
-      body: JSON.stringify(body),
+      body: JSON.stringify(article),
     });
   };
 
@@ -151,6 +191,8 @@ const useProvideAdmin = () => {
     addParticipant,
     removeParticipant,
     createArticle,
+    getArticleCategory,
+    createArticleCategory,
   };
 };
 

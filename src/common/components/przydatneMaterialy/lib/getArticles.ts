@@ -1,3 +1,4 @@
+import { ArticleCategory } from '@/contexts/adminProvider/Admin.provider';
 import { User } from '@/contexts/authProvider/Auth.provider';
 import { getCookiesAuth } from '@/utils/cookies';
 
@@ -5,7 +6,12 @@ export interface Article {
   title: string;
   content: string;
   banner_url: string;
+  video_url: string;
   id: number;
+  article_category: ArticleCategory;
+  minimal_role: string;
+  status: string;
+  reject_message: string;
   created_by: User;
   creation_date: string;
 }

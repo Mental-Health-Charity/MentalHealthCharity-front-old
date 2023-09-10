@@ -1,0 +1,77 @@
+@use '../../../../styles/mixins.module' as *;
+@use '../../../../styles/variables.module' as *;
+
+.reportBlock {
+  border: 1px solid #ccc;
+  padding: 1em;
+  margin: 0;
+  background-color: #f5f5f5;
+  list-style: none;
+
+  .reportHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5em;
+
+    .reportTitle {
+      font-size: 1.2em;
+      font-weight: bold;
+      margin: 0;
+    }
+
+    .reportDate {
+      font-size: 0.8em;
+      color: #888;
+    }
+  }
+
+  .reportContent {
+    font-size: 1em;
+    margin-bottom: 1em;
+  }
+
+  .reportDetails {
+    font-size: 0.9em;
+    color: #555;
+    margin-bottom: 1em;
+
+    .reportCategory {
+      margin-right: 1em;
+      &::before {
+        content: 'Category: ';
+        font-weight: bold;
+      }
+    }
+
+    .reportUser {
+      margin-right: 1em;
+      &::before {
+        content: 'Reported by: ';
+        font-weight: bold;
+      }
+    }
+
+    .reportUserId {
+      &::before {
+        content: 'User ID: ';
+        font-weight: bold;
+      }
+    }
+  }
+
+  .closeButton {
+    background-color: $error;
+    color: white;
+    border: none;
+    padding: 0.5em 1em;
+    cursor: pointer;
+    font-size: 1em;
+    border-radius: 3px;
+    transition: background-color 0.2s;
+
+    &:hover {
+      background-color: #d32f2f;
+    }
+  }
+}

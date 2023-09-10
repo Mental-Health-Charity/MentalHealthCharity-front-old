@@ -2,6 +2,12 @@ import { ChatData, Messages } from '@/utils/chatTypes';
 import { getCookiesAuth } from '@/utils/cookies';
 import { createContext, useContext } from 'react';
 
+export interface Contract {
+  is_confirmed: boolean;
+  content: string;
+  id: number;
+}
+
 interface ChatContextType {
   getChats: (page: number, size: number) => Promise<ChatData>;
   getMessages: (
@@ -10,6 +16,14 @@ interface ChatContextType {
     chatId: number,
   ) => Promise<Messages>;
   sendMessage: (chatId: number, content: string) => Promise<void>;
+  createReport: (report: Report) => Promise<void>;
+  editContract: (chatId: number, content: string) => Promise<Contract>;
+}
+
+export interface Report {
+  report_type: string;
+  subject: string;
+  description: string;
 }
 
 const ChatContext = createContext<ChatContextType>({} as ChatContextType);
@@ -44,6 +58,35 @@ const useProvideChat = () => {
     return data as Messages;
   };
 
+  const createReport = async (report: Report) => {
+    const headers = await getCookiesAuth();
+
+    await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/user-report/`, {
+      method: 'POST',
+      headers,
+      body: JSON.stringify(report),
+    });
+  };
+
+  const editContract = async (chatId: number, content: string) => {
+    const headers = await getCookiesAuth();
+    const body = {
+      content: content,
+    };
+
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/contract/chat/${chatId}`,
+      {
+        method: 'POST',
+        headers,
+        body: JSON.stringify(body),
+      },
+    );
+
+    const data = await res.json();
+    return data as Contract;
+  };
+
   const sendMessage = async (chatId: number, content: string) => {
     const headers = await getCookiesAuth();
 
@@ -60,7 +103,7 @@ const useProvideChat = () => {
     );
   };
 
-  return { getChats, getMessages, sendMessage };
+  return { getChats, getMessages, sendMessage, createReport, editContract };
 };
 
 export const ChatProvider = ({ children }: { children: React.ReactNode }) => {

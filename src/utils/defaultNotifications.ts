@@ -2,7 +2,7 @@ import { toast } from 'react-toastify';
 
 export const successPopUp = (content: string) => {
   toast.success(content, {
-    position: 'bottom-right',
+    position: 'bottom-left',
     autoClose: 5000,
     hideProgressBar: false,
     closeOnClick: true,
@@ -15,7 +15,7 @@ export const successPopUp = (content: string) => {
 
 export const failurePopUp = (content: string) => {
   toast.error(content, {
-    position: 'bottom-right',
+    position: 'bottom-left',
     autoClose: 5000,
     hideProgressBar: false,
     closeOnClick: true,
@@ -28,7 +28,7 @@ export const failurePopUp = (content: string) => {
 
 export const warningPopUp = (content: string) => {
   toast.warn(content, {
-    position: 'bottom-right',
+    position: 'bottom-left',
     autoClose: 5000,
     hideProgressBar: false,
     closeOnClick: true,
@@ -41,7 +41,7 @@ export const warningPopUp = (content: string) => {
 
 export const infoPopUp = (content: string) => {
   toast.info(content, {
-    position: 'bottom-right',
+    position: 'bottom-left',
     autoClose: 5000,
     hideProgressBar: false,
     closeOnClick: true,

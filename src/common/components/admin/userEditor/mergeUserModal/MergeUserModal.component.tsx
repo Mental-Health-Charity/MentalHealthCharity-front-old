@@ -1,12 +1,12 @@
-import { User } from '@/contexts/authProvider/Auth.provider';
+import { EditUser, User } from '@/contexts/authProvider/Auth.provider';
 import styles from './MergeUserModal.module.scss';
 import { Dispatch, SetStateAction } from 'react';
 import { useAdmin } from '@/contexts/adminProvider/Admin.provider';
 import { failurePopUp, successPopUp } from '@/utils/defaultNotifications';
 
 interface MergeUserModalProps {
-  targetUserData?: User;
-  targetEditedUserData: User;
+  targetUserData: User | undefined;
+  targetEditedUserData: EditUser;
   setIsModalVisible: Dispatch<SetStateAction<boolean>>;
 }
 
@@ -18,9 +18,14 @@ const MergeUserModal = ({
   const { editUser } = useAdmin();
 
   const handleUserMerge = () => {
-    if (targetEditedUserData && targetUserData && targetEditedUserData.id) {
+    if (targetEditedUserData && targetUserData && targetUserData.id) {
       try {
-        editUser(targetEditedUserData.id, targetEditedUserData);
+        const editUserData = {
+          full_name: targetEditedUserData.full_name,
+          user_role: targetEditedUserData.user_role,
+          is_active: true,
+        };
+        editUser(targetUserData.id, editUserData);
         successPopUp('Wysłano zmiany dla użytkownika.');
         setIsModalVisible(false);
       } catch (error) {
@@ -42,16 +47,12 @@ const MergeUserModal = ({
           <ul className={styles.modal__content__compare__before}>
             <li>Stan poprzedni:</li>
             <li>Imie: {targetUserData?.full_name}</li>
-            <li>E-mail: {targetUserData?.email}</li>
             <li>Uprawnienia: {targetUserData?.user_role}</li>
-            <li>Hasło: *****</li>
           </ul>
           <ul className={styles.modal__content__compare__after}>
             <li>Stan edytowany:</li>
             <li>Imie: {targetEditedUserData?.full_name}</li>
-            <li>E-mail: {targetEditedUserData?.email}</li>
             <li>Uprawnienia: {targetEditedUserData?.user_role}</li>
-            <li>Hasło: {targetEditedUserData?.password}</li>
           </ul>
         </div>
         <button

@@ -3,7 +3,7 @@ import styles from './ChatWindow.module.scss';
 import ChatMessage from './chatMessage/ChatMessage.component';
 import ChatShortcut from './chatShortcut/ChatShortcut.component';
 import { FormEvent, useEffect, useState } from 'react';
-import { Chat, ChatData, Messages } from '@/utils/chatTypes';
+import { Chat, ChatData, Message, Messages } from '@/utils/chatTypes';
 import { User, useAuth } from '@/contexts/authProvider/Auth.provider';
 import Image from 'next/image';
 import LoadingIcon from '../../../images/static/loading.svg';
@@ -11,6 +11,10 @@ import 'react-toastify/dist/ReactToastify.css';
 import { failurePopUp, successPopUp } from '@/utils/defaultNotifications';
 import Roles from '@/utils/roles';
 import SadEmoteLoadingFailIcon from '../../../images/static/sademotefailloading.svg';
+import Report from '../report/Report.component';
+import Contract from './contract/Contract.component';
+import { Socket, io } from 'socket.io-client';
+import { getCookies, getCookiesAuth } from '@/utils/cookies';
 
 const ChatWindow = () => {
   const { getChats, getMessages, sendMessage } = useChat();
@@ -18,8 +22,9 @@ const ChatWindow = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [chats, setChats] = useState<ChatData | null>(null);
   const [selectedChat, setSelectedChat] = useState<Chat | null>(null);
-  const [messages, setMessages] = useState<Messages | null>(null);
+  const [messages, setMessages] = useState<Array<Message> | []>([]);
   const [newMessage, setNewMessage] = useState<string | null>();
+  const [socket, setSocket] = useState<Socket>();
 
   const readChats = async (page: number) => {
     setIsLoading(true);
@@ -37,11 +42,32 @@ const ChatWindow = () => {
 
   const handleReadMessages = async (chat: Chat) => {
     try {
-      const data = await getMessages(1, 100, chat?.id);
-      setMessages(data);
-      console.log(messages);
+      const jwtToken = await getCookies('jwtToken');
+      const newSocket = io(
+        `wss://mentalhealthcharity-backend-production.up.railway.app`,
+        {
+          path: '/ws-chat',
+          query: {
+            token: jwtToken,
+            chat_id: chat.id,
+          },
+        },
+      );
+      setSocket(newSocket);
+
+      newSocket.on('message', (data: Message) => {
+        // Tutaj możesz zaktualizować stan wiadomości w komponencie
+        setMessages([...messages, data]);
+      });
+
+      // Inna opcja to nasłuchiwanie na ilość czatów z nieprzeczytanymi wiadomościami
+      newSocket.on('unread_chats', (data: number) => {
+        // Tutaj możesz zaktualizować ilość czatów z nieprzeczytanymi wiadomościami w komponencie
+        console.log('Ilość czatów z nieprzeczytanymi wiadomościami:', data);
+      });
     } catch (error) {
-      console.log('ERROR while retrieving data ', error);
+      // Obsłuż błąd, jeśli wystąpi
+      console.error('Błąd podczas pobierania tokena:', error);
     }
   };
 
@@ -72,37 +98,28 @@ const ChatWindow = () => {
     }
   };
 
-  useEffect(() => {
-    // == WARNING !!! WARNING !!! WARNING !!! WARNING !!! WARNING !!! WARNING !!! WARNING !!! ==
-    // THIS CODE BELOW IS AN NON-OPTIMIZED PROTOTYPE USED ONLY FOR EARLY-ACCESS VERSION OF CHAT
-    // THE REASON FOR THIS SOLUTION IS BACKEND WHICH CURRENTLY DOESN'T SUPPORT WEBSOCKETS.
-    readChats(1);
-    if (selectedChat) {
-      const interval = setInterval(() => {
-        handleReadMessages(selectedChat);
-        console.log('downloading...');
-      }, 5000);
-      return () => clearInterval(interval);
-    }
-    // == END == == END == == END == == END == == END == == END == == END == == END == == END ==
-  }, [selectedChat]);
-
   const handleSendMessage = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (selectedChat && newMessage) {
-      setIsLoading(true);
-      try {
-        console.log('New message: ', newMessage);
-        await sendMessage(selectedChat.id, newMessage);
-        handleReadMessages(selectedChat);
-      } catch (error) {
-        console.log('ERROR: while sending a message ', error);
-      }
-      setIsLoading(false);
-    } else {
-      console.log('ERROR: Chat is not selected or message is not a string!');
+      // Wyślij wiadomość za pomocą WebSocket
+      socket?.emit('message', { content: newMessage });
     }
   };
+
+  useEffect(() => {
+    readChats(1);
+  }, []);
+
+  const messageListener = (message: string) => {
+    setMessages(...messages, message);
+  };
+
+  useEffect(() => {
+    socket?.on('message', messageListener);
+    return () => {
+      socket?.off('message', messageListener);
+    };
+  }, [messageListener]);
 
   return (
     <div className={styles.chatWindow}>
@@ -132,10 +149,15 @@ const ChatWindow = () => {
         )}
       </ul>
       <div className={styles.chatWindow__chat}>
+        <div className={styles.chatWindow__chat__report}>
+          {selectedChat && <Contract chatId={selectedChat.id} />}
+          <Report />
+        </div>
         <div className={styles.chatWindow__chat__heading}>
           <h3 className={styles.chatWindow__chat__name}>
             {selectedChat?.name}
           </h3>
+
           <ul className={styles.chatWindow__chat__participants}>
             {selectedChat
               ? selectedChat.participants?.map((user, index) => {
@@ -168,7 +190,7 @@ const ChatWindow = () => {
           </ul>
         </div>
         <ul className={styles.chatWindow__chat__messages}>
-          {messages && !isLoading ? (
+          {messages && !isLoading && messages.items ? (
             messages.items.map((message, index) => {
               return (
                 <ChatMessage

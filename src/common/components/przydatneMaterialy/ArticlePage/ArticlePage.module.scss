@@ -1,0 +1,57 @@
+@use '../../../styles/variables.module' as *;
+@use '../../../styles/mixins.module' as *;
+.wrapper {
+  @include flex-center-xy;
+  text-align: left;
+  padding-top: 8em;
+  max-width: 900px;
+  min-height: 100vh;
+  margin: 0 auto;
+  flex-direction: column;
+
+  &__bannerWrapper {
+    @include flex-center-xy;
+    width: 100%;
+    background-color: $lightNavy;
+    padding: 0;
+    &__banner {
+      width: auto;
+      height: 100%;
+      border: 1px solid #ccc;
+    }
+  }
+
+  &__title {
+    font-size: 2em;
+    margin-bottom: 0.5em;
+    font-weight: bold;
+  }
+
+  &__content {
+    font-size: 1.125em;
+    line-height: 1.6;
+    margin-bottom: 1em;
+    text-align: justify;
+  }
+
+  &__author {
+    display: flex;
+    align-items: center;
+    background-color: #ccc;
+    padding: 0.5em;
+    border-radius: 1em;
+    margin: 1em 0 1em 0;
+
+    &__picture {
+      width: 3em;
+      height: 3em;
+      border-radius: 50%;
+      margin-right: 0.5em;
+    }
+
+    &__name {
+      font-size: 1.25em;
+      font-weight: bold;
+    }
+  }
+}

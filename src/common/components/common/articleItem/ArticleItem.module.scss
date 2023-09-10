@@ -2,75 +2,99 @@
 @use '../../../styles/variables.module' as *;
 
 .article {
-  @include flex-center-xy;
-  flex-direction: column;
-  padding: 1em;
   width: 26em;
+  height: 21em;
   background-color: $white;
-  color: $navy;
+  border-radius: 1em;
+  overflow: hidden;
   position: relative;
-  box-shadow: 2px 2px 2px #1b1b1b2b;
-  transition: 0.1s;
+  transition: 0.3s;
 
   &:hover {
-    transform: scale(1.05);
+    box-shadow: 0.5em 0.5em 0.1em #1b1b1b5b;
   }
 
-  &::before {
-    display: block;
-    content: '';
-    background-color: $yellow;
-    width: 100%;
-    height: 0.3em;
-    position: absolute;
-    top: 0;
+  &__interact {
+    text-decoration: none;
+    color: #000;
   }
 
-  .article__authorWrapper {
-    display: flex;
+  &__banner {
+    @include flex-center-xy;
     width: 100%;
-    justify-content: space-between;
+    max-height: 55%;
+    overflow: hidden;
 
-    &__dot {
-      width: 3em;
-      height: 3em;
-      background-color: $yellow;
-      border-radius: 50%;
-      box-shadow: 4px 4px 4px #1b1b1b2b;
-    }
-
-    &__authorContent {
+    &__tags {
       display: flex;
-      align-items: flex-end;
-      flex-direction: column;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: end;
+      position: absolute;
+      top: 0;
+      padding: 0.5em 1em 0.5em 1em;
+      margin: 0;
+      width: 100%;
+      gap: 0.5em;
 
-      &__author,
-      &__date {
-        margin: 0;
-        padding: 0;
+      &__tag {
+        background-color: $white;
+        list-style: none;
+        border-radius: 1em;
+        padding: 0.3em 0.6em 0.3em 0.6em;
+        font-size: 1em;
+        font-weight: 1000;
       }
     }
+
+    &__img {
+      width: 100%;
+      height: auto;
+      background-color: red;
+    }
   }
 
-  .article__image {
-    margin-top: 1em;
-    max-width: 100%;
-    height: auto;
-    transition: 0.3s;
-  }
-
-  .article__title {
-    font-size: 2em;
-    margin: 0.5em;
-    padding: 0;
-  }
-
-  .article__content {
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
+  &__avatar {
+    @include flex-center-xy;
+    width: 4.5em;
+    height: 4.5em;
     overflow: hidden;
-    text-overflow: ellipsis;
-    word-break: break-all;
+    border-radius: 50%;
+    border: 0.3em solid $white;
+    position: absolute;
+    top: 45%;
+    left: 1em;
+
+    &__img {
+      width: 100%;
+      height: auto;
+      background-color: red;
+    }
+  }
+
+  &__content {
+    margin-top: 2.3em;
+    padding: 0 1em 0 1em;
+    height: 100%;
+
+    &__title {
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      font-size: 1em;
+      padding: 0;
+      margin: 0;
+      -webkit-line-clamp: 2;
+    }
+
+    &__info {
+      @include flex-center-x;
+      justify-content: space-between;
+      font-size: 0.75em;
+
+      &__date {
+        color: #6e6e6e;
+      }
+    }
   }
 }
