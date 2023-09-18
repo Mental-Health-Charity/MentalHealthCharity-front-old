@@ -21,10 +21,25 @@ const ChatWindow = () => {
   const { user } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
   const [chats, setChats] = useState<ChatData | null>(null);
-  const [selectedChat, setSelectedChat] = useState<Chat | null>(null);
+  const [selectedChat, setSelectedChat] = useState<Chat | null>();
   const [messages, setMessages] = useState<Array<Message> | []>([]);
   const [newMessage, setNewMessage] = useState<string | null>();
-  const [socket, setSocket] = useState<Socket>();
+  const [ws, setWS] = useState<WebSocket>();
+
+  const handleSocketInit = async () => {
+    const data = await getCookies('jwtToken');
+    const socketTest = new WebSocket(
+      `wss://mentalhealthcharity-backend-production.up.railway.app/ws-chat?token=${data}&chat_id=5`,
+    );
+    socketTest.onopen = () => setWS(socketTest);
+    if (ws) {
+      ws.onmessage = (msg) => setMessages(msg.data);
+    }
+  };
+
+  useEffect(() => {
+    handleSocketInit();
+  }, [selectedChat]);
 
   const readChats = async (page: number) => {
     setIsLoading(true);
@@ -40,34 +55,19 @@ const ChatWindow = () => {
     setIsLoading(false);
   };
 
-  const handleReadMessages = async (chat: Chat) => {
-    try {
-      const jwtToken = await getCookies('jwtToken');
-      const newSocket = io(
-        `wss://mentalhealthcharity-backend-production.up.railway.app`,
-        {
-          path: '/ws-chat',
-          query: {
-            token: jwtToken,
-            chat_id: chat.id,
-          },
-        },
+  const handleReadMessages = async (chat_id: number) => {
+    if (ws) {
+      ws.onclose();
+      const cookiesToken = await getCookies('jwtToken');
+
+      console.log('chat_id', chat_id);
+
+      const socketTest = new WebSocket(
+        `wss://mentalhealthcharity-backend-production.up.railway.app/ws-chat?token=${cookiesToken}&chat_id=5`,
       );
-      setSocket(newSocket);
 
-      newSocket.on('message', (data: Message) => {
-        // Tutaj możesz zaktualizować stan wiadomości w komponencie
-        setMessages([...messages, data]);
-      });
-
-      // Inna opcja to nasłuchiwanie na ilość czatów z nieprzeczytanymi wiadomościami
-      newSocket.on('unread_chats', (data: number) => {
-        // Tutaj możesz zaktualizować ilość czatów z nieprzeczytanymi wiadomościami w komponencie
-        console.log('Ilość czatów z nieprzeczytanymi wiadomościami:', data);
-      });
-    } catch (error) {
-      // Obsłuż błąd, jeśli wystąpi
-      console.error('Błąd podczas pobierania tokena:', error);
+      socketTest.onopen = () => setWS(socketTest);
+      ws.onmessage = (msg) => setMessages(msg.data);
     }
   };
 
@@ -101,25 +101,16 @@ const ChatWindow = () => {
   const handleSendMessage = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (selectedChat && newMessage) {
+      console.log(messages);
       // Wyślij wiadomość za pomocą WebSocket
-      socket?.emit('message', { content: newMessage });
+      console.log('send');
+      ws?.send(newMessage);
     }
   };
 
   useEffect(() => {
     readChats(1);
   }, []);
-
-  const messageListener = (message: string) => {
-    setMessages(...messages, message);
-  };
-
-  useEffect(() => {
-    socket?.on('message', messageListener);
-    return () => {
-      socket?.off('message', messageListener);
-    };
-  }, [messageListener]);
 
   return (
     <div className={styles.chatWindow}>

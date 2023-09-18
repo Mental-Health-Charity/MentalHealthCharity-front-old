@@ -1,5 +1,5 @@
 'use client';
-import { use, useState } from 'react';
+import { use, useEffect, useState } from 'react';
 import styles from './CMS.module.scss';
 import Image from 'next/image';
 import ImageNotFoundIcon from '../../../images/static/imagenotfoundicon.svg';
@@ -17,22 +17,70 @@ import CategoryModal from './CategoryModal/CategoryModal.component';
 
 import { Article, useAdmin } from '@/contexts/adminProvider/Admin.provider';
 
-const CMS = () => {
+import '@uiw/react-md-editor/markdown-editor.css';
+import '@uiw/react-markdown-preview/markdown.css';
+import dynamic from 'next/dynamic';
+import { getArticle } from '../../przydatneMaterialy/ArticlePage/lib/getArticle';
+import { useRouter } from 'next/navigation';
+
+interface CMSProps {
+  id?: number;
+}
+
+const CMS = ({ id }: CMSProps) => {
   const { createArticle } = useAdmin();
   const { user } = useAuth();
   const [isModalOpen, setModalOpen] = useState(false);
+  const [editedArticle, setEditedArticle] = useState<Article>();
+  const { push } = useRouter();
+
+  const MDEditor = dynamic(() => import('@uiw/react-md-editor'), {
+    ssr: false,
+  });
 
   const sendArticleToDB = (article: Article) => {
     try {
       createArticle(article);
+      push('przydatne-materialy');
     } catch (error) {
       console.log('ERROR while creating new article, error details: ', error);
       failurePopUp(
         'Wystąpił błąd podczas tworzenia nowego artykułu, sprawdź konsolę po więcej informacji.',
       );
-    } finally {
-      console.log('STWORZONO');
     }
+  };
+
+  const getEditedArticle = async () => {
+    try {
+      const data = await getArticle(id);
+      setEditedArticle(data);
+    } catch (err) {
+      failurePopUp('Wystąpił błąd podczas edycji artykułu!');
+    }
+    console.log(editedArticle);
+  };
+
+  useEffect(() => {
+    getEditedArticle();
+  }, []);
+
+  if (id && !editedArticle) {
+    return (
+      <div className={styles.cmsWrapper}>
+        <p>Loading...</p>
+      </div>
+    );
+  }
+
+  const initialEditedValues: Article = {
+    title: editedArticle ? editedArticle.title : '',
+    content: editedArticle ? editedArticle.content : '',
+    banner_url: editedArticle ? editedArticle.banner_url : '',
+    video_url: editedArticle ? editedArticle.video_url : '',
+    article_category_id:
+      editedArticle && editedArticle.article_category
+        ? editedArticle.article_category.id
+        : undefined,
   };
 
   const initialValues: Article = {
@@ -59,9 +107,9 @@ const CMS = () => {
   });
 
   const onSubmit = (values: Article) => {
-    console.log('st');
     try {
-      createArticle(values);
+      createArticle(values, id);
+      push('przydatne-materialy');
     } catch (error) {
       console.log('ERROR while creating new article, error details: ', error);
       failurePopUp(
@@ -69,6 +117,7 @@ const CMS = () => {
       );
     } finally {
       console.log('STWORZONO');
+      push('przydatne-materialy');
     }
   };
 
@@ -84,10 +133,14 @@ const CMS = () => {
     setBannerUrl(value);
   };
 
+  if (id) {
+    infoPopUp(`Edytujesz artykuł o id ${id}`);
+  }
+
   return (
     <div className={styles.cmsWrapper}>
       <Formik
-        initialValues={initialValues}
+        initialValues={id ? initialEditedValues : initialValues}
         validationSchema={validationSchema}
         onSubmit={onSubmit}
       >
@@ -102,7 +155,7 @@ const CMS = () => {
         }) => (
           <Form onSubmit={handleSubmit} className={styles.cmsWrapper__editor}>
             <legend className={styles.cmsWrapper__editor__legend}>
-              Kreator artykułów
+              {id ? 'Edytor artykułów' : 'Kreator artykułów'}
             </legend>
             <p className={styles.cmsWrapper__editor__row}>
               <label
@@ -125,33 +178,68 @@ const CMS = () => {
                 className="error-message"
               />
             </p>
-            <p className={styles.cmsWrapper__editor__row}>
-              <label
-                className={styles.cmsWrapper__editor__row__label}
-                htmlFor="articleContent"
-              >
-                Treść:
-              </label>
-              <Field
-                as="textarea"
-                onChange={handleChange}
-                className={styles.cmsWrapper__editor__row__textarea}
-                id="articleContent"
-                placeholder="Mój artykuł przedstawia..."
-                name="content"
-              />
-              {/* <MDEditor
-                value={values.content}
-                id="content"
-                onChange={(e, value) => {
-                  setFieldValue('articleContent', value);
-                }}
-              /> */}
-              <ErrorMessage
-                name="content"
-                component="div"
-                className="error-message"
-              />
+            <p className={styles.cmsWrapper__editor__settingsRow}>
+              <span className={styles.cmsWrapper__editor__settingsRow__item}>
+                <label
+                  className={
+                    styles.cmsWrapper__editor__settingsRow__item__label
+                  }
+                  htmlFor="permsToRead"
+                >
+                  Wybierz kategorię:
+                </label>
+
+                <button
+                  className={
+                    styles.cmsWrapper__editor__settingsRow__item__input
+                  }
+                  onClick={() => setModalOpen(true)}
+                >
+                  Wybierz...
+                </button>
+                {values.article_category_id && (
+                  <p>Wybrano: {values.article_category_id}</p>
+                )}
+                <ErrorMessage
+                  name="article_category_id"
+                  component="div"
+                  className="error-message"
+                />
+                {isModalOpen && (
+                  <CategoryModal
+                    setFieldValue={setFieldValue}
+                    setModalOpen={setModalOpen}
+                  />
+                )}
+              </span>
+              <span className={styles.cmsWrapper__editor__settingsRow__item}>
+                <label
+                  className={
+                    styles.cmsWrapper__editor__settingsRow__item__label
+                  }
+                  htmlFor="permsToRead"
+                >
+                  Dostępne dla:
+                </label>
+                <Field
+                  disabled={id}
+                  as="select"
+                  id="permsToRead"
+                  name="required_role"
+                  className={
+                    styles.cmsWrapper__editor__settingsRow__item__input
+                  }
+                >
+                  <option value="ANYONE">Każdy</option>
+                  <option value="VOLUNTEER">Wolontariusz i admin</option>
+                  <option value="ADMIN">tylko admin</option>
+                </Field>
+                <ErrorMessage
+                  name="required_role"
+                  component="div"
+                  className="error-message"
+                />
+              </span>
             </p>
             <p className={styles.cmsWrapper__editor__row}>
               <label
@@ -160,23 +248,7 @@ const CMS = () => {
               >
                 Źródło baneru:
               </label>
-              {errors.banner_url && touched.banner_url ? (
-                <Image
-                  src={ImageNotFoundIcon}
-                  alt="Image Not Found"
-                  width={128}
-                  height={128}
-                />
-              ) : (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img
-                  src={values.banner_url === '' ? undefined : values.banner_url}
-                  alt="Podgląd banera artykułu"
-                  width={128}
-                  height={128}
-                  onError={() => handleBannerUrlError(setFieldError)}
-                />
-              )}
+
               <Field
                 onChange={handleChange}
                 className={styles.cmsWrapper__editor__row__input}
@@ -185,70 +257,67 @@ const CMS = () => {
                 placeholder="https://i.imgur.com/yourimage.jpg"
                 name="banner_url"
               />
+              {errors.banner_url && touched.banner_url ? (
+                <Image
+                  src={ImageNotFoundIcon}
+                  alt="Image Not Found"
+                  width={128}
+                  height={128}
+                  className={styles.cmsWrapper__editor__row__banner}
+                />
+              ) : (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img
+                  src={values.banner_url === '' ? undefined : values.banner_url}
+                  alt="Podgląd banera artykułu"
+                  width={128}
+                  height={128}
+                  className={styles.cmsWrapper__editor__row__banner}
+                  onError={() => handleBannerUrlError(setFieldError)}
+                />
+              )}
               <ErrorMessage
                 name="banner_url"
                 component="div"
                 className="error-message"
               />
             </p>
-
             <p className={styles.cmsWrapper__editor__row}>
               <label
                 className={styles.cmsWrapper__editor__row__label}
-                htmlFor="permsToRead"
+                htmlFor="articleContent"
               >
-                Wybierz kategorię:
+                Treść:
               </label>
-              {values.article_category_id && (
-                <p>Wybrano: {values.article_category_id}</p>
-              )}
-              <button onClick={() => setModalOpen(true)}>Wybierz...</button>
 
-              <ErrorMessage
-                name="article_category_id"
-                component="div"
-                className="error-message"
+              <MDEditor
+                value={values.content}
+                id="content"
+                onChange={(value) => {
+                  setFieldValue('content', value);
+                }}
+                className={styles.cmsWrapper__editor__row__editor}
               />
-              {isModalOpen && (
-                <CategoryModal
-                  setFieldValue={setFieldValue}
-                  setModalOpen={setModalOpen}
-                />
-              )}
-            </p>
 
-            <p className={styles.cmsWrapper__editor__row}>
-              <label
-                className={styles.cmsWrapper__editor__row__label}
-                htmlFor="permsToRead"
-              >
-                Dostępne dla:
-              </label>
-              <Field
-                as="select"
-                id="permsToRead"
-                name="required_role"
-                className={styles.cmsWrapper__editor__row__input}
-              >
-                <option value="ANYONE">Każdy</option>
-                <option value="VOLUNTEER">Wolontariusz i admin</option>
-                <option value="ADMIN">tylko admin</option>
-              </Field>
               <ErrorMessage
-                name="required_role"
+                name="content"
                 component="div"
                 className="error-message"
               />
             </p>
 
-            <button
-              onClick={() => onSubmit(values)}
-              type="submit"
-              value="Opublikuj"
-              className={styles.cmsWrapper__editor__row__publish}
-            >
-              Opublikuj
-            </button>
+            <p className={styles.cmsWrapper__editor__row__publishWrapper}>
+              <button
+                onClick={() => onSubmit(values)}
+                type="submit"
+                value="Opublikuj"
+                className={
+                  styles.cmsWrapper__editor__row__publishWrapper__publish
+                }
+              >
+                {id ? 'Opublikuj edycje' : 'Opublikuj'}
+              </button>
+            </p>
           </Form>
         )}
       </Formik>

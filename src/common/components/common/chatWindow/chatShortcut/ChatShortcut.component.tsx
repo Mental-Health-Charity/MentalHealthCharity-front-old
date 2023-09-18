@@ -9,7 +9,7 @@ interface ChatShortcutProps {
   participants: User[] | undefined;
   chat: Chat;
   setSelectedChat: Dispatch<SetStateAction<Chat | null>>;
-  handleReadMessages: (chat: Chat) => Promise<void>;
+  handleReadMessages: (chat_id: number) => Promise<void>;
 }
 
 const ChatShortcut = ({
@@ -22,7 +22,7 @@ const ChatShortcut = ({
     <button
       onClick={() => {
         setSelectedChat(chat);
-        handleReadMessages(chat);
+        handleReadMessages(chat.id);
       }}
       className={styles.chatShortcut}
     >

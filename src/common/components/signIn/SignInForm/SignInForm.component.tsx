@@ -31,7 +31,6 @@ const SignInForm = () => {
         }}
         validationSchema={RegistrationSchema}
         onSubmit={(values) => {
-          // Tu możesz dodać logikę do wysłania danych na serwer
           try {
             signIn(values);
           } catch (error) {

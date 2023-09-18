@@ -3,12 +3,13 @@
 
 .article {
   width: 26em;
-  height: 21em;
+  min-height: 21em;
   background-color: $white;
   border-radius: 1em;
   overflow: hidden;
   position: relative;
   transition: 0.3s;
+  padding-bottom: 1em;
 
   &:hover {
     box-shadow: 0.5em 0.5em 0.1em #1b1b1b5b;
@@ -50,7 +51,6 @@
     &__img {
       width: 100%;
       height: auto;
-      background-color: red;
     }
   }
 
@@ -75,7 +75,20 @@
   &__content {
     margin-top: 2.3em;
     padding: 0 1em 0 1em;
-    height: 100%;
+
+    &__controls {
+      background-color: $navy;
+      margin: 0.2em;
+      border: 1px solid $white;
+      color: $white;
+      padding: 0.3em 0.5em 0.3em 0.5em;
+      border-radius: 1em;
+      cursor: pointer;
+
+      &:hover {
+        transform: scale(1.1);
+      }
+    }
 
     &__title {
       display: -webkit-box;

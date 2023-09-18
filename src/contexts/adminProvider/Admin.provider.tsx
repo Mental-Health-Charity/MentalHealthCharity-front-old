@@ -12,12 +12,13 @@ interface AdminContextType {
   createChat: (name: string) => Promise<void>;
   addParticipant: (chatId: number, userId: number) => Promise<void>;
   removeParticipant: (chatId: number, userId: number) => Promise<void>;
-  createArticle: (article: Article) => Promise<void>;
+  createArticle: (article: Article, id?: number) => Promise<void>;
   getArticleCategory: (
     page: number,
     size: number,
   ) => Promise<ArticleCategoryList>;
   createArticleCategory: (name: string) => Promise<void>;
+  manageArticle: (id: number, articleStatus: ArticleStatus) => Promise<Article>;
 }
 
 export interface Article {
@@ -26,7 +27,10 @@ export interface Article {
   banner_url: string;
   video_url: string;
   article_category_id?: number;
-  required_role: 'ANYONE' | Roles.admin | Roles.volunteer;
+  article_category?: {
+    id: number;
+  };
+  required_role?: 'ANYONE' | Roles.admin | Roles.volunteer;
 }
 
 export interface ArticleCategory {
@@ -41,6 +45,20 @@ export interface ArticleCategoryList {
   page: number;
   size: number;
   pages: number;
+}
+
+export enum Status {
+  REJECT = 'REJECTED',
+  CORRECTED = 'CORRECTED',
+  DRAFT = 'DRAFT',
+  DELETED = 'DELETED',
+  PUBLISHED = 'PUBLISHED',
+  SENT = 'SENT',
+}
+
+export interface ArticleStatus {
+  status: Status;
+  reject_message: string;
 }
 
 const AdminContext = createContext<AdminContextType>({} as AdminContextType);
@@ -87,6 +105,21 @@ const useProvideAdmin = () => {
     );
     const data = await res.json();
     return data as User;
+  };
+
+  const manageArticle = async (id: number, articleStatus: ArticleStatus) => {
+    const headers = await getCookiesAuth();
+
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/article/${id}/change-status`,
+      {
+        method: 'put',
+        headers,
+        body: JSON.stringify(articleStatus),
+      },
+    );
+    const data = await res.json();
+    return data as Article;
   };
 
   const getChats = async (page: number, size: number) => {
@@ -172,19 +205,23 @@ const useProvideAdmin = () => {
     );
   };
 
-  const createArticle = async (article: Article) => {
+  const createArticle = async (article: Article, id?: number) => {
     const headers = await getCookiesAuth();
 
-    await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/article/`, {
-      method: 'post',
-      headers,
-      body: JSON.stringify(article),
-    });
+    await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/article/${id ? id : ''}`,
+      {
+        method: id ? 'PUT' : 'POST',
+        headers,
+        body: JSON.stringify(article),
+      },
+    );
   };
 
   return {
     getUsers,
     getUserById,
+    manageArticle,
     editUser,
     getChats,
     createChat,

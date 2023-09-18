@@ -37,6 +37,9 @@ export const getCookiesAuth = async () => {
   return searchParams;
 };
 
+
+
+
 export const restoreUserSession = async () => {
   const jwtToken = getCookies('jwtToken');
   const jwtTokenType = getCookies('jwtTokenType');
