@@ -51,11 +51,13 @@ const CMS = ({ id }: CMSProps) => {
   };
 
   const getEditedArticle = async () => {
-    try {
-      const data = await getArticle(id);
-      setEditedArticle(data);
-    } catch (err) {
-      failurePopUp('Wystąpił błąd podczas edycji artykułu!');
+    if (id) {
+      try {
+        const data = await getArticle(id);
+        setEditedArticle(data);
+      } catch (err) {
+        failurePopUp('Wystąpił błąd podczas edycji artykułu!');
+      }
     }
     console.log(editedArticle);
   };
