@@ -22,7 +22,7 @@ const ChatWindow = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [chats, setChats] = useState<ChatData | null>(null);
   const [selectedChat, setSelectedChat] = useState<Chat | null>();
-  const [messages, setMessages] = useState<Array<Message> | []>([]);
+  const [messages, setMessages] = useState<Array<Message>>([]);
   const [newMessage, setNewMessage] = useState<string | null>();
   const [ws, setWS] = useState<WebSocket>();
 
@@ -55,12 +55,12 @@ const ChatWindow = () => {
     setIsLoading(false);
   };
 
-  const handleReadMessages = async (chat_id: number) => {
+  const handleReadMessages = async (chat: Chat) => {
     if (ws) {
-      ws.onclose();
+      // ws.onclose();
       const cookiesToken = await getCookies('jwtToken');
 
-      console.log('chat_id', chat_id);
+      console.log('chat_id', chat.id);
 
       const socketTest = new WebSocket(
         `wss://mentalhealthcharity-backend-production.up.railway.app/ws-chat?token=${cookiesToken}&chat_id=5`,
@@ -181,8 +181,8 @@ const ChatWindow = () => {
           </ul>
         </div>
         <ul className={styles.chatWindow__chat__messages}>
-          {messages && !isLoading && messages.items ? (
-            messages.items.map((message, index) => {
+          {messages && !isLoading && messages ? (
+            messages.map((message, index) => {
               return (
                 <ChatMessage
                   key={index}

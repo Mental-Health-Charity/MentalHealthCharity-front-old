@@ -8,8 +8,8 @@ import { Dispatch, SetStateAction } from 'react';
 interface ChatShortcutProps {
   participants: User[] | undefined;
   chat: Chat;
-  setSelectedChat: Dispatch<SetStateAction<Chat | null>>;
-  handleReadMessages: (chat_id: number) => Promise<void>;
+  setSelectedChat: Dispatch<SetStateAction<Chat | null | undefined>>;
+  handleReadMessages: (chat: Chat) => Promise<void>;
 }
 
 const ChatShortcut = ({
@@ -22,7 +22,7 @@ const ChatShortcut = ({
     <button
       onClick={() => {
         setSelectedChat(chat);
-        handleReadMessages(chat.id);
+        handleReadMessages(chat);
       }}
       className={styles.chatShortcut}
     >

@@ -3,7 +3,7 @@
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import styles from './SignInForm.module.scss';
-import { useAuth } from '@/contexts/authProvider/Auth.provider';
+import { User, useAuth } from '@/contexts/authProvider/Auth.provider';
 
 const RegistrationSchema = Yup.object().shape({
   name: Yup.string().required('Pole wymagane'),
@@ -32,7 +32,7 @@ const SignInForm = () => {
         validationSchema={RegistrationSchema}
         onSubmit={(values) => {
           try {
-            signIn(values);
+            signIn(values as User);
           } catch (error) {
             console.error(error);
           }

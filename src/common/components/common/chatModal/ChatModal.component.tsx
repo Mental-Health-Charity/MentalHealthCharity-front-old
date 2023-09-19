@@ -16,7 +16,7 @@ const ChatModal = () => {
   const { user } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
   const [chats, setChats] = useState<ChatData | null>(null);
-  const [selectedChat, setSelectedChat] = useState<Chat | null>(null);
+  const [selectedChat, setSelectedChat] = useState<Chat | null>();
   const [messages, setMessages] = useState<Messages | null>(null);
   const [newMessage, setNewMessage] = useState<string | null>();
   const [openModal, setOpenModal] = useState(false);
