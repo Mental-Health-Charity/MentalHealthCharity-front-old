@@ -10,7 +10,6 @@ const MobileMenu = ({
   isMobileVisible,
   setIsMobileVisible,
 }: MobileMenuProps) => {
-  console.log(isMobileVisible);
   return (
     <button
       className={styles.mobile_menu}

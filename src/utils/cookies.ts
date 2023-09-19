@@ -24,17 +24,19 @@ export const expireCookie = (key: string) => {
 };
 
 export const getCookiesAuth = async () => {
-  const searchParams = new URLSearchParams();
+  const headers = new Headers();
 
   const jwtTokenType = cookies().get('jwtTokenType')?.value;
   const jwtToken = cookies().get('jwtToken')?.value;
 
-  searchParams.append('Content-Type', 'application/json');
-  searchParams.append('Authorization', `${jwtTokenType} ${jwtToken}`);
+  console.error(jwtTokenType);
 
-  console.log('search params ', searchParams);
+  headers.append('Content-Type', 'application/json');
+  headers.append('Authorization', `${jwtTokenType} ${jwtToken}`);
 
-  return searchParams;
+  // console.warn('headers ', headers);
+
+  return headers;
 };
 
 export const restoreUserSession = async () => {
