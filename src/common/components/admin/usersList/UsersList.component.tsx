@@ -37,7 +37,7 @@ const UsersList = () => {
       {users ? <input placeholder="wyszukaj (rola/id/email)" /> : null}
       <ul className={styles.wrapper__list}>
         {users &&
-          users.items?.map((user, index) => {
+          users.map((user, index) => {
             return (
               <RowList
                 key={index}
