@@ -31,7 +31,9 @@ const CMS = ({ id }: CMSProps) => {
   const { createArticle } = useAdmin();
   const { user } = useAuth();
   const [isModalOpen, setModalOpen] = useState(false);
+  const [bannerUrl, setBannerUrl] = useState('');
   const [editedArticle, setEditedArticle] = useState<Article>();
+  const [error, setIsError] = useState(false);
   const { push } = useRouter();
 
   const MDEditor = dynamic(() => import('@uiw/react-md-editor'), {
@@ -123,14 +125,14 @@ const CMS = ({ id }: CMSProps) => {
     }
   };
 
-  const handleBannerUrlError = (setIsError) => {
+  const handleBannerUrlError = () => {
     setIsError(true);
     failurePopUp(
       'Nie znaleziono obrazu, upewnij się, że obrazek który wstawiasz jest linkiem bezpośrednim i pochodzi z domeny imgur.',
     );
   };
 
-  const handleBannerUrlChange = (setIsError, setBannerUrl, value) => {
+  const handleBannerUrlChange = (value: string) => {
     setIsError(false);
     setBannerUrl(value);
   };
@@ -275,7 +277,7 @@ const CMS = ({ id }: CMSProps) => {
                   width={128}
                   height={128}
                   className={styles.cmsWrapper__editor__row__banner}
-                  onError={() => handleBannerUrlError(setFieldError)}
+                  // onError={() => handleBannerUrlError(setFieldError)}
                 />
               )}
               <ErrorMessage
