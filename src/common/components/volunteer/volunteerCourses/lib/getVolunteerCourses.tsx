@@ -1,14 +1,21 @@
 import { Status } from '@/contexts/adminProvider/Admin.provider';
 import { User } from '@/contexts/authProvider/Auth.provider';
 import { getCookiesAuth } from '@/utils/cookies';
+import Roles from '@/utils/roles';
 
 export interface Article {
+  id: number;
   title: string;
   content: string;
-  banner_url: string;
-  id: number;
   created_by: User;
+  banner_url: string;
+  video_url: string;
   creation_date: string;
+  article_category_id?: number;
+  article_category?: {
+    id: number;
+  };
+  required_role?: 'ANYONE' | Roles.admin | Roles.volunteer;
 }
 
 export interface Articles {

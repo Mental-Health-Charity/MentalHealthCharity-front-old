@@ -2,8 +2,9 @@
 import { useEffect, useState } from 'react';
 import ArticleItem from '../common/articleItem/ArticleItem.component';
 import styles from './PrzydatneMaterialy.module.scss';
-import { Article, getArticles } from './lib/getArticles';
-import { Articles } from './lib/getArticles';
+import { getArticles } from './lib/getArticles';
+import { Article } from '../volunteer/volunteerCourses/lib/getVolunteerCourses';
+import { Articles } from '../volunteer/volunteerCourses/lib/getVolunteerCourses';
 import { failurePopUp, successPopUp } from '@/utils/defaultNotifications';
 import Image from 'next/image';
 import LoadingIcon from '../../images/static/loading.svg';

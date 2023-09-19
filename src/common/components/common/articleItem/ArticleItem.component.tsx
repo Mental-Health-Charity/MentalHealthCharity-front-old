@@ -4,7 +4,7 @@ import Image from 'next/image';
 import styles from './ArticleItem.module.scss';
 import { format } from 'date-fns';
 import { useAuth } from '@/contexts/authProvider/Auth.provider';
-import { Article } from '../../przydatneMaterialy/lib/getArticles';
+import { Article } from '../../volunteer/volunteerCourses/lib/getVolunteerCourses';
 import { Status, useAdmin } from '@/contexts/adminProvider/Admin.provider';
 import { failurePopUp, successPopUp } from '@/utils/defaultNotifications';
 
@@ -41,7 +41,7 @@ const ArticleItem = ({ article, showAdminOptions }: ArticleItemProps) => {
         <div className={styles.article__banner}>
           <ul className={styles.article__banner__tags}>
             <li className={styles.article__banner__tags__tag}>
-              {article.article_category.name}
+              {article.creation_date}
             </li>
           </ul>
           <Image

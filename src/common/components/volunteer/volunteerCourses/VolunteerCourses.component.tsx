@@ -12,6 +12,7 @@ import { failurePopUp, successPopUp } from '@/utils/defaultNotifications';
 import LoadingIcon from '../../../images/static/loading.svg';
 import Image from 'next/image';
 import Table from '../../common/table/Table.component';
+import { Status } from '@/contexts/adminProvider/Admin.provider';
 
 const VolunteerCourses = () => {
   const [courses, setCourses] = useState<Articles>();
@@ -23,7 +24,7 @@ const VolunteerCourses = () => {
 
   const getAllCourses = async (page: number) => {
     try {
-      const courses = await getVolunteerCourses(page, 15);
+      const courses = await getVolunteerCourses(page, 15, Status.PUBLISHED);
       setCourses(courses);
       setLoading(true);
     } catch (error) {

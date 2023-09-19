@@ -9,8 +9,8 @@ import LoadingIcon from '../../../images/static/loading.svg';
 import ArticleItem from '../../common/articleItem/ArticleItem.component';
 import Table from '../../common/table/Table.component';
 import { getVolunteerCourses } from '../../volunteer/volunteerCourses/lib/getVolunteerCourses';
-import { Article } from '../../przydatneMaterialy/lib/getArticles';
-import { Articles } from '../../przydatneMaterialy/lib/getArticles';
+
+import { Articles } from '../../volunteer/volunteerCourses/lib/getVolunteerCourses';
 import { Status } from '@/contexts/adminProvider/Admin.provider';
 
 const ManageArticles = () => {
