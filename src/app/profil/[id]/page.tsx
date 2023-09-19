@@ -5,7 +5,7 @@ import Router from 'next/router';
 
 const Profil = () => {
   const id = usePathname();
-  const numericId = id ? parseInt(id.split('/').pop(), 10) : undefined;
+  const numericId = id ? parseInt(id.split('/').pop() || '', 10) : undefined;
 
   console.log(numericId);
 
