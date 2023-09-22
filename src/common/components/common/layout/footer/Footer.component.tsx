@@ -28,7 +28,7 @@ const Footer = () => {
         </li>
       </ul>
       <div className={styles.footer__block}>
-        <Image src={Logo} alt="Logo" />
+        <Image width={250} src={Logo} alt="Logo" />
       </div>
       <ul className={styles.footer__block}>
         <li>

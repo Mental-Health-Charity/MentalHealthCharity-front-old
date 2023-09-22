@@ -17,6 +17,12 @@ const DashBoard = () => {
         </Link>
         <Link
           className={styles.dashboard__container__button}
+          href="/admin/zgloszenia"
+        >
+          Zgłoszenia
+        </Link>
+        <Link
+          className={styles.dashboard__container__button}
           href="/admin/listaUzytkownikow"
         >
           Lista użytkowników
@@ -35,6 +41,12 @@ const DashBoard = () => {
         </Link>
         <Link className={styles.dashboard__container__button} href="/admin/CMS">
           Artykuły (CMS)
+        </Link>
+        <Link
+          className={styles.dashboard__container__button}
+          href="/admin/zarzadzajMaterialami"
+        >
+          Zarzadzaj materialami
         </Link>
         <Link
           className={styles.dashboard__container__button}

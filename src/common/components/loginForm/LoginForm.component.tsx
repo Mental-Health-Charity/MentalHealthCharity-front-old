@@ -1,91 +1,73 @@
 'use client';
-import Link from 'next/link';
 import styles from './LoginForm.module.scss';
-import { FormEvent, useState } from 'react';
 import { useAuth } from '@/contexts/authProvider/Auth.provider';
-import { MouseEvent } from 'react';
-import clsx from 'clsx';
 import UserInfo from './UserInfo/UserInfo.component';
+import { Formik, Form, Field, ErrorMessage } from 'formik';
+import * as Yup from 'yup';
 
 const LoginForm = () => {
-  const { login, user, logout, error } = useAuth();
+  const { login, user } = useAuth();
 
-  const [loginData, setLoginData] = useState({
-    username: '',
-    password: '',
+  const RegistrationSchema = Yup.object().shape({
+    username: Yup.string()
+      .email('Nieprawidłowy adres email')
+      .required('Pole wymagane'),
+    password: Yup.string()
+      .min(2, 'Wprowadz przynajmniej 2 znaki')
+      .required('Pole wymagane'),
   });
-
-  const handleLogin = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    login(loginData);
-    console.log(loginData);
-  };
 
   if (!user) {
     return (
-      <section className={styles.login}>
-        <h1 className={styles.login__desc}>Zaloguj</h1>
-        <form onSubmit={(e) => handleLogin(e)} className={styles.login__form}>
-          <p className={styles.login__form__row}>
-            <label className={styles.login__form__row__label} htmlFor="email">
-              E-mail
-            </label>
-            <input
-              required
-              className={clsx(styles.login__form__row__input, {
-                [styles['login__form__row__input--incorrect']]: error,
-              })}
-              type="email"
-              id="email"
-              placeholder="Jan@przyklad.pl"
-              onChange={(e) =>
-                setLoginData((prev) => ({
-                  ...prev,
-                  username: e.target.value,
-                }))
-              }
-            />
-          </p>
-          <p className={styles.login__form__row}>
-            <label
-              className={styles.login__form__row__label}
-              htmlFor="password"
-            >
-              Hasło:
-            </label>
-            <input
-              required
-              className={clsx(styles.login__form__row__input, {
-                [styles['login__form__row__input--incorrect']]: error,
-              })}
-              type="password"
-              id="password"
-              placeholder="Hasło..."
-              onChange={(e) =>
-                setLoginData((prev) => ({
-                  ...prev,
-                  password: e.target.value,
-                }))
-              }
-            />
-          </p>
-          {error && (
-            <p className={styles.login__form__errorMess}>{error?.detail}</p>
+      <div className={styles.container}>
+        <h1>Zaloguj</h1>
+        <Formik
+          initialValues={{
+            username: '',
+            password: '',
+          }}
+          validationSchema={RegistrationSchema}
+          onSubmit={(values) => {
+            try {
+              login(values);
+            } catch (error) {
+              console.error(error);
+            }
+          }}
+        >
+          {({ values }) => (
+            <Form className={styles.form}>
+              <div className={styles.formGroup}>
+                <label htmlFor="username">Email</label>
+                <Field type="email" id="username" name="username" />
+                <ErrorMessage
+                  name="username"
+                  component="div"
+                  className={styles.error}
+                />
+              </div>
+
+              <div className={styles.formGroup}>
+                <label htmlFor="password">Hasło</label>
+                <Field type="password" id="password" name="password" />
+                <ErrorMessage
+                  name="password"
+                  component="div"
+                  className={styles.error}
+                />
+              </div>
+
+              <button type="submit" className={styles.submitButton}>
+                Zaloguj
+              </button>
+            </Form>
           )}
-          <input
-            value="Zaloguj"
-            className={styles.login__form__submit}
-            type="submit"
-          />
-        </form>
-        <p>
-          Nie masz jeszcze konta? <Link href={'/signIn'}>Zarejestruj sie!</Link>
-        </p>
-      </section>
+        </Formik>
+      </div>
     );
   } else {
     return (
-      <section className={styles.login}>
+      <section className={styles.container}>
         <UserInfo />
       </section>
     );

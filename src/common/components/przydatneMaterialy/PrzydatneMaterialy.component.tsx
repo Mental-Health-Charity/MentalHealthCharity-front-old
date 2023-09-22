@@ -2,12 +2,17 @@
 import { useEffect, useState } from 'react';
 import ArticleItem from '../common/articleItem/ArticleItem.component';
 import styles from './PrzydatneMaterialy.module.scss';
-import { Article, Articles, getArticles } from './lib/getArticles';
+import { getArticles } from './lib/getArticles';
+import { Article } from '../volunteer/volunteerCourses/lib/getVolunteerCourses';
+import { Articles } from '../volunteer/volunteerCourses/lib/getVolunteerCourses';
 import { failurePopUp, successPopUp } from '@/utils/defaultNotifications';
 import Image from 'next/image';
 import LoadingIcon from '../../images/static/loading.svg';
 import Table from '../common/table/Table.component';
-import { getVolunteerCourses } from '../volunteer/volunteerCourses/lib/getVolunteerCourses';
+import {
+  getPublicArticle,
+  getVolunteerCourses,
+} from '../volunteer/volunteerCourses/lib/getVolunteerCourses';
 
 const PrzydatneMaterialy = () => {
   const [articles, setArticles] = useState<Articles>();
@@ -16,7 +21,7 @@ const PrzydatneMaterialy = () => {
   const getAllArticles = async (page: number) => {
     try {
       // read public articles endpoint is broken at this moment.
-      const articles = await getVolunteerCourses(page, 15);
+      const articles = await getVolunteerCourses(page, 15, 'PUBLISHED');
       setArticles(articles);
       setLoading(true);
     } catch (error) {
@@ -30,14 +35,7 @@ const PrzydatneMaterialy = () => {
     if (!loading && articles && articles?.items) {
       successPopUp('Załadowano artykuły :)');
       return articles.items.map((article: Article, index) => (
-        <ArticleItem
-          key={index}
-          author={article.created_by.full_name}
-          publishedAt={article.creation_date}
-          title={article.title}
-          content={article.content}
-          src={article.banner_url}
-        />
+        <ArticleItem showAdminOptions={false} article={article} key={index} />
       ));
     } else if (!loading && articles && !articles.items) {
       return (

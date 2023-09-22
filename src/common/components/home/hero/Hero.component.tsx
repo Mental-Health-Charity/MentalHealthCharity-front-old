@@ -30,7 +30,7 @@ const Hero = () => {
           src={MentalHealthImg}
           width={350}
         /> */}
-        <h1 className={styles.hero__heading}>Stowarzyszenie Juz Lepiej</h1>
+        <h1 className={styles.hero__heading}>Fundacja Peryskop</h1>
         <h2>Przybywam w celu:</h2>
         <div className={styles.hero__buttons_wrapper}>
           <DefaultButton

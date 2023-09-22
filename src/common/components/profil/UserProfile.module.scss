@@ -1,0 +1,165 @@
+@use '../../styles/mixins.module' as *;
+@use '../../styles/variables.module' as *;
+
+@mixin hero-wave {
+  display: block;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  content: '';
+  height: 60%;
+  background-image: url('../../images/static/herowave.svg');
+  background-repeat: no-repeat;
+  background-size: cover;
+  z-index: -10;
+  opacity: 0.5;
+}
+
+.profile {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  align-items: center;
+  padding: 14em 1em;
+  gap: 20px;
+  text-align: center;
+
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  min-height: 90vh;
+
+  &::before {
+    @include hero-wave;
+    z-index: -1;
+    animation: wave1 14s infinite;
+  }
+
+  &::after {
+    @include hero-wave;
+    animation: wave2 10s infinite;
+    height: 60%;
+  }
+
+  @keyframes wave1 {
+    0%,
+    100% {
+      transform: translateZ(100%);
+    }
+    50% {
+      transform: scale(150%);
+    }
+  }
+
+  @keyframes wave2 {
+    0%,
+    100% {
+      transform: translateZ(100%);
+    }
+    50% {
+      transform: scale(130%);
+    }
+  }
+
+  &__content {
+    flex-direction: column;
+    width: 70%;
+  }
+
+  &__heading {
+    text-align: start;
+    width: 100%;
+  }
+}
+
+.profile__info {
+  @include flex-center-x;
+  flex-direction: column;
+  width: 100%;
+
+  &__save {
+    @include default-button;
+    background-color: $yellow;
+    color: $white;
+    border: $white;
+    align-self: flex-start;
+    margin-top: 1em;
+
+    &:hover {
+      filter: brightness(80%);
+    }
+  }
+}
+
+.profile__imageWrapper {
+  @include flex-center-x;
+  width: 100%;
+  flex-wrap: wrap;
+  &__image {
+    @include flex-center-xy;
+    border-radius: 50%;
+    width: fit-content;
+    margin-right: 1em;
+    overflow: hidden;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+  }
+
+  &__imageChange {
+    &:hover {
+      filter: brightness(50%);
+      color: #fff;
+      text-align: center;
+      cursor: pointer;
+    }
+  }
+}
+
+.profile p {
+  margin: 0.5em;
+}
+
+.profile ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.profile__description {
+  width: 100%;
+  align-self: flex-start;
+  text-align: start;
+  font-size: 1em;
+  padding: 0;
+  margin: 0;
+  background-color: transparent;
+  resize: vertical;
+  border: none;
+
+  &:focus {
+    outline: 1px solid $navy;
+  }
+}
+
+.profile__aboutHeading {
+  padding: 1em 1em 0 0;
+  font-weight: 1000;
+  margin: 0;
+  width: 100%;
+  text-align: start;
+}
+
+.profile li {
+  font-size: 18px;
+  color: #666;
+}
+
+.profile__username {
+  font-weight: bold;
+  color: #111;
+}
+
+.profile__role {
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #777;
+}

@@ -4,7 +4,7 @@ import { useAdmin } from '@/contexts/adminProvider/Admin.provider';
 import RowList from '../usersList/rowList/RowList.component';
 import styles from './UserEditor.module.scss';
 import { useEffect, useState } from 'react';
-import { User } from '@/contexts/authProvider/Auth.provider';
+import { EditUser, User } from '@/contexts/authProvider/Auth.provider';
 import userInit from '@/utils/userInit';
 import Link from 'next/link';
 import { failurePopUp, infoPopUp } from '@/utils/defaultNotifications';
@@ -12,14 +12,13 @@ import Roles from '@/utils/roles';
 import MergeUserModal from './mergeUserModal/MergeUserModal.component';
 
 const UserEditor = () => {
-  // !!! WARNING !!!
-  // Component temporarily unsupported by backend bugs
-  // !!! WARNING !!!
   const { getUserById } = useAdmin();
   const [targetUser, setTargetUser] = useState<User>();
-  const [editedTargetUser, setEditedTargetUser] = useState<User>(
-    targetUser ? targetUser : userInit,
-  );
+  const [editedTargetUser, setEditedTargetUser] = useState<EditUser>({
+    full_name: targetUser ? targetUser.full_name : userInit.full_name,
+    is_active: targetUser ? targetUser.is_active : userInit.is_active,
+    user_role: targetUser ? targetUser.user_role : userInit.user_role,
+  });
   const [isModalVisible, setIsModalVisible] = useState(false);
 
   const getUserByAdmin = async (ID: number) => {
@@ -27,12 +26,6 @@ const UserEditor = () => {
     setTargetUser(result);
     setEditedTargetUser(result);
   };
-
-  useEffect(() => {
-    infoPopUp(
-      'Uwaga, funkcja edycji użytkownika wymaga poprawy technicznej z strony backendu, na ten moment WYMUSZA zmiany hasła, używaj rozważnie.',
-    );
-  }, []);
 
   return (
     <section className={styles.wrapper}>
@@ -52,16 +45,10 @@ const UserEditor = () => {
           className={styles.wrapper__editor__form}
           onSubmit={(e) => {
             e.preventDefault();
-            if (
-              targetUser &&
-              editedTargetUser &&
-              editedTargetUser.password !== ''
-            ) {
+            if (targetUser && editedTargetUser) {
               setIsModalVisible(true);
             } else {
-              failurePopUp(
-                'Wprowadź dane użytkownika docelowego (hasło, id, i opcjonalne)',
-              );
+              failurePopUp('Wprowadź dane użytkownika docelowego');
             }
           }}
         >
@@ -82,41 +69,6 @@ const UserEditor = () => {
           </p>
           <p className={styles.wrapper__editor__form__row}>
             <label className={styles.wrapper__editor__form__label}>
-              e-mail:
-            </label>
-            <input
-              className={styles.wrapper__editor__form__input}
-              type="text"
-              placeholder="Wpisz email..."
-              value={editedTargetUser?.email}
-              onChange={(e) => {
-                setEditedTargetUser((prev) => ({
-                  ...prev,
-                  email: e.target.value,
-                }));
-              }}
-            />
-          </p>
-          <p className={styles.wrapper__editor__form__row}>
-            <label className={styles.wrapper__editor__form__label}>
-              hasło:
-            </label>
-            <input
-              className={styles.wrapper__editor__form__input}
-              required
-              type="text"
-              placeholder="Wpisz hasło..."
-              value={editedTargetUser?.password}
-              onChange={(e) => {
-                setEditedTargetUser((prev) => ({
-                  ...prev,
-                  password: e.target.value,
-                }));
-              }}
-            />
-          </p>
-          <p className={styles.wrapper__editor__form__row}>
-            <label className={styles.wrapper__editor__form__label}>
               uprawnienia:
             </label>
             <select
@@ -124,13 +76,13 @@ const UserEditor = () => {
               onChange={(e) => {
                 setEditedTargetUser((prev) => ({
                   ...prev,
-                  user_role: e.target.value,
+                  user_role: e.target.value as Roles,
                 }));
               }}
               defaultValue={'default'}
             >
               <option value={'default'} disabled>
-                Zmień/pozostaw bez zmian
+                Pozostaw bez zmian
               </option>
               <option value={Roles.user}>Użytkownik</option>
               <option value={Roles.volunteer}>Wolontariusz</option>

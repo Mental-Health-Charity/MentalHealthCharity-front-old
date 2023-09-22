@@ -1,138 +1,109 @@
 'use client';
-import Link from 'next/link';
-import styles from './SignInForm.module.scss';
-import { FormEvent, useState } from 'react';
-import { useAuth } from '@/contexts/authProvider/Auth.provider';
-import { failurePopUp, infoPopUp } from '@/utils/defaultNotifications';
 
-interface userDataType {
-  full_name: string;
-  password: string;
-  email: string;
-}
+import { Formik, Form, Field, ErrorMessage } from 'formik';
+import * as Yup from 'yup';
+import styles from './SignInForm.module.scss';
+import { User, useAuth } from '@/contexts/authProvider/Auth.provider';
+
+const RegistrationSchema = Yup.object().shape({
+  full_name: Yup.string().required('Pole wymagane'),
+  email: Yup.string()
+    .email('Nieprawidłowy adres email')
+    .required('Pole wymagane'),
+  password: Yup.string()
+    .min(8, 'Hasło musi mieć przynajmniej 8 znaków')
+    .matches(/[A-Z]/, 'Hasło musi zawierać przynajmniej jedną dużą literę')
+    .matches(/[0-9]/, 'Hasło musi zawierać przynajmniej jedną cyfrę')
+    .required('Pole wymagane'),
+});
 
 const SignInForm = () => {
-  const { signIn, error } = useAuth();
-  const [formSubmited, setFormSubmited] = useState(false);
-  const [userData, setUserData] = useState<userDataType>({
-    full_name: '',
-    password: '',
-    email: '',
-  });
-  const [isCheckedTOS, setIsCheckedTOS] = useState(false);
-
-  const handleRegister = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
-    if (!isCheckedTOS) {
-      failurePopUp(
-        'Aby kontynuować rejestrację, należy zaakceptować regulamin serwisu.',
-      );
-      return;
-    }
-
-    if (userData) {
-      console.log(userData);
-      try {
-        signIn(userData);
-      } catch (error) {
-        console.log(error);
-      }
-      setFormSubmited(true);
-    } else {
-      failurePopUp('Dane nie mogą być puste!');
-    }
-  };
+  const { signIn } = useAuth();
 
   return (
-    <section className={styles.signin}>
-      <h1 className={styles.signin__heading}>Utwórz nowe konto</h1>
+    <div className={styles.container}>
+      <h1>Utwórz nowe konto</h1>
+      <Formik
+        initialValues={{
+          full_name: '',
+          email: '',
+          password: '',
+        }}
+        validationSchema={RegistrationSchema}
+        onSubmit={(values) => {
+          try {
+            signIn(values as User);
+          } catch (error) {
+            console.error(error);
+          }
+        }}
+      >
+        {({ values }) => (
+          <Form className={styles.form}>
+            <div className={styles.formGroup}>
+              <div className={styles.switchContainer}>
+                <label>
+                  <Field
+                    className={styles.switchButton}
+                    type="radio"
+                    name="role"
+                    value="Volunteer"
+                  />
+                  <span>Wolontariusz</span>
+                </label>
+                <label>
+                  <Field
+                    className={`${styles.switchButton} ${styles.rightButton}`}
+                    type="radio"
+                    name="role"
+                    value="Mentee"
+                  />
+                  <span>Podopieczny</span>
+                </label>
+              </div>
+            </div>
 
-      <form onSubmit={(e) => handleRegister(e)} className={styles.signin__form}>
-        <p className={styles.signin__form__row}>
-          <label className={styles.signin__form__row__label} htmlFor="username">
-            Imię
-          </label>
-          <input
-            required
-            className={styles.signin__form__row__input}
-            id="username"
-            type="text"
-            placeholder="Jan"
-            onChange={(e) =>
-              setUserData((prev) => ({
-                ...prev,
-                full_name: e.target.value,
-              }))
-            }
-          />
-        </p>
-        <p className={styles.signin__form__row}>
-          <label className={styles.signin__form__row__label} htmlFor="email">
-            E-mail
-          </label>
-          <input
-            required
-            className={styles.signin__form__row__input}
-            id="email"
-            type="email"
-            placeholder="Jan@przyklad.pl"
-            onChange={(e) =>
-              setUserData((prev) => ({
-                ...prev,
-                email: e.target.value,
-              }))
-            }
-          />
-        </p>
-        <p className={styles.signin__form__row}>
-          <label className={styles.signin__form__row__label} htmlFor="password">
-            Hasło
-          </label>
-          <input
-            required
-            className={styles.signin__form__row__input}
-            id="password"
-            type="password"
-            placeholder="Hasło..."
-            onChange={(e) =>
-              setUserData((prev) => ({
-                ...prev,
-                password: e.target.value,
-              }))
-            }
-          />
-        </p>
-        <p>
-          <input
-            className={styles.signin__form__submit}
-            type="submit"
-            value="Utwórz"
-          />
-        </p>
-        {error === undefined && formSubmited && (
-          <p className={styles.signin__form__success}>
-            Konto zostało utworzone! <Link href="/login">Zaloguj się.</Link>
-          </p>
+            <div className={styles.formGroup}>
+              <label htmlFor="full_name">Imię</label>
+              <Field type="text" id="full_name" name="full_name" />
+              <ErrorMessage
+                name="full_name"
+                component="div"
+                className={styles.error}
+              />
+            </div>
+
+            <div className={styles.formGroup}>
+              <label htmlFor="email">Email</label>
+              <Field type="email" id="email" name="email" />
+              <ErrorMessage
+                name="email"
+                component="div"
+                className={styles.error}
+              />
+            </div>
+
+            <div className={styles.formGroup}>
+              <label htmlFor="password">Hasło</label>
+              <Field type="password" id="password" name="password" />
+              <ErrorMessage
+                name="password"
+                component="div"
+                className={styles.error}
+              />
+            </div>
+
+            <button
+              onClick={() => console.log(values)}
+              type="submit"
+              className={styles.submitButton}
+            >
+              Zarejestruj się
+            </button>
+          </Form>
         )}
-
-        <p>
-          <label className={styles.signin__form__row__label} htmlFor="checkbox">
-            Akceptuję Regulamin oraz Polityką prywatności oraz potwierdzam
-            zapoznanie się z postanowieniami tych dokumentów.
-          </label>
-          <input
-            className={styles.signin__form__label}
-            id="checkbox"
-            type="checkbox"
-            onChange={() => setIsCheckedTOS(isCheckedTOS ? false : true)}
-          />
-        </p>
-      </form>
-      <p>
-        Masz już konto? <Link href="/login">Zaloguj</Link>
-      </p>
-    </section>
+      </Formik>
+    </div>
   );
 };
 

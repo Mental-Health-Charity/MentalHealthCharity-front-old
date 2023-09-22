@@ -9,6 +9,8 @@ import LoadingIcon from '../../../images/static/loading.svg';
 import 'react-toastify/dist/ReactToastify.css';
 import Roles from '@/utils/roles';
 import { useChatContext } from '@/hooks/useChatContext';
+import Contract from './contract/Contract.component';
+import Report from '../report/Report.component';
 
 const ChatWindow = () => {
   const { chatsList, loading, ready, selectedChat } = useChatContext();
@@ -156,8 +158,8 @@ const ChatWindow = () => {
       </ul>
       <div className={styles.chatWindow__chat}>
         <div className={styles.chatWindow__chat__report}>
-          {/* {selectedChat && <Contract chatId={selectedChat.id} />} */}
-          {/* <Report /> */}
+          {selectedChat && <Contract chatId={selectedChat.id} />}
+          <Report />
         </div>
         <div className={styles.chatWindow__chat__heading}>
           <h3 className={styles.chatWindow__chat__name}>

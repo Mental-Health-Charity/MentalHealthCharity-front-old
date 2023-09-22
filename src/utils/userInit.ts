@@ -1,10 +1,8 @@
-import { User } from '@/contexts/authProvider/Auth.provider';
+import { EditUser, User } from '@/contexts/authProvider/Auth.provider';
 import Roles from './roles';
 
-const userInit: User = {
-  email: '',
+const userInit: EditUser = {
   full_name: '',
-  password: '',
   is_active: false,
   user_role: Roles.user,
 };

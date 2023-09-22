@@ -1,95 +1,112 @@
-@use '../../../common/styles/mixins.module' as *;
-@use '../../../common/styles/variables.module' as *;
+@use '../../styles/mixins.module' as *;
+@use '../../styles/variables.module' as *;
 
-.login {
+@mixin hero-wave {
+  display: block;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  content: '';
+  height: 40%;
+  background-image: url('../../../common/images/static/herowave.svg');
+  background-repeat: no-repeat;
+  background-size: cover;
+  z-index: -10;
+  opacity: 0.5;
+}
+
+.container {
   @include flex-center-xy;
-  padding-top: 5em;
-  width: 100%;
-  height: 100svh;
-  min-height: 65em;
   flex-direction: column;
-  color: $navy;
-  background: linear-gradient(
-    rgba(168, 220, 255, 0.384),
-    rgba(137, 196, 235, 0.521)
-  );
+  width: 100vw;
+  min-height: 100vh;
+  padding: 8em 1em 1em 1em;
+  border-radius: 5px;
 
-  @media (max-width: 550px) {
-    font-size: 0.7rem;
-    min-height: 90svh;
-    padding-top: 9em;
+  &::before {
+    @include hero-wave;
+    animation: wave1 14s infinite;
   }
 
-  &__desc {
-    font-size: 2em;
-    color: $navy;
+  &::after {
+    @include hero-wave;
+    animation: wave2 10s infinite;
+    height: 50%;
   }
-  &__form {
-    @include flex-center-xy;
-    position: relative;
-    flex-direction: column;
-    padding: 2em;
-    margin: 1em;
-    border-radius: 1em;
-    background: linear-gradient(#2a7dc0, $navy);
-    max-width: 30em;
 
-    &__errorMess {
-      color: $error;
+  @keyframes wave1 {
+    0%,
+    100% {
+      transform: translateZ(100%);
     }
-
-    &::before {
-      display: block;
-      position: absolute;
-      content: '';
-      height: 100%;
-      width: 100%;
-      background-color: $navy;
-      z-index: -1;
-      rotate: 7deg;
-      opacity: 0.7;
+    50% {
+      transform: scale(150%);
     }
+  }
 
-    &__submit {
-      @include default-button;
-      border: 0.1em solid $black;
-      font-size: 1em;
-      width: 100%;
-      transition: 0.5s;
-      font-weight: 1000;
-      height: 3em;
-
-      &:hover {
-        background-color: $navy;
-        color: $white;
-        border: 2px solid $white;
-      }
+  @keyframes wave2 {
+    0%,
+    100% {
+      transform: translateZ(100%);
     }
-
-    &__row {
-      @include flex-center-xy;
-      flex-direction: column;
-
-      &__input {
-        background-color: transparent;
-        border: none;
-        border-bottom: 2px solid $white;
-        font-size: 2em;
-        color: $white;
-        width: 100%;
-
-        &--incorrect {
-          border: 2px solid red;
-        }
-
-        &:focus {
-          outline: 1px solid $white;
-        }
-
-        &::placeholder {
-          color: $white;
-        }
-      }
+    50% {
+      transform: scale(130%);
     }
+  }
+
+  h1 {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+}
+
+.form {
+  display: flex;
+  max-width: 50em;
+  width: 30%;
+  min-width: 22em;
+  position: relative;
+  flex-direction: column;
+}
+
+.formGroup {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  margin-bottom: 20px;
+
+  label {
+    font-size: 16px;
+    margin-bottom: 5px;
+  }
+
+  input[type='email'],
+  input[type='password'] {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 10em;
+  }
+
+  .error {
+    color: red;
+    font-size: 14px;
+    margin-top: 5px;
+  }
+}
+
+.submitButton {
+  background-color: $yellow;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 15em;
+  font-size: 18px;
+  cursor: pointer;
+  transition: 0.3s;
+  width: 10em;
+
+  &:hover {
+    box-shadow: inset 0.4em 0.4em 0.4em #1b1b1b4b;
   }
 }

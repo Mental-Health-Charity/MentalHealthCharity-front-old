@@ -24,10 +24,9 @@
   }
 
   &__articles {
-    @include flex-center-xy;
     width: 100%;
     height: fit-content;
-    padding: 2em;
+    padding: 1em;
     flex-wrap: wrap;
     gap: 2em;
   }

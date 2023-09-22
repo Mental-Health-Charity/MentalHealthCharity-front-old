@@ -16,19 +16,14 @@ const UsersList = () => {
 
   const { getUsers } = useAdmin();
 
-  useEffect(() => {
-    listUsers();
-    console.log('downloading...');
-    infoPopUp(
-      'Uwaga, ta podstrona jest pod przebudową techniczną i nie działa poprawnie.',
-    );
-  }, []);
-
   const listUsers = async () => {
     const userArray = await getUsers(limit);
     setUsers(userArray);
-    console.log(users);
   };
+
+  useEffect(() => {
+    listUsers();
+  }, []);
 
   return (
     <section className={styles.wrapper}>
@@ -41,18 +36,19 @@ const UsersList = () => {
       </p>
       {users ? <input placeholder="wyszukaj (rola/id/email)" /> : null}
       <ul className={styles.wrapper__list}>
-        {users?.map((user, index) => {
-          return (
-            <RowList
-              key={index}
-              email={user.email}
-              id={user.id}
-              role={user.user_role}
-              name={user.full_name}
-              isActive={user.is_active}
-            />
-          );
-        })}
+        {users &&
+          users.map((user, index) => {
+            return (
+              <RowList
+                key={index}
+                email={user.email}
+                id={user.id}
+                role={user.user_role}
+                name={user.full_name}
+                isActive={user.is_active}
+              />
+            );
+          })}
       </ul>
       <button className={styles.wrapper__submit} onClick={() => listUsers()}>
         Pobierz z bazy
