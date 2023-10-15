@@ -1,0 +1,80 @@
+@use '../../../../styles/variables.module' as *;
+@use '../../../../styles/mixins.module' as *;
+
+.message {
+  display: flex;
+  padding: 0.4em;
+  align-items: flex-end;
+  justify-content: center;
+  list-style: none;
+  width: fit-content;
+  max-width: 80%;
+  position: relative;
+
+  @media (max-width: 550px) {
+    max-width: 12em;
+  }
+
+  &--authorMe {
+    align-self: flex-end;
+  }
+
+  &__author,
+  &__content,
+  &__date {
+    margin: 0;
+    padding: 0;
+  }
+
+  &__main {
+    background: linear-gradient(
+      to right bottom,
+      rgb(245, 248, 255),
+      rgb(240, 244, 253)
+    );
+    border-radius: 1em;
+    padding: 0.2em 1em 0.2em 1em;
+    margin-left: 0.5em;
+    min-width: 20em;
+
+    &__author {
+      font-size: 0.8em;
+      font-weight: 1000;
+      color: $navy;
+      margin-top: 0.1em;
+      margin-bottom: 0;
+    }
+
+    &__content {
+      font-size: 1.1em;
+      margin: 0.2em;
+      word-wrap: break-word;
+    }
+  }
+
+  &__main--authorMe {
+    background-color: $yellow;
+  }
+
+  &__date {
+    position: absolute;
+    right: 0;
+    bottom: -1em;
+    font-size: 0.7em;
+    text-align: end;
+    margin-right: 1em;
+  }
+
+  &__main--authorMe {
+    background: $navy;
+    color: $white;
+    border-radius: 1em;
+    padding: 0.5em 1em 0.5em 1em;
+    margin-left: 0.5em;
+    min-width: 20em;
+
+    & img {
+      display: none;
+    }
+  }
+}

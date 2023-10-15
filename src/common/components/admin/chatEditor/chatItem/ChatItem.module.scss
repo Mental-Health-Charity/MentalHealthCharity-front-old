@@ -1,0 +1,86 @@
+@use '../../../../styles/mixins.module' as *;
+@use '../../../../styles/variables.module' as *;
+
+.chatItem {
+  position: relative;
+  padding: 0.7em;
+  background: linear-gradient(to right bottom, $lightNavy, #6100bb);
+  border-radius: 1em;
+  box-shadow: 0.1em 0.1em 0.5em #1b1b1b4b;
+  color: $white;
+  font-size: 1.1em;
+
+  &::before {
+    position: absolute;
+    top: 1em;
+    box-shadow: 0em 0em 1em rgb(5, 250, 5);
+    left: 1em;
+    width: 1em;
+    height: 1em;
+    border-radius: 50%;
+    background-color: rgb(5, 250, 5);
+    content: '';
+  }
+
+  &__name {
+    font-weight: 1000;
+    text-align: center;
+    margin: 0.3em;
+  }
+
+  &__date {
+    font-size: 0.8em;
+  }
+
+  &__active {
+    @include flex-center-x;
+    justify-content: space-between;
+
+    &__button {
+      @include default-button;
+      padding: 0;
+      background: none;
+      border: none;
+
+      &:active {
+        background-color: $error;
+        color: $white;
+      }
+    }
+  }
+
+  &__participants {
+    padding-top: 0.2em;
+
+    &__list {
+      @include listScrollBar;
+      padding: 0.2em;
+      max-height: 8em;
+      max-width: 35em;
+      overflow: auto;
+
+      &__participant {
+        @include flex-center-xy;
+        margin: 0.6em 0em 0.6em 0em;
+        justify-content: space-between;
+        list-style: none;
+
+        &__remove {
+          @include default-button;
+          padding: 0.1em;
+          background-color: $error;
+          color: $white;
+          border-radius: 0;
+          font-size: 0.7em;
+          border: 0.175em solid $error;
+          margin-left: 2em;
+
+          &:active {
+            background-color: $error;
+            color: $white;
+          }
+        }
+      }
+    }
+  }
+}

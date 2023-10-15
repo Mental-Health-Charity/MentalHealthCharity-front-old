@@ -1,0 +1,57 @@
+@mixin flex-center-xy {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin flex-center-x {
+  display: flex;
+  align-items: center;
+}
+
+@mixin flex-center-y {
+  display: flex;
+  justify-content: center;
+}
+
+@mixin default-input {
+  border-radius: 0.5em;
+  font-size: 1.2em;
+  padding: 0.3em;
+  background-color: #6b8ba59b;
+  border: 0.2em solid #6fa5d1;
+  color: #fff;
+
+  &::placeholder {
+    color: #fff;
+  }
+}
+
+@mixin default-button {
+  width: auto;
+  height: auto;
+  padding: 0.5em 2em 0.5em 2em;
+  font-size: 0.9em;
+  border-radius: 3em;
+  transition: 0.2s;
+  cursor: pointer;
+}
+
+@mixin listScrollBar {
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background-color: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: #6fa5d1;
+    border-radius: 10px;
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    background-color: #5082a1;
+  }
+}

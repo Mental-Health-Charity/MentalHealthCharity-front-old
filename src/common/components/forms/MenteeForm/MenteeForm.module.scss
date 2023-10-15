@@ -1,0 +1,80 @@
+@use '../../../styles/variables.module' as *;
+
+.form {
+  display: flex;
+  flex-direction: column;
+  max-width: 700px;
+  margin: 0 auto;
+  font-family: Arial, sans-serif;
+}
+
+.field {
+  margin-bottom: 1.5em;
+
+  label {
+    font-weight: bold;
+  }
+
+  input[type='number'],
+  input[type='text'],
+  textarea,
+  select {
+    width: 100%;
+    padding: 0.5em;
+    font-size: 1em;
+    border: 1px solid #ccc;
+    border-radius: 0.3em;
+    transition: border-color 0.2s ease-in-out;
+  }
+
+  input[type='number']:focus,
+  input[type='text']:focus,
+  textarea:focus,
+  select:focus {
+    border-color: #0074d9;
+    outline: none;
+  }
+
+  .error {
+    color: #ff4136;
+    font-size: 0.9em;
+    margin-top: 0.5em;
+  }
+
+  /* Nowe style dla select */
+  select {
+    background-color: #f4f4f4;
+  }
+
+  /* Nowe style dla przycisku Dodaj i Usuń */
+  button[type='button'] {
+    background-color: $navy;
+    color: white;
+    border: none;
+    border-radius: 0.3em;
+    padding: 0.3em 0.5em;
+    font-size: 0.9em;
+    margin-top: 0.5em;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+
+    &:hover {
+      background-color: #d22d17;
+    }
+  }
+}
+
+.submitButton {
+  background-color: #0074d9;
+  color: white;
+  border: none;
+  border-radius: 0.3em;
+  padding: 0.5em 1em;
+  font-size: 1em;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+
+  &:hover {
+    background-color: #0056b3;
+  }
+}

@@ -1,0 +1,31 @@
+.wrapper {
+  padding: 7em 2em 2em 2em;
+  min-height: 100vh;
+
+  &__heading {
+    text-align: center;
+  }
+
+  &__filter {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1em; /* 1em = 16px */
+
+    &__heading {
+      font-size: 1.2em; /* 1.2em = 19.2px */
+      margin: 0 1em 0 3em; /* 1em = 16px */
+    }
+
+    &__select {
+      font-size: 1em;
+      padding: 0.5em 1em; /* 0.5em = 8px, 1em = 16px */
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      background-color: #fff;
+
+      &__option {
+        font-size: 1em;
+      }
+    }
+  }
+}

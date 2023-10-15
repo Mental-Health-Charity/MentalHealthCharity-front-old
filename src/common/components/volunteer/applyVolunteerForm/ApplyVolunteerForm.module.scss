@@ -1,0 +1,39 @@
+@use '../../../styles/variables.module' as *;
+@use '../../../styles/mixins.module' as *;
+
+.formWrapper {
+  @include flex-center-xy;
+  flex-direction: column;
+  width: 100%;
+  min-height: 100vh;
+  padding: 8em 2em 8em 2em;
+
+  &__heading {
+    font-size: 2em;
+    margin-bottom: 1em;
+  }
+
+  &__desc {
+    margin-bottom: 1em;
+  }
+
+  &__form {
+    display: flex;
+    flex-direction: column;
+
+    &__label {
+      font-size: 0.9em;
+      margin-bottom: 0.5em;
+    }
+
+    &__input,
+    &__textarea {
+      padding: 0.5em;
+      margin-bottom: 1em;
+    }
+
+    &__submit {
+      padding: 0.5em 1em;
+    }
+  }
+}

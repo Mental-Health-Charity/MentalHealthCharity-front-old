@@ -1,0 +1,16 @@
+export const helpType = [
+  { value: '0', label: 'Zaburzenia osobowości' },
+  { value: '1', label: 'Borderline' },
+  { value: '2', label: 'Przemoc' },
+  { value: '3', label: 'Uzależnienia' },
+  { value: '4', label: 'Traumatyczne wydarzenia' },
+  { value: '5', label: 'Depresja' },
+  { value: '6', label: 'Nerwica i/lub zaburzenia lękowe' },
+  { value: '7', label: 'Niska samoocena' },
+  { value: '8', label: 'Kryzys zawodowy' },
+  { value: '9', label: 'Kryzys relacyjny' },
+  { value: '10', label: 'Zaburzenia odżywiania' },
+  { value: '11', label: 'Brak poczucia sensu' },
+  { value: '12', label: 'Coaching, motywacja, samorozwój' },
+  { value: '13', label: 'Inne - …' },
+];

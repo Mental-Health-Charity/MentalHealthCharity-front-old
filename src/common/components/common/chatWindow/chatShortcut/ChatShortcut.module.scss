@@ -1,0 +1,50 @@
+@use '../../../../styles/mixins.module' as *;
+@use '../../../../styles/variables.module' as *;
+
+.chatShortcut {
+  @include flex-center-xy;
+  background-color: $white;
+  flex-direction: column;
+  padding: 1em 1em 1em 1em;
+
+  box-shadow: 0.2em 0.2em 0.2em #1b1b1b1b;
+  transition: 0.2s;
+  cursor: pointer;
+  border: 0;
+
+  &:hover {
+    scale: 1.05;
+  }
+
+  &:active {
+    background-color: rgb(240, 244, 253);
+  }
+
+  &__heading {
+    display: flex;
+    width: 100%;
+    gap: 1em;
+
+    &__chatIcon {
+      justify-self: self-start;
+    }
+
+    &__chatName {
+      color: $navy;
+      margin: 0;
+      text-align: start;
+    }
+  }
+
+  &__chatParticipants {
+    display: flex;
+
+    width: 12em;
+    margin-right: 0.1em;
+    opacity: 0.8;
+    list-style: none;
+    flex-wrap: wrap;
+    gap: 0.3em;
+    padding: 0;
+  }
+}

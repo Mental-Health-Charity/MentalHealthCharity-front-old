@@ -1,0 +1,20 @@
+@use '../../../styles/variables.module' as *;
+@use '../../../styles/mixins.module' as *;
+
+.wrapper {
+  @include flex-center-xy;
+  flex-direction: column;
+  padding-top: 8em;
+  width: 100%;
+  min-height: 100svh;
+  background-color: $navy;
+  color: $white;
+
+  &__advices {
+    max-width: 50em;
+    &__link {
+      color: $lightNavy;
+      margin-left: 0.3em;
+    }
+  }
+}

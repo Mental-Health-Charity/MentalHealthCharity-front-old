@@ -1,0 +1,10 @@
+@use '../../../styles/variables.module' as *;
+@use '../../../styles/mixins.module' as *;
+
+.volunteerChats {
+  @include flex-center-xy;
+  flex-direction: column;
+  padding: 11em 1em 2em 1em;
+  width: 100%;
+  min-height: 100svh;
+}

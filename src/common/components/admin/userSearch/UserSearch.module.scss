@@ -1,0 +1,48 @@
+@use '../../../styles/mixins.module' as *;
+@use '../../../styles/variables.module' as *;
+
+.usersearch {
+  @include flex-center-xy;
+  flex-direction: column;
+  background-color: $navy;
+  min-height: 100svh;
+  color: $white;
+
+  &__return {
+    color: $white;
+  }
+
+  &__heading {
+    font-size: 2em;
+  }
+
+  &__wrapper {
+    @include flex-center-x;
+    flex-direction: row;
+    justify-content: space-around;
+    padding: 3em;
+    width: 100%;
+    box-shadow: 0em 0em 0.9em $lightNavy;
+
+    &__controls {
+      &__desc {
+        font-size: 1.2em;
+        text-align: center;
+      }
+
+      &__input {
+        @include default-input;
+      }
+
+      &__search {
+        @include default-button;
+        height: 3.2em;
+        background-color: $lightNavy;
+        color: $white;
+        border: 1px solid $navy;
+        border-radius: 0.5em;
+        margin: 1em;
+      }
+    }
+  }
+}

@@ -1,0 +1,49 @@
+@use '../../../styles/mixins.module' as *;
+@use '../../../styles/variables.module' as *;
+
+.dashboard {
+  @include flex-center-xy;
+  flex-direction: column;
+  padding: 7em 1em 1em 1em;
+  background-color: $navy;
+  min-height: 100svh;
+  width: 100%;
+
+  &__heading {
+    color: $white;
+    letter-spacing: 0.2em;
+    font-size: 2em;
+    margin-bottom: 0;
+  }
+
+  &__serverStatus {
+    color: $white;
+    letter-spacing: 0.2em;
+    font-size: 1em;
+    margin-bottom: 3em;
+  }
+
+  &__container {
+    @include flex-center-xy;
+    flex-wrap: wrap;
+    gap: 2em;
+
+    &__button {
+      padding: 2em;
+      font-size: 1.4em;
+      border: 0.5em solid #09375c9b;
+      border-radius: 1em;
+      background-color: $white;
+      text-decoration: none;
+      color: $navy;
+      font-weight: 1000;
+      transition: 0.3s;
+
+      &:hover {
+        background-color: $navy;
+        color: $white;
+        border: 0.5em solid #6b8ba59b;
+      }
+    }
+  }
+}

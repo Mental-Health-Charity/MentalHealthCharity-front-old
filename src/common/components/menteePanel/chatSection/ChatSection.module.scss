@@ -1,0 +1,6 @@
+@use '../../../styles/mixins.module' as *;
+
+.chatSection {
+  @include flex-center-xy;
+  width: 100vw;
+}

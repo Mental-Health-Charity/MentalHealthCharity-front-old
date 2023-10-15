@@ -1,0 +1,61 @@
+@use '../../../common/styles/mixins.module' as *;
+@use '../../../common/styles/variables.module' as *;
+
+.infoGrid {
+  @include flex-center-xy;
+  position: relative; //for Floating components
+  padding: 2em;
+  margin: 11em 0 11em 0;
+  flex-direction: column;
+
+  &__heading {
+    font-size: 2em;
+    margin-bottom: 2em;
+  }
+
+  &__blocksWrapper {
+    display: grid;
+    align-items: center;
+    justify-content: space-around;
+    width: 100%;
+    height: fit-content;
+    grid-template-columns: repeat(auto-fit, 17em);
+    grid-template-rows: repeat(auto-fit, 22em);
+    gap: 3em;
+
+    &__block {
+      @include flex-center-xy;
+      flex-direction: column;
+      height: auto;
+      width: 100%;
+      background-color: $yellow;
+      border-radius: 15%;
+      padding: 2em;
+      position: relative;
+
+      &__image {
+        height: auto;
+        width: 10em;
+      }
+
+      &::before {
+        display: block;
+        position: absolute;
+        content: '';
+        min-height: 100%;
+        min-width: 100%;
+        background-color: $yellow;
+        opacity: 0.4;
+        border-radius: 15%;
+        transform: rotate(10deg);
+        bottom: 0px;
+        z-index: -1;
+        transition: 0.3s;
+      }
+
+      &:hover::before {
+        transform: rotate(20deg);
+      }
+    }
+  }
+}

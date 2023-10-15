@@ -1,0 +1,68 @@
+@use '../../../../common/styles/mixins.module' as *;
+@use '../../../../common/styles/variables.module' as *;
+
+$width: 90%;
+$max-width: 140em;
+
+.about {
+  @include flex-center-xy;
+  position: relative; //for Floating component
+  width: 100%;
+  height: auto;
+  padding: 1em;
+  margin-bottom: 4em;
+
+  &__article {
+    position: relative;
+    padding: 2em;
+    background-color: $navy;
+    width: $width;
+    max-width: 140em;
+    border-radius: 2em;
+    color: $white;
+    font-size: 1.2em;
+    text-align: center;
+  }
+
+  &__article__heading {
+    font-size: 2em;
+  }
+
+  &__article::before {
+    display: block;
+    top: 0;
+    left: 0;
+    content: '';
+    position: absolute;
+    width: 101%;
+    height: 105%;
+    background-color: $navy;
+    opacity: 0.3;
+    z-index: -1;
+    border-radius: 2em;
+    transform: rotateZ(2deg);
+    transition: 0.5s;
+  }
+
+  &__article:hover::before {
+    transform: rotateZ(-2deg);
+    height: 107%;
+  }
+
+  @media (max-width: 690px) {
+    padding: 0;
+    font-size: 0.8em;
+
+    &__article {
+      width: 100%;
+      border-radius: 0;
+      box-shadow: 0 0 40px $navy;
+      text-align: justify;
+      padding: 2em;
+    }
+
+    &__article::before {
+      display: none;
+    }
+  }
+}
