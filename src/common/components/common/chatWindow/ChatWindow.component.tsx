@@ -15,8 +15,15 @@ import { BASE_URL } from '@/config';
 import { getChats, getMessages } from './lib/api';
 import sendIcon from '../../../images/static/sendicon.png';
 const ChatWindow = () => {
-  const { chatsList, loading, ready, selectedChat, sendMessage, ws } =
-    useChatContext();
+  const {
+    chatsList,
+    loading,
+    ready,
+    selectedChat,
+    sendMessage,
+    ws,
+    wsMessages,
+  } = useChatContext();
   const { user } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
@@ -61,25 +68,6 @@ const ChatWindow = () => {
   };
 
   useEffect(() => {
-    if (ws) {
-      ws.onmessage = (event) => {
-        const newMessage = event.data;
-        setMessages((prevMessages) => [...prevMessages, newMessage]);
-        console.log(messages);
-        console.log('OK');
-      };
-
-      ws.onclose = () => {
-        console.log('WebSocket connection closed');
-      };
-
-      return () => {
-        ws.close();
-      };
-    }
-  }, [ws]); // Tutaj tylko ws, nie setMessages
-
-  useEffect(() => {
     searchChats();
   }, []);
 
@@ -95,6 +83,12 @@ const ChatWindow = () => {
       }
     }
   };
+
+  useEffect(() => {
+    if (wsMessages) {
+      setMessages((prevMessages) => [...prevMessages, ...wsMessages].reverse());
+    }
+  }, [wsMessages]);
 
   useEffect(() => {
     setMessages([]);
@@ -113,6 +107,7 @@ const ChatWindow = () => {
           />
         ))}
       </ul>
+
       <div className={styles.chatWindow__chat}>
         <div className={styles.chatWindow__chat__report}>
           {/* {selectedChat && <Contract chatId={selectedChat.id} />} */}
@@ -157,11 +152,11 @@ const ChatWindow = () => {
           {messages.map((message, index) => {
             return (
               <ChatMessage
-                key={message.id} // Unikalny klucz, na przykład message.id
+                key={index}
                 senderIsAuthor={
-                  message.sender &&
-                  message.sender.id !== undefined &&
-                  message.sender.id === user?.id
+                  message.sender && message.sender.id === user?.id
+                    ? true
+                    : message.sender_id === user?.id
                 }
                 author={message.sender ? message.sender.full_name : ''}
                 content={message.content}

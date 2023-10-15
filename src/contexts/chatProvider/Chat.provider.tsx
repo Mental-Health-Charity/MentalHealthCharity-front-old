@@ -1,5 +1,5 @@
 import { BASE_URL } from '@/config';
-import { Chat, ChatData, Messages } from '@/utils/chatTypes';
+import { Chat, ChatData, Message, Messages } from '@/utils/chatTypes';
 import { getCookies, getCookiesAuth } from '@/utils/cookies';
 import React, {
   Dispatch,
@@ -37,6 +37,7 @@ type ChatContextType = {
   chatsList: Chat[];
   ws: WebSocket | undefined;
   unreadedMessages: number;
+  wsMessages: Message[];
 };
 
 export const ChatContext = React.createContext<ChatContextType>({
@@ -55,6 +56,7 @@ export const ChatContext = React.createContext<ChatContextType>({
   chatsList: [],
   ws: undefined,
   unreadedMessages: 0,
+  wsMessages: [],
 });
 
 const specificStatusCodeMappings = {
@@ -87,6 +89,7 @@ export const ChatProvider: React.FC<{ children: React.ReactNode }> = ({
   const [ws, initWS] = useState<WebSocket>();
   const [unreadedMessagesWS, initUnreadedMessagesWS] = useState<WebSocket>();
   const [unreadedMessages, setUnreadedMessages] = useState(0);
+  const [wsMessages, setWsMessages] = useState<Message[]>([]);
 
   const wsConnectToChat = useCallback(async () => {
     const data = await getCookies('jwtToken');
@@ -152,7 +155,7 @@ export const ChatProvider: React.FC<{ children: React.ReactNode }> = ({
 
       ws.onmessage = (e) => {
         var server_message = e.data;
-
+        console.log('MESSAGE', server_message);
         return false;
       };
     }
@@ -177,7 +180,9 @@ export const ChatProvider: React.FC<{ children: React.ReactNode }> = ({
 
       ws.onmessage = (e) => {
         var server_message = e.data;
-
+        const newMessage = JSON.parse(server_message);
+        setWsMessages((prevMessages) => [...prevMessages, newMessage]);
+        console.log('MESSAGE2', server_message);
         return false;
       };
     }
@@ -194,6 +199,7 @@ export const ChatProvider: React.FC<{ children: React.ReactNode }> = ({
           setSelectedChat,
           sendMessage,
           selectedChat,
+          wsMessages,
         } as unknown as ChatContextType
       }
     >
