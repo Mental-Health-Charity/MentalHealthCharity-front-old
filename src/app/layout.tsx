@@ -21,6 +21,17 @@ export default async function RootLayout({
           {children}
           <Footer />
           <ModalPortal />
+          <p
+            style={{
+              position: 'fixed',
+              right: '1em',
+              bottom: '1em',
+              fontWeight: '1000',
+              opacity: '.5',
+            }}
+          >
+            ver. 0.1 (dev)
+          </p>
         </AuthProvider>
       </body>
     </html>

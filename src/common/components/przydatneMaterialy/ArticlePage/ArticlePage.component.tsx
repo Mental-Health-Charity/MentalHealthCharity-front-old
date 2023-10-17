@@ -9,6 +9,8 @@ import dynamic from 'next/dynamic';
 import { useAuth } from '@/contexts/authProvider/Auth.provider';
 import Roles from '@/utils/roles';
 import Link from 'next/link';
+import ReactPlayer from 'react-player';
+import ArticlePlaceholderImg from '../../../images/static/ArticlePlaceholder.jpg';
 
 const MDEditor = dynamic(() => import('@uiw/react-md-editor'), {
   ssr: false,
@@ -49,11 +51,16 @@ const ArticlePage = ({ id }: ArticlePageProps) => {
           width={300}
           height={300}
           alt="Baner artykułu"
-          src={article ? article.banner_url : ''}
+          src={
+            article?.banner_url.includes('imgur')
+              ? article.banner_url
+              : ArticlePlaceholderImg
+          }
         />
       </div>
 
       <h1 className={styles.wrapper__title}>{article?.title}</h1>
+      {article?.video_url && <ReactPlayer controls url={article?.video_url} />}
       <p className={styles.wrapper__content}>
         <Markdown source={article?.content} />
       </p>

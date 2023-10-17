@@ -38,6 +38,7 @@ type ChatContextType = {
   ws: WebSocket | undefined;
   unreadedMessages: number;
   wsMessages: Message[];
+  setWsMessages: React.Dispatch<React.SetStateAction<Message[]>>;
 };
 
 export const ChatContext = React.createContext<ChatContextType>({
@@ -57,6 +58,7 @@ export const ChatContext = React.createContext<ChatContextType>({
   ws: undefined,
   unreadedMessages: 0,
   wsMessages: [],
+  setWsMessages: () => {},
 });
 
 const specificStatusCodeMappings = {
@@ -181,7 +183,7 @@ export const ChatProvider: React.FC<{ children: React.ReactNode }> = ({
       ws.onmessage = (e) => {
         var server_message = e.data;
         const newMessage = JSON.parse(server_message);
-        setWsMessages((prevMessages) => [...prevMessages, newMessage]);
+        setWsMessages((prevMessages) => [newMessage, ...prevMessages]);
         console.log('MESSAGE2', server_message);
         return false;
       };
@@ -200,6 +202,7 @@ export const ChatProvider: React.FC<{ children: React.ReactNode }> = ({
           sendMessage,
           selectedChat,
           wsMessages,
+          setWsMessages,
         } as unknown as ChatContextType
       }
     >

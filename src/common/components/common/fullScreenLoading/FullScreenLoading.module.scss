@@ -1,0 +1,7 @@
+@use '../../../styles/mixins.module' as *;
+
+.loading {
+  @include flex-center-xy;
+  width: 100vw;
+  min-height: 100vh;
+}

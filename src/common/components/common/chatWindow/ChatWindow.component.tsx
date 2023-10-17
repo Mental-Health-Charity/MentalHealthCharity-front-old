@@ -1,3 +1,4 @@
+'use client';
 import styles from './ChatWindow.module.scss';
 import ChatMessage from './chatMessage/ChatMessage.component';
 import ChatShortcut from './chatShortcut/ChatShortcut.component';
@@ -23,6 +24,7 @@ const ChatWindow = () => {
     sendMessage,
     ws,
     wsMessages,
+    setWsMessages,
   } = useChatContext();
   const { user } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
@@ -75,8 +77,8 @@ const ChatWindow = () => {
     if (selectedChat) {
       console.log('GETMESSAGES');
       try {
-        const data = getMessages(1, 8, selectedChat?.id);
-        setMessages((await data).items);
+        const data = getMessages(1, 30, selectedChat?.id);
+        setWsMessages((await data).items);
         console.log(messages);
       } catch (error) {
         console.error(error);
@@ -84,14 +86,16 @@ const ChatWindow = () => {
     }
   };
 
-  useEffect(() => {
-    if (wsMessages) {
-      setMessages((prevMessages) => [...prevMessages, ...wsMessages].reverse());
-    }
-  }, [wsMessages]);
+  // useEffect(() => {
+  //   if (wsMessages) {
+  //     setWsMessages((prevMessages) =>
+  //       [...prevMessages, ...wsMessages].reverse(),
+  //     );
+  //   }
+  // }, [wsMessages]);
 
   useEffect(() => {
-    setMessages([]);
+    setWsMessages([]);
     getChatMessages();
   }, [selectedChat]);
 
@@ -148,8 +152,9 @@ const ChatWindow = () => {
               : 'Wybierz czat, aby rozpocząć rozmowę'}
           </ul>
         </div>
+
         <ul className={styles.chatWindow__chat__messages}>
-          {messages.map((message, index) => {
+          {wsMessages.map((message, index) => {
             return (
               <ChatMessage
                 key={index}
@@ -165,28 +170,41 @@ const ChatWindow = () => {
             );
           })}
         </ul>
-        <form
-          onSubmit={(e) => {
-            e.preventDefault();
-            selectedChat &&
-              newMessage &&
-              sendMessage(selectedChat?.id, newMessage);
-          }}
-          className={styles.chatWindow__chat__chatForm}
-        >
-          <textarea
-            onChange={(e) => setNewMessage(e.target.value)}
-            className={styles.chatWindow__chat__chatForm__input}
-            placeholder="wiadomość..."
-          />
-          <button
-            className={styles.chatWindow__chat__chatForm__send}
-            type="submit"
-            value=">"
+
+        {user &&
+        selectedChat?.participants?.some(
+          (participant) => participant.id === user.id,
+        ) ? (
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              selectedChat &&
+                newMessage &&
+                sendMessage(selectedChat?.id, newMessage);
+              setNewMessage('');
+            }}
+            className={styles.chatWindow__chat__chatForm}
           >
-            <Image alt="send icon" src={sendIcon} height={36} width={36} />
-          </button>
-        </form>
+            <textarea
+              onChange={(e) => setNewMessage(e.target.value)}
+              className={styles.chatWindow__chat__chatForm__input}
+              placeholder="wiadomość..."
+              value={newMessage || ''}
+            />
+            <button
+              className={styles.chatWindow__chat__chatForm__send}
+              type="submit"
+              value=">"
+            >
+              <Image alt="send icon" src={sendIcon} height={36} width={36} />
+            </button>
+          </form>
+        ) : (
+          <p>
+            Nie możesz wysyłać wiadomosci na tym chacie, nie jesteś członkiem
+            tego czatu.
+          </p>
+        )}
       </div>
     </div>
   );
