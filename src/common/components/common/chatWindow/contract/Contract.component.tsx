@@ -2,7 +2,7 @@ import { Formik, Form, Field, ErrorMessage } from 'formik';
 import styles from './Contract.module.scss';
 import * as Yup from 'yup';
 import { useState } from 'react';
-import { useChat } from '@/contexts/chatProvider/Chat.provider';
+// import { useChat } from '@/contexts/chatProvider/Chat.provider';
 import { failurePopUp, successPopUp } from '@/utils/defaultNotifications';
 
 interface ContractProps {
@@ -12,11 +12,11 @@ interface ContractProps {
 const Contract = ({ chatId }: ContractProps) => {
   const [isModalVisible, setModalVisible] = useState(false);
 
-  const { editContract } = useChat();
+  // const { editContract } = useChat();
 
   const saveContract = async (value: string) => {
     try {
-      editContract(chatId, value);
+      // editContract(chatId, value);
       successPopUp('Zapisano kontrakt');
     } catch (error) {
       console.error(error), failurePopUp('Błąd podczas zapisywania kontraktu!');
