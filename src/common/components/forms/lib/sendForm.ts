@@ -1,7 +1,7 @@
 import { getCookiesAuth } from '@/utils/cookies';
 import { ApiForm, MenteeFormArgs } from '@/utils/types';
 
-export const sendForm = async (form: ApiForm<MenteeFormArgs>) => {
+export const sendForm = async (form: ApiForm<any | MenteeFormArgs>) => {
   const headers = await getCookiesAuth();
 
   await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/form/`, {

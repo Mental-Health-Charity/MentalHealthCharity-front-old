@@ -1,104 +1,163 @@
-import { failurePopUp } from '@/utils/defaultNotifications';
+// components/MyForm.tsx
+
+import React from 'react';
+import { Formik, Field, Form, ErrorMessage, FieldArray } from 'formik';
+import * as Yup from 'yup';
 import styles from './ApplyVolunteerForm.module.scss';
-import { FormEvent, useState } from 'react';
+import { sendForm } from '../../forms/lib/sendForm';
+import { failurePopUp, successPopUp } from '@/utils/defaultNotifications';
+import { useRouter } from 'next/dist/client/components/navigation';
 
-const ApplyVolunteerForm = () => {
-  // ATTENTION !!!
-  // All the code below is implemented only to present the concept
-  //of how the site works, the forms will be written from scratch.
-  const [email, setEmail] = useState<string>();
-  const [name, setName] = useState<string>();
-  const [gender, setGender] = useState<string>();
-  const [message, setMessage] = useState<string>();
+const initialValues = {
+  form_type_id: 2,
+  fields: {
+    age: 19,
+    contacts: [{ name: 'Telefoniczną', value: 0 }],
+    description: '',
+    did_help: 'Tak, udzielałem/am profesjonalnie',
+    education: 'student/absolwent psychologii',
+    phone: '132223',
+    reason: 'Powód dołączenia',
+    source: 'Facebook',
+    themes: [
+      { name: 'Borderline', value: '1' },
+      { name: 'Uzależnienia', value: '3' },
+    ],
+  },
+};
 
-  const handleForm = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    failurePopUp(
-      'Brak podłączonej obsługi formularzy! Formularze kontaktowe aktualnie są makietą. Prawdziwe formularze zostaną wprowadzone, po wprowadzeniu usługi od strony BACKEND (system)',
-    );
+const validationSchema = Yup.object().shape({
+  fields: Yup.object().shape({
+    age: Yup.number().required('Pole wymagane'),
+    description: Yup.string(),
+    phone: Yup.string().required('Pole wymagane'),
+    reason: Yup.string().required('Pole wymagane'),
+    source: Yup.string().required('Pole wymagane'),
+    did_help: Yup.string().required('Pole wymagane'),
+    education: Yup.string(),
+  }),
+});
+
+const MyForm: React.FC = () => {
+  const { push } = useRouter();
+
+  const handleSubmit = async (values: typeof initialValues) => {
+    try {
+      await sendForm(values);
+      successPopUp('Wysłano pomyślnie formularz');
+      push('/');
+    } catch (error) {
+      console.error(error);
+      failurePopUp('Wystąpił błąd podczas wysyłania formularza.');
+    }
   };
-
   return (
-    <section className={styles.formWrapper}>
-      <h2 className={styles.formWrapper__heading}>
-        Formularz podaniowy na stanowisko wolontariusza
-      </h2>
-      <p className={styles.formWrapper__desc}>
-        Dziękujemy za chęci niesienia pomocy innym, wypełnij proszę poniższy
-        formularz, aby dział rekrutacji mógł się z Tobą skontaktować
-      </p>
-      <form
-        onSubmit={(e) => handleForm(e)}
-        className={styles.formWrapper__form}
-      >
-        <label className={styles.formWrapper__form__label} htmlFor="name">
-          Imię
-        </label>
-        <input
-          className={styles.formWrapper__form__input}
-          type="text"
-          id="name"
-          name="name"
-        />
+    <Formik
+      initialValues={initialValues}
+      validationSchema={validationSchema}
+      onSubmit={handleSubmit}
+    >
+      {({ values }) => (
+        <Form className={styles.myForm}>
+          <div className={styles.formGroup}>
+            <label htmlFor="age">Wiek:</label>
+            <Field type="number" id="age" name="fields.age" />
+            <ErrorMessage
+              name="fields.age"
+              component="div"
+              className={styles.error}
+            />
+          </div>
+          <div className={styles.formGroup}>
+            <label htmlFor="education">Wykształcenie:</label>
+            <Field type="text" id="education" name="fields.education" />
+          </div>
+          <div className={styles.formGroup}>
+            <label htmlFor="phone">Telefon:</label>
+            <Field type="text" id="phone" name="fields.phone" />
+            <ErrorMessage
+              name="fields.phone"
+              component="div"
+              className={styles.error}
+            />
+          </div>
+          <div className={styles.formGroup}>
+            <label htmlFor="reason">Powód dołączenia:</label>
+            <Field as="textarea" id="reason" name="fields.reason" />
+            <ErrorMessage
+              name="fields.reason"
+              component="div"
+              className={styles.error}
+            />
+          </div>
+          <div className={styles.formGroup}>
+            <label htmlFor="source">Źródło:</label>
+            <Field as="select" id="source" name="fields.source">
+              <option value="Facebook">Facebook</option>
+              <option value="Inny">Inny</option>
+            </Field>
+            <ErrorMessage
+              name="fields.source"
+              component="div"
+              className={styles.error}
+            />
+          </div>
+          <div className={styles.formGroup}>
+            <label htmlFor="did_help">Czy wcześniej pomagałeś:</label>
+            <Field as="select" id="did_help" name="fields.did_help">
+              <option value="Tak, udzielałem/am profesjonalnie">
+                Tak, udzielałem/am profesjonalnie
+              </option>
+              <option value="Tak, udzielałem/am nieprofesjonalnie">
+                Tak, udzielałem/am nieprofesjonalnie
+              </option>
+              <option value="Nie udzielałem/am">Nie udzielałem/am</option>
+            </Field>
+            <ErrorMessage
+              name="fields.did_help"
+              component="div"
+              className={styles.error}
+            />
+          </div>
+          <div className={styles.formGroup}>
+            <label htmlFor="themes">
+              Z jakimi problemami nie chcesz się zmagać:
+            </label>
+            <FieldArray name="fields.themes">
+              {({ push, remove }) => (
+                <>
+                  {values.fields.themes.map((theme, index) => (
+                    <div key={index} className={styles.themeGroup}>
+                      <Field
+                        type="text"
+                        name={`fields.themes[${index}].name`}
+                        placeholder="Nazwa problemu"
+                      />
 
-        <label className={styles.formWrapper__form__label} htmlFor="surname">
-          Nazwisko
-        </label>
-        <input
-          className={styles.formWrapper__form__input}
-          type="text"
-          id="surname"
-          name="surname"
-        />
-
-        <label className={styles.formWrapper__form__label} htmlFor="email">
-          Adres email (kontaktowy)
-        </label>
-        <input
-          className={styles.formWrapper__form__input}
-          type="email"
-          id="email"
-          name="email"
-        />
-
-        <label className={styles.formWrapper__form__label} htmlFor="about">
-          Pytanie 2. Lorem ipsum...
-        </label>
-        <textarea
-          className={styles.formWrapper__form__input}
-          id="about"
-          name="about"
-          placeholder="Wiadomość..."
-        />
-
-        <label className={styles.formWrapper__form__label} htmlFor="about">
-          Pytanie 2. Lorem ipsum...
-        </label>
-        <textarea
-          className={styles.formWrapper__form__input}
-          id="about"
-          name="about"
-          placeholder="Wiadomość..."
-        />
-
-        <label className={styles.formWrapper__form__label} htmlFor="about">
-          Pytanie 3. Lorem ipsum...
-        </label>
-        <textarea
-          className={styles.formWrapper__form__input}
-          id="about"
-          name="about"
-          placeholder="Wiadomość..."
-        />
-
-        <input
-          className={styles.formWrapper__form__submit}
-          type="submit"
-          value={'Wyślij'}
-        />
-      </form>
-    </section>
+                      {index > 0 && (
+                        <button type="button" onClick={() => remove(index)}>
+                          Usuń
+                        </button>
+                      )}
+                    </div>
+                  ))}
+                  <button
+                    type="button"
+                    onClick={() => push({ name: '', value: '' })}
+                  >
+                    Dodaj problem
+                  </button>
+                </>
+              )}
+            </FieldArray>
+          </div>
+          <button onClick={() => console.log(values)} type="submit">
+            Wyślij
+          </button>
+        </Form>
+      )}
+    </Formik>
   );
 };
 
-export default ApplyVolunteerForm;
+export default MyForm;

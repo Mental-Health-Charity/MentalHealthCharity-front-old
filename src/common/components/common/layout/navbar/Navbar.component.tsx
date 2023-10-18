@@ -12,6 +12,7 @@ import clsx from 'clsx';
 import { useAuth } from '@/contexts/authProvider/Auth.provider';
 import Link from 'next/link';
 import roles from '@/utils/roles';
+import Roles from '@/utils/roles';
 
 const Navbar = () => {
   const [isMobileVisible, setIsMobileVisible] = useState(true);
@@ -39,6 +40,9 @@ const Navbar = () => {
         {menuRoutes.map((item, idx) => (
           <NavLink name={item.name} key={idx} href={item.href} />
         ))}
+        {user && user.user_role !== Roles.user && (
+          <NavLink name="Profil" href={`/profil/${user.id}`} />
+        )}
       </ul>
       <div className={styles.navbar__authWrapper}>
         {user ? (

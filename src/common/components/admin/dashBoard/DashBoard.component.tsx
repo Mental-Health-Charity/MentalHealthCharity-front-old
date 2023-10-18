@@ -50,9 +50,15 @@ const DashBoard = () => {
         </Link>
         <Link
           className={styles.dashboard__container__button}
-          href="/admin/zarzadzajChatami"
+          href="/admin/rekrutacje"
         >
           Zarzadzanie rekrutacją
+        </Link>
+        <Link
+          className={styles.dashboard__container__button}
+          href="/admin/formularze"
+        >
+          Inne formularze
         </Link>
       </div>
     </section>

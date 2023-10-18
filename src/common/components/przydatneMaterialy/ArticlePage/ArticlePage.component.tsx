@@ -10,7 +10,9 @@ import { useAuth } from '@/contexts/authProvider/Auth.provider';
 import Roles from '@/utils/roles';
 import Link from 'next/link';
 import ReactPlayer from 'react-player';
-import ArticlePlaceholderImg from '../../../images/static/ArticlePlaceholder.jpg';
+import ArticlePlaceholderImg from '../../../images/static/placeholderArticle.svg';
+import FullScreenLoading from '../../common/fullScreenLoading/FullScreenLoading.component';
+import defaultUserImg from '../../../images/static/user.png';
 
 const MDEditor = dynamic(() => import('@uiw/react-md-editor'), {
   ssr: false,
@@ -43,6 +45,8 @@ const ArticlePage = ({ id }: ArticlePageProps) => {
     readArticle();
   }, []);
 
+  if (!article) return <FullScreenLoading />;
+
   return (
     <div className={styles.wrapper}>
       <div className={styles.wrapper__bannerWrapper}>
@@ -64,16 +68,21 @@ const ArticlePage = ({ id }: ArticlePageProps) => {
       <p className={styles.wrapper__content}>
         <Markdown source={article?.content} />
       </p>
-      <div className={styles.wrapper__author}>
+      <Link
+        href={`/profil/${article.created_by.id}`}
+        className={styles.wrapper__author}
+      >
         <Image
           className={styles.wrapper__author__picture}
           width={80}
           height={80}
           alt="Profil użytkownika"
-          src="https://i.imgur.com/99FZqZv.jpeg"
+          src={defaultUserImg}
         />
-        <p className={styles.wrapper__author__name}>Jan Kowalski</p>
-      </div>
+        <p className={styles.wrapper__author__name}>
+          {article.created_by.full_name}
+        </p>
+      </Link>
       {user?.user_role === Roles.admin && (
         <Link
           href={`/admin/CMS/${article?.id}`}

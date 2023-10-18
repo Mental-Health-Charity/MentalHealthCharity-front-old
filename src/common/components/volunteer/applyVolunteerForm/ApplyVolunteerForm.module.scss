@@ -1,39 +1,40 @@
-@use '../../../styles/variables.module' as *;
-@use '../../../styles/mixins.module' as *;
+/* components/MyForm.module.scss */
 
-.formWrapper {
-  @include flex-center-xy;
-  flex-direction: column;
-  width: 100%;
+.myForm {
+  display: flex;
   min-height: 100vh;
-  padding: 8em 2em 8em 2em;
+  flex-direction: column;
+  max-width: 400px;
+  margin: 9em auto 0 auto;
 
-  &__heading {
-    font-size: 2em;
-    margin-bottom: 1em;
+  .formGroup {
+    margin-bottom: 16px;
+
+    label {
+      font-weight: bold;
+    }
+
+    input[type='text'],
+    input[type='number'],
+    textarea,
+    select {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+
+    .error {
+      color: red;
+    }
   }
 
-  &__desc {
-    margin-bottom: 1em;
-  }
-
-  &__form {
-    display: flex;
-    flex-direction: column;
-
-    &__label {
-      font-size: 0.9em;
-      margin-bottom: 0.5em;
-    }
-
-    &__input,
-    &__textarea {
-      padding: 0.5em;
-      margin-bottom: 1em;
-    }
-
-    &__submit {
-      padding: 0.5em 1em;
-    }
+  button {
+    background-color: #007bff;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
   }
 }

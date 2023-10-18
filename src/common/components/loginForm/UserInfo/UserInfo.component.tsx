@@ -68,7 +68,7 @@ const UserInfo = () => {
           href={getUserRole()}
         >
           {' '}
-          Twój panel!
+          Twój panel
         </Link>
         <Link className={styles.userWrapper__suggest__link} href="/regulamin">
           Regulamin serwisu

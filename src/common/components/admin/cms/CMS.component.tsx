@@ -29,28 +29,16 @@ interface CMSProps {
 
 const CMS = ({ id }: CMSProps) => {
   const { createArticle } = useAdmin();
-  const { user } = useAuth();
+  const [addVideoToArticle, setAddVideoToArticle] = useState(false);
   const [isModalOpen, setModalOpen] = useState(false);
-  const [bannerUrl, setBannerUrl] = useState('');
+
   const [editedArticle, setEditedArticle] = useState<Article>();
-  const [error, setIsError] = useState(false);
+
   const { push } = useRouter();
 
   const MDEditor = dynamic(() => import('@uiw/react-md-editor'), {
     ssr: false,
   });
-
-  const sendArticleToDB = (article: Article) => {
-    try {
-      createArticle(article);
-      push('przydatne-materialy');
-    } catch (error) {
-      console.log('ERROR while creating new article, error details: ', error);
-      failurePopUp(
-        'Wystąpił błąd podczas tworzenia nowego artykułu, sprawdź konsolę po więcej informacji.',
-      );
-    }
-  };
 
   const getEditedArticle = async () => {
     if (id) {
@@ -81,6 +69,7 @@ const CMS = ({ id }: CMSProps) => {
     content: editedArticle ? editedArticle.content : '',
     banner_url: editedArticle ? editedArticle.banner_url : '',
     video_url: editedArticle ? editedArticle.video_url : '',
+    required_role: editedArticle ? editedArticle.required_role : 'ANYONE',
     article_category_id:
       editedArticle && editedArticle.article_category
         ? editedArticle.article_category.id
@@ -91,7 +80,7 @@ const CMS = ({ id }: CMSProps) => {
     title: '',
     content: '',
     banner_url: '',
-    video_url: 'i.imgur.com',
+    video_url: '',
     required_role: 'ANYONE',
     article_category_id: undefined,
   };
@@ -99,14 +88,8 @@ const CMS = ({ id }: CMSProps) => {
   const validationSchema = Yup.object({
     title: Yup.string().required('Tytuł jest wymagany'),
     content: Yup.string().required('Treść jest wymagana'),
-    bannerUrl: Yup.string()
-      .required('Źródło baneru jest wymagane')
-      .matches(
-        /(i\.imgur\.com)/,
-        'Źródło baneru musi pochodzić z domeny i.imgur.com',
-      ),
-
-    permsToRead: Yup.string().required('Dostępność jest wymagana'),
+    banner_url: Yup.string().required('Źródło baneru jest wymagane'),
+    required_role: Yup.string().required('Dostępność jest wymagana'),
     article_category_id: Yup.number().required('Kategoria wymagana.'),
   });
 
@@ -125,18 +108,6 @@ const CMS = ({ id }: CMSProps) => {
     }
   };
 
-  const handleBannerUrlError = () => {
-    setIsError(true);
-    failurePopUp(
-      'Nie znaleziono obrazu, upewnij się, że obrazek który wstawiasz jest linkiem bezpośrednim i pochodzi z domeny imgur.',
-    );
-  };
-
-  const handleBannerUrlChange = (value: string) => {
-    setIsError(false);
-    setBannerUrl(value);
-  };
-
   if (id) {
     infoPopUp(`Edytujesz artykuł o id ${id}`);
   }
@@ -146,7 +117,7 @@ const CMS = ({ id }: CMSProps) => {
       <Formik
         initialValues={id ? initialEditedValues : initialValues}
         validationSchema={validationSchema}
-        onSubmit={onSubmit}
+        onSubmit={(values) => onSubmit(values)}
       >
         {({
           handleSubmit,
@@ -154,7 +125,7 @@ const CMS = ({ id }: CMSProps) => {
           handleChange,
           errors,
           touched,
-          setFieldError,
+
           setFieldValue,
         }) => (
           <Form onSubmit={handleSubmit} className={styles.cmsWrapper__editor}>
@@ -245,6 +216,52 @@ const CMS = ({ id }: CMSProps) => {
                 />
               </span>
             </p>
+            {!addVideoToArticle && (
+              <p className={styles.cmsWrapper__editor__row}>
+                <button
+                  type="button"
+                  onClick={() => setAddVideoToArticle(true)}
+                  className={styles.cmsWrapper__editor__row__addVideoBtn}
+                >
+                  + dodaj wideo (opcjonalne)
+                </button>
+              </p>
+            )}
+            {addVideoToArticle && (
+              <p className={styles.cmsWrapper__editor__row}>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setFieldValue('video_url', '');
+                    setAddVideoToArticle(false);
+                  }}
+                  className={styles.cmsWrapper__editor__row__addVideoBtn}
+                >
+                  - usun wideo
+                </button>
+                <label
+                  className={styles.cmsWrapper__editor__row__label}
+                  htmlFor="articleBannerUrl"
+                >
+                  Źródło wideo:
+                </label>
+                <Field
+                  onChange={handleChange}
+                  className={styles.cmsWrapper__editor__row__input}
+                  value={addVideoToArticle ? values.video_url : ''}
+                  id="video_url"
+                  type="text"
+                  placeholder="https://youtube.com/"
+                  name="video_url"
+                />
+
+                <ErrorMessage
+                  name="video_url"
+                  component="div"
+                  className="error-message"
+                />
+              </p>
+            )}
             <p className={styles.cmsWrapper__editor__row}>
               <label
                 className={styles.cmsWrapper__editor__row__label}
@@ -270,12 +287,10 @@ const CMS = ({ id }: CMSProps) => {
                   className={styles.cmsWrapper__editor__row__banner}
                 />
               ) : (
-                // eslint-disable-next-line @next/next/no-img-element
                 <img
                   src={values.banner_url === '' ? undefined : values.banner_url}
                   alt="Podgląd banera artykułu"
                   width={128}
-                  height={128}
                   className={styles.cmsWrapper__editor__row__banner}
                   // onError={() => handleBannerUrlError(setFieldError)}
                 />
@@ -286,6 +301,7 @@ const CMS = ({ id }: CMSProps) => {
                 className="error-message"
               />
             </p>
+
             <p className={styles.cmsWrapper__editor__row}>
               <label
                 className={styles.cmsWrapper__editor__row__label}
@@ -312,14 +328,14 @@ const CMS = ({ id }: CMSProps) => {
 
             <p className={styles.cmsWrapper__editor__row__publishWrapper}>
               <button
-                onClick={() => onSubmit(values)}
+                onClick={() => console.log(values)}
                 type="submit"
                 value="Opublikuj"
                 className={
                   styles.cmsWrapper__editor__row__publishWrapper__publish
                 }
               >
-                {id ? 'Opublikuj edycje' : 'Opublikuj'}
+                {id ? 'Wyślij edycje' : 'Wyślij artykuł'}
               </button>
             </p>
           </Form>

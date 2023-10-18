@@ -8,7 +8,7 @@
   align-items: center;
   justify-content: center;
   padding: 9em 2em;
-  width: 100%;
+  width: 90vw;
   min-height: 100vh;
   background-color: #fff;
   max-width: 1100px;
@@ -73,6 +73,17 @@
       margin-top: 1.5rem;
       border-radius: 0.3rem;
 
+      &__addVideoBtn {
+        background-color: transparent;
+        border: none;
+        width: fit-content;
+        margin-bottom: 0.2em;
+        font-size: 1em;
+        color: $lightNavy;
+        font-weight: 1000;
+        cursor: pointer;
+      }
+
       &__publishWrapper {
         width: 100%;
         display: flex;
@@ -104,7 +115,7 @@
       &__banner {
         width: 100%;
         margin-top: 5em;
-        height: fit-content;
+        height: auto;
         border-radius: 5em;
       }
 

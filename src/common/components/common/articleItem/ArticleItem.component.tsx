@@ -8,6 +8,7 @@ import { Article } from '../../volunteer/volunteerCourses/lib/getVolunteerCourse
 import { Status, useAdmin } from '@/contexts/adminProvider/Admin.provider';
 import { failurePopUp, successPopUp } from '@/utils/defaultNotifications';
 import placeholderImg from '../../../images/static/placeholderArticle.svg';
+import placeholderUserImg from '../../../images/static/user.png';
 
 interface ArticleItemProps {
   article: Article;
@@ -54,7 +55,7 @@ const ArticleItem = ({ article, showAdminOptions }: ArticleItemProps) => {
                 ? article.banner_url
                 : placeholderImg
             }
-            alt={article.title + ' img'}
+            alt={article.title + ' article banner'}
           />
         </div>
         <div className={styles.article__avatar}>
@@ -62,8 +63,8 @@ const ArticleItem = ({ article, showAdminOptions }: ArticleItemProps) => {
             width={160}
             height={160}
             className={styles.article__avatar__img}
-            src={'https://placehold.co/600x400'}
-            alt={''}
+            src={placeholderUserImg}
+            alt={'przykładowe zdjęcie avatara'}
           />
         </div>
         <div className={styles.article__content}>
