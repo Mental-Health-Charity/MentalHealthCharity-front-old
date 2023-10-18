@@ -98,7 +98,7 @@ export const ChatProvider: React.FC<{ children: React.ReactNode }> = ({
     if (data && selectedChat?.id)
       initWS(
         new WebSocket(
-          `ws://mentalhealthcharity-backend-production.up.railway.app/ws-chat?token=${data}&chat_id=${selectedChat.id}`,
+          `wss://mentalhealthcharity-backend-production.up.railway.app/ws-chat?token=${data}&chat_id=${selectedChat.id}`,
         ),
       );
   }, [selectedChat]);
@@ -118,7 +118,7 @@ export const ChatProvider: React.FC<{ children: React.ReactNode }> = ({
       const data = await getCookies('jwtToken');
       initUnreadedMessagesWS(
         new WebSocket(
-          `ws://mentalhealthcharity-backend-production.up.railway.app/ws-unread-chats?token=${data}`,
+          `wss://mentalhealthcharity-backend-production.up.railway.app/ws-unread-chats?token=${data}`,
         ),
       );
     })();
