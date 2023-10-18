@@ -1,15 +1,16 @@
 import { ErrorMessage, Field, Form, Formik } from 'formik';
 import styles from './Report.module.scss';
 import * as Yup from 'yup';
-import { useAuth } from '@/contexts/authProvider/Auth.provider';
-import Roles from '@/utils/roles';
+// import { useAuth } from '@/contexts/authProvider/Auth.provider';
+// import Roles from '@/utils/roles';
 import { useState } from 'react';
 
 import { failurePopUp, successPopUp } from '@/utils/defaultNotifications';
 import { useChatContext } from '@/hooks/useChatContext';
+import { Report } from '@/contexts/chatProvider/Chat.provider';
 
 const Report = () => {
-  const { user } = useAuth();
+  // const { user } = useAuth();
   const { createReport } = useChatContext();
   const [isModalVisible, setModalVisible] = useState(false);
 
