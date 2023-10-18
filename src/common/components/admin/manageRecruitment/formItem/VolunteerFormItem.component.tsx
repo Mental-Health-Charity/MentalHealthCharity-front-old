@@ -3,7 +3,14 @@ import styles from './VolunteerFormItem.module.scss';
 import { formStatusDescription } from './lib/utils';
 import { useAdmin } from '@/contexts/adminProvider/Admin.provider';
 import { failurePopUp, successPopUp } from '@/utils/defaultNotifications';
-import { useState } from 'react';
+import {
+  JSXElementConstructor,
+  Key,
+  ReactElement,
+  ReactFragment,
+  ReactPortal,
+  useState,
+} from 'react';
 import Roles from '@/utils/roles';
 import { FormStatus } from '@/utils/types';
 
@@ -83,12 +90,14 @@ const VolunteerFormItem = ({ form, handleReload }: FormItemProps) => {
         <div className={styles.formItem__fields__field}>
           <p>Preferuje kontakt:</p>
           <p>
-            {form.fields.contacts.map((contact, index) => (
-              <span key={index}>
-                {contact.name}
-                {index < form.fields.contacts.length - 1 ? ', ' : ''}
-              </span>
-            ))}
+            {form.fields.contacts.map(
+              (contact: { name: string }, index: number) => (
+                <span key={contact.name}>
+                  {contact.name}
+                  {index < form.fields.contacts.length - 1 ? ', ' : ''}
+                </span>
+              ),
+            )}
           </p>
         </div>
         <div className={styles.formItem__fields__field}>
