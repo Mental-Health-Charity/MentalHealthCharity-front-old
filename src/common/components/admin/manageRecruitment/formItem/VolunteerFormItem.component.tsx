@@ -8,7 +8,7 @@ import Roles from '@/utils/roles';
 import { FormStatus } from '@/utils/types';
 
 interface FormItemProps {
-  form: Form;
+  form: Form<any>;
   handleReload: () => Promise<void>;
 }
 
