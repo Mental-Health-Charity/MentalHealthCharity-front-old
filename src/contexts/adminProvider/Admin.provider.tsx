@@ -6,7 +6,7 @@ import Roles from '@/utils/roles';
 import { Form, FormStatus, Pagination, VolunteerForm } from '@/utils/types';
 
 interface AdminContextType {
-  getUsers: (limit: { from: number; to: number }) => Promise<User[]>;
+  getUsers: (limit: { from: number; to: number }) => Promise<Pagination<User>>;
   getUserById: (id: number) => Promise<User>;
   editUser: (id: number, userData: EditUser) => Promise<User>;
   getChats: (page: number, size: number) => Promise<ChatData>;
@@ -84,7 +84,7 @@ const useProvideAdmin = () => {
       },
     );
     const data = await res.json();
-    return data as User[];
+    return data as Pagination<User>;
   };
 
   const getUserById = async (id: number) => {

@@ -15,6 +15,7 @@ import Report from '../report/Report.component';
 import { BASE_URL } from '@/config';
 import { getChats, getMessages } from './lib/api';
 import sendIcon from '../../../images/static/sendicon.png';
+import clsx from 'clsx';
 const ChatWindow = () => {
   const {
     chatsList,
@@ -31,6 +32,7 @@ const ChatWindow = () => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [newMessage, setNewMessage] = useState<string | null>();
   const [chats, setChats] = useState<Chat[]>([]);
+  const [isHiddenMobileMenu, setIsHiddenMobileMenu] = useState(false);
 
   const getUserRole = (participant: User) => {
     switch (participant.user_role) {
@@ -76,6 +78,7 @@ const ChatWindow = () => {
   const getChatMessages = async () => {
     if (selectedChat) {
       console.log('GETMESSAGES');
+      setIsLoading(true);
       try {
         const data = getMessages(1, 30, selectedChat?.id);
         setWsMessages((await data).items);
@@ -83,6 +86,7 @@ const ChatWindow = () => {
       } catch (error) {
         console.error(error);
       }
+      setIsLoading(false);
     }
   };
 
@@ -101,7 +105,21 @@ const ChatWindow = () => {
 
   return (
     <div className={styles.chatWindow}>
-      <ul className={styles.chatWindow__chatsList}>
+      <ul
+        className={clsx(styles.chatWindow__chatsList, {
+          [styles.hiddenMenu]: isHiddenMobileMenu,
+        })}
+      >
+        <button
+          className={styles.chatWindow__chatsList__closeIcon}
+          type="button"
+          onClick={() => {
+            setIsHiddenMobileMenu(true);
+            console.log(isHiddenMobileMenu);
+          }}
+        >
+          X
+        </button>
         {chats.map((chat, index) => (
           <ChatShortcut
             handleReadMessages={async () => getChatMessages()}
@@ -154,21 +172,34 @@ const ChatWindow = () => {
         </div>
 
         <ul className={styles.chatWindow__chat__messages}>
-          {wsMessages.map((message, index) => {
-            return (
-              <ChatMessage
-                key={index}
-                senderIsAuthor={
-                  message.sender && message.sender.id === user?.id
-                    ? true
-                    : message.sender_id === user?.id
-                }
-                author={message.sender ? message.sender.full_name : ''}
-                content={message.content}
-                date={message.creation_date}
-              />
-            );
-          })}
+          {!isLoading ? (
+            wsMessages.length <= 0 && selectedChat ? (
+              <p>Napisz pierwszą wiadomość na tym chacie!</p>
+            ) : (
+              wsMessages.map((message, index) => {
+                return (
+                  <ChatMessage
+                    key={index}
+                    senderIsAuthor={
+                      message.sender && message.sender.id === user?.id
+                        ? true
+                        : message.sender_id === user?.id
+                    }
+                    author={message.sender ? message.sender.full_name : ''}
+                    content={message.content}
+                    date={message.creation_date}
+                  />
+                );
+              })
+            )
+          ) : (
+            <Image
+              alt="ikona ładowania"
+              src={LoadingIcon}
+              width={60}
+              height={60}
+            />
+          )}
         </ul>
 
         {user &&
@@ -200,10 +231,12 @@ const ChatWindow = () => {
             </button>
           </form>
         ) : (
-          <p>
-            Nie możesz wysyłać wiadomosci na tym chacie, nie jesteś członkiem
-            tego czatu.
-          </p>
+          selectedChat?.name && (
+            <p>
+              Nie możesz wysyłać wiadomosci na tym chacie, nie jesteś członkiem
+              tego czatu.
+            </p>
+          )
         )}
       </div>
     </div>

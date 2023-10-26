@@ -19,6 +19,7 @@ export interface User {
   password: string;
   email: string;
   user_role: Roles;
+  avatar_url?: string;
   id: number;
   is_active: boolean;
 }

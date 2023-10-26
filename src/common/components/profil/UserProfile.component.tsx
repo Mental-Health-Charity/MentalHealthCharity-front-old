@@ -4,7 +4,6 @@ import Image from 'next/image';
 import styles from './UserProfile.module.scss';
 import getProfile, { PublicProfileData } from './lib/getProfile';
 import { useEffect, useState } from 'react';
-import { useRouter } from 'next/router';
 import LoadingIcon from '../../images/static/loading.svg';
 import userDefaultIcon from '../../images/static/user.png';
 import { PublicProfile, useAuth } from '@/contexts/authProvider/Auth.provider';
@@ -20,7 +19,9 @@ const UserProfile = ({ id }: UserProfileProps) => {
   const [error, setError] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { user, editPublicProfile } = useAuth();
-  const isUserProfileOwner = profile?.id === user?.id;
+  const [isUserProfileOwner, setIsUserProfileOwner] = useState(
+    profile?.user.email === user?.email,
+  );
   const [editedProfile, setEditedProfile] = useState<PublicProfile>();
 
   const getPublicProfile = async () => {
@@ -40,13 +41,9 @@ const UserProfile = ({ id }: UserProfileProps) => {
   const handleEditProfile = async () => {
     if (profile && editedProfile && user) {
       try {
-        const data = await editPublicProfile(user.id, editedProfile);
-        if (data.full_name) {
-          successPopUp('Pomyślnie zapisano zmiany');
-          getPublicProfile();
-        } else {
-          failurePopUp('Coś poszło nie tak!');
-        }
+        await editPublicProfile(user.id, editedProfile);
+        successPopUp('Pomyślnie zapisano zmiany');
+        getPublicProfile();
       } catch (err) {
         failurePopUp('Wystąpił problem z serwerem');
         console.error(err);
@@ -57,6 +54,12 @@ const UserProfile = ({ id }: UserProfileProps) => {
   useEffect(() => {
     getPublicProfile();
   }, []);
+
+  useEffect(() => {
+    setIsUserProfileOwner(profile?.user.email === user?.email);
+
+    console.log(profile?.user.email, user?.email);
+  }, [user, profile]);
 
   if (!profile)
     return (
@@ -79,7 +82,11 @@ const UserProfile = ({ id }: UserProfileProps) => {
         <h1 className={styles.profile__heading}>Profil publiczny</h1>
         <div className={styles.profile__imageWrapper}>
           <Image
-            src={profile.avatar_url ? profile.avatar_url : userDefaultIcon}
+            src={
+              profile && profile.avatar_url
+                ? profile.avatar_url
+                : userDefaultIcon
+            }
             alt="Zdjęcie profilowe"
             width={80}
             height={80}

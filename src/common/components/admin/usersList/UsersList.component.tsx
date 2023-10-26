@@ -5,7 +5,7 @@ import { use, useEffect, useState } from 'react';
 import { User, useAuth } from '@/contexts/authProvider/Auth.provider';
 import RowList from './rowList/RowList.component';
 import Link from 'next/link';
-import { infoPopUp } from '@/utils/defaultNotifications';
+import { failurePopUp, infoPopUp } from '@/utils/defaultNotifications';
 
 const UsersList = () => {
   const [users, setUsers] = useState<User[]>();
@@ -17,13 +17,18 @@ const UsersList = () => {
   const { getUsers } = useAdmin();
 
   const listUsers = async () => {
-    const userArray = await getUsers(limit);
-    setUsers(userArray);
+    try {
+      const userArray = await getUsers(limit);
+      setUsers(userArray.items);
+    } catch (error) {
+      console.error(error);
+      failurePopUp('Błąd podczas pobierania użytkowników z bazy');
+    }
   };
 
   useEffect(() => {
     listUsers();
-  }, []);
+  }, [limit]);
 
   return (
     <section className={styles.wrapper}>
@@ -37,6 +42,7 @@ const UsersList = () => {
       {users ? <input placeholder="wyszukaj (rola/id/email)" /> : null}
       <ul className={styles.wrapper__list}>
         {users &&
+          users.length > 0 &&
           users.map((user, index) => {
             return (
               <RowList

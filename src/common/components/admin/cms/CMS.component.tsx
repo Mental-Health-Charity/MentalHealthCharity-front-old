@@ -168,12 +168,13 @@ const CMS = ({ id }: CMSProps) => {
                   className={
                     styles.cmsWrapper__editor__settingsRow__item__input
                   }
+                  type="button"
                   onClick={() => setModalOpen(true)}
                 >
                   Wybierz...
                 </button>
                 {values.article_category_id && (
-                  <p>Wybrano: {values.article_category_id}</p>
+                  <p>Wybrano kategorie o id: {values.article_category_id}</p>
                 )}
                 <ErrorMessage
                   name="article_category_id"

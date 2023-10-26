@@ -33,7 +33,6 @@ const PrzydatneMaterialy = () => {
 
   const loadArticles = () => {
     if (!loading && articles && articles?.items) {
-      successPopUp('Załadowano artykuły :)');
       return articles.items.map((article: Article, index) => (
         <ArticleItem showAdminOptions={false} article={article} key={index} />
       ));

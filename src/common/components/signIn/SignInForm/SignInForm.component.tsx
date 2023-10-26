@@ -14,6 +14,10 @@ const RegistrationSchema = Yup.object().shape({
     .min(8, 'Hasło musi mieć przynajmniej 8 znaków')
     .matches(/[A-Z]/, 'Hasło musi zawierać przynajmniej jedną dużą literę')
     .matches(/[0-9]/, 'Hasło musi zawierać przynajmniej jedną cyfrę')
+    .matches(
+      /[!@#$%^&*(),.?":{}|<>]/,
+      'Hasło musi zawierać przynajmniej jeden znak specjalny (np. !, $, #)',
+    )
     .required('Pole wymagane'),
 });
 
@@ -42,7 +46,7 @@ const SignInForm = () => {
           <Form className={styles.form}>
             <div className={styles.formGroup}>
               <div className={styles.switchContainer}>
-                <label>
+                {/* <label>
                   <Field
                     className={styles.switchButton}
                     type="radio"
@@ -59,7 +63,7 @@ const SignInForm = () => {
                     value="Mentee"
                   />
                   <span>Podopieczny</span>
-                </label>
+                </label> */}
               </div>
             </div>
 
