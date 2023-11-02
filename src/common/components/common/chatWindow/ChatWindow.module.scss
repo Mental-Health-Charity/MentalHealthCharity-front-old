@@ -78,6 +78,7 @@
 
   &__chat {
     width: 100%;
+    position: relative;
 
     @media (max-width: 1022px) {
       & {
@@ -91,6 +92,8 @@
       align-items: center;
       justify-content: flex-end;
       width: 100%;
+      position: absolute;
+      right: 2em;
     }
 
     &__heading {

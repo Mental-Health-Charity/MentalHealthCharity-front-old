@@ -1,25 +1,21 @@
 import { ErrorMessage, Field, Form, Formik } from 'formik';
 import styles from './Report.module.scss';
 import * as Yup from 'yup';
-// import { useAuth } from '@/contexts/authProvider/Auth.provider';
-// import Roles from '@/utils/roles';
 import { useState } from 'react';
-
 import { failurePopUp, successPopUp } from '@/utils/defaultNotifications';
-import { useChatContext } from '@/hooks/useChatContext';
 import { Report } from '@/contexts/chatProvider/Chat.provider';
+import createReport from './lib/report';
 
 const Report = () => {
-  // const { user } = useAuth();
-  const { createReport } = useChatContext();
   const [isModalVisible, setModalVisible] = useState(false);
 
   const sendReport = async (value: Report) => {
     try {
       createReport(value);
-      successPopUp('Wysłano zgłoszenie!');
     } catch (error) {
       failurePopUp('Błąd podczas wysyłania zgłoszenia!');
+    } finally {
+      successPopUp('Wysłano zgłoszenie!');
     }
   };
 
@@ -57,7 +53,7 @@ const Report = () => {
               console.log(values);
             }}
           >
-            {({ values }) => (
+            {() => (
               <Form className={styles.report__modal__form}>
                 <div className={styles.report__modal__form__row}>
                   <label>Typ zgłoszenia</label>

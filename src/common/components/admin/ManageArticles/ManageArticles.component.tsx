@@ -36,22 +36,12 @@ const ManageArticles = () => {
   };
 
   const loadArticles = () => {
-    if (!loading && articles && articles?.items) {
+    if (!loading && articles && articles.items.length > 0) {
       return articles.items.map((article, index) => (
         <ArticleItem showAdminOptions={true} key={index} article={article} />
       ));
-    } else if (!loading && articles && !articles.items) {
-      return (
-        <p>
-          Endpoint do odczytania postów bez autoryzacji użytkownika jest
-          zepsuty. Prosimy o zalogowanie, aby wyświetlić artykuły. Błąd
-          występuje tylko w wersji testowej i zostanie naprawiony.
-        </p>
-      );
     } else {
-      return (
-        <Image src={LoadingIcon} alt="Ikona ładowania" width={60} height={60} />
-      );
+      return <p>Brak materiałów w tej kategorii.</p>;
     }
   };
 

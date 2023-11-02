@@ -134,7 +134,7 @@ const VolunteerFormItem = ({ form, handleReload }: FormItemProps) => {
         </div>
       </div>
       <div className={styles.formItem__controls}>
-        {status <= 1 ? (
+        {status <= 1 && form.form_status !== FormStatus.REJECTED ? (
           <button
             onClick={() => updateFormById()}
             className={styles.formItem__controls__accept}
@@ -142,12 +142,14 @@ const VolunteerFormItem = ({ form, handleReload }: FormItemProps) => {
             Akceptuj
           </button>
         ) : (
-          <button
-            onClick={() => handleAddVolunteer()}
-            className={styles.formItem__controls__accept}
-          >
-            Nadaj wolontariusza
-          </button>
+          form.form_status !== FormStatus.REJECTED && (
+            <button
+              onClick={() => handleAddVolunteer()}
+              className={styles.formItem__controls__accept}
+            >
+              Nadaj wolontariusza
+            </button>
+          )
         )}
         {form.form_status === FormStatus.WAITED && (
           <button

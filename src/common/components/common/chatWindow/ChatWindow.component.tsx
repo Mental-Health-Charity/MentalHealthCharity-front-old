@@ -22,6 +22,7 @@ const ChatWindow = () => {
     loading,
     ready,
     selectedChat,
+    setSelectedChat,
     sendMessage,
     ws,
     wsMessages,
@@ -65,6 +66,7 @@ const ChatWindow = () => {
     try {
       const data = getChats(1, 50);
       setChats((await data).items);
+
       console.log('chats', chats);
     } catch (error) {
       console.error(error);
@@ -82,6 +84,7 @@ const ChatWindow = () => {
       try {
         const data = getMessages(1, 30, selectedChat?.id);
         setWsMessages((await data).items);
+
         console.log(messages);
       } catch (error) {
         console.error(error);
@@ -132,8 +135,8 @@ const ChatWindow = () => {
 
       <div className={styles.chatWindow__chat}>
         <div className={styles.chatWindow__chat__report}>
-          {/* {selectedChat && <Contract chatId={selectedChat.id} />} */}
-          {/* <Report /> */}
+          {selectedChat && <Contract chatId={selectedChat.id} />}
+          <Report />
         </div>
         <div className={styles.chatWindow__chat__heading}>
           <h3 className={styles.chatWindow__chat__name}>

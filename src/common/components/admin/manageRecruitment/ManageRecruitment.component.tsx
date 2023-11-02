@@ -3,22 +3,26 @@ import { useAdmin } from '@/contexts/adminProvider/Admin.provider';
 import styles from './ManageRecruitment.module.scss';
 import { Form, FormStatus, Pagination, VolunteerForm } from '@/utils/types';
 import { useEffect, useState } from 'react';
-
 import Roles from '@/utils/roles';
 import VolunteerFormItem from './formItem/VolunteerFormItem.component';
+import LoadingIcon from '../../../images/static/loading.svg';
+import Image from 'next/image';
 
 const ManageRecruitment = () => {
   const [forms, setForms] = useState<Pagination<Form<VolunteerForm>>>();
-  const { getForms, updateForm } = useAdmin();
+  const { getForms } = useAdmin();
   const [status, setStatus] = useState(FormStatus.ACCEPTED);
+  const [loading, setLoading] = useState(true);
 
   const searchForms = async () => {
+    setLoading(true);
     try {
       const data = await getForms(1, 50, 2, status);
       setForms(data);
     } catch (error) {
       console.error(error);
     }
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -57,15 +61,24 @@ const ManageRecruitment = () => {
         </select>
       </div>
       <ul className={styles.wrapper__Formlist}>
-        {forms?.items
-          .filter((elem) => elem.created_by.user_role !== Roles.volunteer)
-          .map((form) => (
-            <VolunteerFormItem
-              handleReload={searchForms}
-              key={form.id}
-              form={form}
-            />
-          ))}
+        {loading ? (
+          <Image
+            src={LoadingIcon}
+            width={60}
+            height={60}
+            alt="ikona ładowania"
+          />
+        ) : (
+          forms?.items
+            .filter((elem) => elem.created_by.user_role !== Roles.volunteer)
+            .map((form) => (
+              <VolunteerFormItem
+                handleReload={searchForms}
+                key={form.id}
+                form={form}
+              />
+            ))
+        )}
       </ul>
     </div>
   );
