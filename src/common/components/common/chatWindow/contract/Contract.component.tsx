@@ -123,26 +123,31 @@ const Contract = ({ chatId }: ContractProps) => {
                     component="div"
                     className={styles.wrapper__modal__contract__error}
                   />
-                  {!contractContent?.is_confirmed && (
-                    <div className={styles.wrapper__modal__contract__controls}>
-                      <button
-                        type="submit"
-                        className={
-                          styles.wrapper__modal__contract__controls__save
-                        }
-                      >
-                        Zapisz
-                      </button>
-                      <button
-                        type="button"
-                        className={
-                          styles.wrapper__modal__contract__controls__refresh
-                        }
-                        onClick={() => getContractById()}
-                      >
-                        Odśwież
-                      </button>
-                      {user?.user_role !== Roles.user && (
+
+                  <div className={styles.wrapper__modal__contract__controls}>
+                    {!contractContent?.is_confirmed && (
+                      <>
+                        <button
+                          type="submit"
+                          className={
+                            styles.wrapper__modal__contract__controls__save
+                          }
+                        >
+                          Zapisz
+                        </button>
+                        <button
+                          type="button"
+                          className={
+                            styles.wrapper__modal__contract__controls__refresh
+                          }
+                          onClick={() => getContractById()}
+                        >
+                          Odśwież
+                        </button>
+                      </>
+                    )}
+                    {user?.user_role !== Roles.user &&
+                      !contractContent?.is_confirmed && (
                         <button
                           type="button"
                           className={
@@ -153,17 +158,22 @@ const Contract = ({ chatId }: ContractProps) => {
                           Zatwierdź kontrakt
                         </button>
                       )}
-                      <button
-                        onClick={() => setModalVisible(false)}
-                        type="button"
-                        className={
-                          styles.wrapper__modal__contract__controls__cancel
-                        }
-                      >
-                        Anuluj
-                      </button>
-                    </div>
-                  )}
+                    {contractContent?.is_confirmed && (
+                      <p>
+                        Ten kontrakt został zatwierdzony, aktualizacja nie jest
+                        możliwa
+                      </p>
+                    )}
+                    <button
+                      onClick={() => setModalVisible(false)}
+                      type="button"
+                      className={
+                        styles.wrapper__modal__contract__controls__cancel
+                      }
+                    >
+                      Anuluj
+                    </button>
+                  </div>
                 </Form>
               )}
             </Formik>
