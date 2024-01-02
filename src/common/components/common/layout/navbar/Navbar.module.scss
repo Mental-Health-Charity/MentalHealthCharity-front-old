@@ -3,7 +3,7 @@
 
 .navbar {
   height: auto;
-  background-color: #ffffff8b;
+  background-color: #ffffffb7;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -45,7 +45,15 @@
       font-size: 1.1em;
       text-decoration: none;
       color: $gray;
-      background-color: #efaf2e1f;
+      background-color: transparent;
+
+      &__avatar {
+        margin: 0 1em 0.1em 0;
+      }
+
+      &__dropDown {
+        opacity: 60%;
+      }
 
       &__dot {
         display: block;

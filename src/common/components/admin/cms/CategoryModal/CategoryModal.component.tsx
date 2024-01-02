@@ -25,7 +25,6 @@ const CategoryModal = ({ setModalOpen, setFieldValue }: CategoryModalProps) => {
     try {
       const articlesCat = await getArticleCategory(1, 100);
       setCategories(articlesCat);
-      console.log(categories);
     } catch (error) {
       console.error('Error while getting articles categories', error);
     }

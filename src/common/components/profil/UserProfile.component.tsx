@@ -57,8 +57,6 @@ const UserProfile = ({ id }: UserProfileProps) => {
 
   useEffect(() => {
     setIsUserProfileOwner(profile?.user.email === user?.email);
-
-    console.log(profile?.user.email, user?.email);
   }, [user, profile]);
 
   if (!profile)

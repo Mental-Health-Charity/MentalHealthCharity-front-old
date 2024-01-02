@@ -25,11 +25,10 @@ const ChatItem = ({ chat, readChats, page }: ChatItemProps) => {
           'Dodano nowego członka o id: ' + userId + 'na chat o id: ' + chat.id,
         );
       } catch (error) {
-        console.log('ERROR while adding new participant ', error);
+        console.error('ERROR while adding new participant ', error);
         failurePopUp('Błąd podczas dodawania nowego członka!');
       }
     } else {
-      console.log('ERROR user id is not provided!');
       failurePopUp('Błąd podczas dodawania nowego członka! Wprowadź ID.');
     }
   };
@@ -40,18 +39,17 @@ const ChatItem = ({ chat, readChats, page }: ChatItemProps) => {
   ) => {
     if (removeUserId) {
       try {
-        console.log(chatId);
         await removeParticipant(chatId, removeUserId);
         readChats(page);
         successPopUp(
           'Członek o id ' + removeUserId + ' został poprawnie usunięty.',
         );
       } catch (error) {
-        console.log('ERROR while removing participant ', error);
+        console.error('ERROR while removing participant ', error);
         failurePopUp('Błąd podczas usuwania członka!');
       }
     } else {
-      console.log('ERROR user id is not provided!');
+      console.error('ERROR user id is not provided!');
       failurePopUp('ID użytkownika nie zostało wprowadzone!');
     }
   };

@@ -28,7 +28,7 @@ const VolunteerCourses = () => {
       setCourses(courses);
       setLoading(true);
     } catch (error) {
-      console.log('Error while loading articles, error details ', error);
+      console.error('Error while loading articles, error details ', error);
       failurePopUp('Błąd wczytywania artykułów.');
     }
     setLoading(false);

@@ -7,27 +7,16 @@ import { Chat, Message } from '@/utils/chatTypes';
 import { User, useAuth } from '@/contexts/authProvider/Auth.provider';
 import Image from 'next/image';
 import LoadingIcon from '../../../images/static/loading.svg';
-import 'react-toastify/dist/ReactToastify.css';
 import Roles from '@/utils/roles';
 import { useChatContext } from '@/hooks/useChatContext';
 import Contract from './contract/Contract.component';
 import Report from '../report/Report.component';
-import { BASE_URL } from '@/config';
 import { getChats, getMessages } from './lib/api';
 import sendIcon from '../../../images/static/sendicon.png';
 import clsx from 'clsx';
 const ChatWindow = () => {
-  const {
-    chatsList,
-    loading,
-    ready,
-    selectedChat,
-    setSelectedChat,
-    sendMessage,
-    ws,
-    wsMessages,
-    setWsMessages,
-  } = useChatContext();
+  const { selectedChat, sendMessage, wsMessages, setWsMessages } =
+    useChatContext();
   const { user } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
@@ -66,8 +55,6 @@ const ChatWindow = () => {
     try {
       const data = getChats(1, 50);
       setChats((await data).items);
-
-      console.log('chats', chats);
     } catch (error) {
       console.error(error);
     }
@@ -79,13 +66,10 @@ const ChatWindow = () => {
 
   const getChatMessages = async () => {
     if (selectedChat) {
-      console.log('GETMESSAGES');
       setIsLoading(true);
       try {
         const data = getMessages(1, 30, selectedChat?.id);
         setWsMessages((await data).items);
-
-        console.log(messages);
       } catch (error) {
         console.error(error);
       }
@@ -118,7 +102,6 @@ const ChatWindow = () => {
           type="button"
           onClick={() => {
             setIsHiddenMobileMenu(true);
-            console.log(isHiddenMobileMenu);
           }}
         >
           X

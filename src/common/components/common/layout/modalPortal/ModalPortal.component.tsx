@@ -1,9 +1,16 @@
 'use client';
+
 import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 
-const ModalPortal = () => {
-  return <ToastContainer />;
-};
+interface ToastProviderProps {
+  children: React.ReactNode;
+}
 
-export default ModalPortal;
+export default function ToastProvider({ children }: ToastProviderProps) {
+  return (
+    <>
+      {children}
+      <ToastContainer />
+    </>
+  );
+}

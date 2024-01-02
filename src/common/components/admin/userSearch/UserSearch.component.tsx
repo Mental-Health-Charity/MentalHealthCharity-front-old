@@ -40,6 +40,9 @@ const UserSearch = () => {
             placeholder="ID"
             type="number"
             onChange={(e) => setID(e.target.valueAsNumber)}
+            min={0}
+            inputMode="numeric"
+            step="1"
           />
           <button
             className={styles.usersearch__wrapper__controls__search}

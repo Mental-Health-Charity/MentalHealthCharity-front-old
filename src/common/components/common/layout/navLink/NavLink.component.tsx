@@ -15,11 +15,13 @@ const NavLink = ({ href, name }: NavLinkProps) => {
     }
   };
   return (
-    <Link className={styles.navLink} href={href}>
-      {name}
-      {renderDot()}
-      <span className={styles.navLink_dot}></span>
-    </Link>
+    <li className={styles.navLink}>
+      <Link className={styles.navLink} href={href}>
+        {name}
+        {renderDot()}
+        <span className={styles.navLink_dot}></span>
+      </Link>
+    </li>
   );
 };
 

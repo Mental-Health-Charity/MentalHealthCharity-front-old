@@ -1,11 +1,10 @@
 'use client';
 import Image from 'next/image';
 import Link from 'next/link';
-import Logo from '../../../../images/static/logo.png';
 import InstagramLogo from '../../../../images/static/instagram.png';
 import FacebookLogo from '../../../../images/static/facebook.png';
 import styles from './Footer.module.scss';
-import { ToastContainer } from 'react-toastify';
+import LogoLight from '../../../../images/static/logoLight.png';
 const Footer = () => {
   return (
     <footer className={styles.footer}>
@@ -28,7 +27,7 @@ const Footer = () => {
         </li>
       </ul>
       <div className={styles.footer__block}>
-        <Image width={250} src={Logo} alt="Logo" />
+        <Image width={200} src={LogoLight} alt="Logo" />
       </div>
       <ul className={styles.footer__block}>
         <li>
@@ -38,8 +37,8 @@ const Footer = () => {
             rel="noopener"
             href="https://instagram.com"
           >
-            Nazwa
             <Image width={32} src={InstagramLogo} alt="Instagram icon" />
+            FundacjaPeryskop
           </Link>
         </li>
         <li>
@@ -49,8 +48,8 @@ const Footer = () => {
             rel="noopener"
             href="https://facebook.com"
           >
-            Nazwa
             <Image width={32} src={FacebookLogo} alt="Facebook icon" />
+            FundacjaPeryskop
           </Link>
         </li>
       </ul>

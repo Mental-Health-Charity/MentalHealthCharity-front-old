@@ -2,27 +2,41 @@
 
 import { useEffect, useState } from 'react';
 import styles from './ReportsPage.module.scss';
-import { ReportList, ReportOptions, getReports } from './apiCalls';
+import { ReportData, ReportOptions, getReports } from './apiCalls';
 import ReportItem from './reportItem/ReportItem.component';
+import { Pagination } from '@/utils/types';
+import LoadingIcon from '../../../images/static/loading.svg';
+import Image from 'next/image';
 
 const Reports = () => {
-  const [reports, setReports] = useState<ReportList>();
+  const [reports, setReports] = useState<Pagination<ReportData>>();
   const [options, setOptions] = useState<ReportOptions>({
     is_considered: false,
   });
+  const [loading, setIsLoading] = useState(true);
 
   const getAllReports = async () => {
+    setIsLoading(true);
     try {
       const data = await getReports(options);
       setReports(data);
     } catch (error) {
       console.error(error);
     }
+    setIsLoading(false);
   };
 
   useEffect(() => {
     getAllReports();
-  }, []);
+  }, [options]);
+
+  const getCategoryButtonStyle = (category: string | undefined) => {
+    if (options.report_type === category) {
+      return styles.wrapper__list__catButtonSelected;
+    } else {
+      return styles.wrapper__list__catButton;
+    }
+  };
 
   return (
     <div className={styles.wrapper}>
@@ -36,9 +50,8 @@ const Reports = () => {
                 ...prev,
                 report_type: 'BUG',
               }));
-              await getAllReports();
             }}
-            className={styles.wrapper__list__catButton}
+            className={getCategoryButtonStyle('BUG')}
           >
             Błędy
           </button>
@@ -48,9 +61,8 @@ const Reports = () => {
                 ...prev,
                 report_type: 'CHANGE_VOLUNTEER',
               }));
-              getAllReports();
             }}
-            className={styles.wrapper__list__catButton}
+            className={getCategoryButtonStyle('CHANGE_VOLUNTEER')}
           >
             Prośby o zmiany
           </button>
@@ -60,18 +72,36 @@ const Reports = () => {
                 ...prev,
                 report_type: 'CHAT_ABUSE',
               }));
-              getAllReports();
             }}
-            className={styles.wrapper__list__catButton}
+            className={getCategoryButtonStyle('CHAT_ABUSE')}
           >
             Nadużycia
+          </button>
+          <button
+            onClick={() => {
+              setOptions((prev) => ({
+                ...prev,
+                report_type: undefined,
+              }));
+            }}
+            className={getCategoryButtonStyle(undefined)}
+          >
+            Wszystkie
           </button>
         </div>
 
         <ul className={styles.wrapper__list__content}>
-          {reports &&
+          {loading ? (
+            <Image
+              src={LoadingIcon}
+              alt="Loading Icon"
+              width={64}
+              height={64}
+            />
+          ) : reports && reports.items.length > 0 ? (
             reports.items.map((report) => (
               <ReportItem
+                getAllReports={getAllReports}
                 key={report.id}
                 created_by={report.created_by}
                 creation_date={report.creation_date}
@@ -80,7 +110,12 @@ const Reports = () => {
                 id={report.id}
                 report_type={report.report_type}
               />
-            ))}
+            ))
+          ) : (
+            <p className={styles.wrapper__list__content__reportsNotFound}>
+              Brak raportów w tej kategorii.
+            </p>
+          )}
         </ul>
       </div>
     </div>

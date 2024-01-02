@@ -15,6 +15,7 @@ const Table = ({ children, handleReads, page, pages }: TableProps) => {
         onClick={() => {
           handleReads(number);
         }}
+        className={styles.table__controls__button}
         disabled={page === number}
         key={index}
       >
@@ -27,7 +28,12 @@ const Table = ({ children, handleReads, page, pages }: TableProps) => {
     <section className={styles.table}>
       <div className={styles.table__content}>{children}</div>
       <div className={styles.table__controls}>
-        <button onClick={() => handleReads(1)}>Odśwież</button>
+        <button
+          className={styles.table__controls__refresh}
+          onClick={() => handleReads(1)}
+        >
+          Odśwież
+        </button>
         {getPages()}
       </div>
     </section>

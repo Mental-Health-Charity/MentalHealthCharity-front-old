@@ -48,7 +48,7 @@ export interface PublicProfile {
 }
 
 interface AuthContextType {
-  user: User | null;
+  user: User | undefined;
   login: (loginData: LoginUserData) => Promise<void>;
   logout: () => void;
   signIn: (userData: User) => Promise<void>;
@@ -61,8 +61,8 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType>({} as AuthContextType);
 
-const useProvideAuth = (userData: User | null) => {
-  const [user, setUser] = useState<User | null>(userData);
+const useProvideAuth = (userData: User | undefined) => {
+  const [user, setUser] = useState<User | undefined>(userData);
   const [error, setError] = useState<AccessToken>();
   const { push } = useRouter();
 
@@ -87,8 +87,6 @@ const useProvideAuth = (userData: User | null) => {
       failurePopUp(
         'Wystąpił błąd podczas rejestracji. Wprowadź poprawne dane.',
       );
-      console.log('FAILURE: response:', res.ok);
-      console.log('error: ', data);
     }
   };
 
@@ -120,8 +118,6 @@ const useProvideAuth = (userData: User | null) => {
     });
 
     const data: AccessToken = await res.json();
-    const error = res.ok;
-    console.log(error, res.statusText);
 
     if (res.ok) {
       createCookies('jwtToken', data.access_token, { secure: true });
@@ -142,18 +138,18 @@ const useProvideAuth = (userData: User | null) => {
 
       const userDataValue: User = await getUserData.json();
       setUser(userDataValue);
-      console.log('USERDATA: ', user);
+
       setError(undefined);
       successPopUp('Pomyślnie zalogowano!');
     } else {
       setError(data);
-      console.log('error: ', data);
+
       failurePopUp('Wystąpił błąd, niepoprawne dane.');
     }
   };
 
   const logout = () => {
-    setUser(null);
+    setUser(undefined);
     expireCookie('jwtToken');
     expireCookie('jwtTokenType');
   };
@@ -173,7 +169,7 @@ export const AuthProvider = ({
   user,
 }: {
   children: React.ReactNode;
-  user: User | null;
+  user: User | undefined;
 }) => {
   const auth = useProvideAuth(user);
 

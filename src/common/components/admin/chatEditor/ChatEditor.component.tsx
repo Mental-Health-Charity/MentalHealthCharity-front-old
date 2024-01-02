@@ -26,7 +26,7 @@ const ChatEditor = () => {
       const data: ChatData = await getChats(page, 5);
       setChats(data);
     } catch (error) {
-      console.log('Error retrieving data ', error);
+      console.error('Error retrieving data ', error);
     }
     setIsLoading(false);
   };
@@ -38,7 +38,7 @@ const ChatEditor = () => {
         createChat(chatName);
         successPopUp('Utworzono nowy chat: ' + chatName);
       } catch (error) {
-        console.log('Error while creating new chat ', error);
+        console.error('Error while creating new chat ', error);
         failurePopUp('Wystąpił błąd podczas utworzenia nowego chatu!');
       }
     } else {
@@ -48,7 +48,6 @@ const ChatEditor = () => {
 
   useEffect(() => {
     readChats(chats?.page ? chats?.page : 1);
-    console.log('downloading chats...');
     infoPopUp('Pobieram czaty...');
   }, []);
 

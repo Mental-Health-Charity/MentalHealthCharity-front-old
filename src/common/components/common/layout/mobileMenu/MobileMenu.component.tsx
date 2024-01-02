@@ -13,6 +13,10 @@ const MobileMenu = ({
   return (
     <button
       className={styles.mobile_menu}
+      id="navigation"
+      name="Nawigacja"
+      aria-labelledby="Nawigacja"
+      aria-label="Nawigacja"
       onClick={() => setIsMobileVisible(isMobileVisible ? false : true)}
     >
       <span aria-hidden="true" className={styles.mobile_menu__deco_line}></span>

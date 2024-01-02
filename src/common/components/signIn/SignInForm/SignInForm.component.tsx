@@ -97,11 +97,7 @@ const SignInForm = () => {
               />
             </div>
 
-            <button
-              onClick={() => console.log(values)}
-              type="submit"
-              className={styles.submitButton}
-            >
+            <button type="submit" className={styles.submitButton}>
               Zarejestruj się
             </button>
           </Form>

@@ -38,11 +38,31 @@
       }
     }
 
+    &__catButtonSelected {
+      background-color: $black;
+      color: $white;
+      border: none;
+      padding: 1em;
+      font-size: 0.9em;
+      margin: 0.5em;
+      border-radius: 1em;
+      transition: 0.2s;
+      cursor: pointer;
+
+      &:hover {
+        box-shadow: 0.2em 0.2em 0.2em #1b1b1b4b;
+      }
+    }
+
     &__content {
       min-height: 100%;
       min-width: 100%;
       padding: 1em;
       margin: 1em;
+
+      &__reportsNotFound {
+        text-align: center;
+      }
     }
   }
 }

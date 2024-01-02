@@ -1,5 +1,5 @@
 'use client';
-import { use, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import styles from './CMS.module.scss';
 import Image from 'next/image';
 import ImageNotFoundIcon from '../../../images/static/imagenotfoundicon.svg';
@@ -8,9 +8,6 @@ import {
   infoPopUp,
   successPopUp,
 } from '@/utils/defaultNotifications';
-
-import { useAuth } from '@/contexts/authProvider/Auth.provider';
-import ArticleItem from '../../common/articleItem/ArticleItem.component';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import CategoryModal from './CategoryModal/CategoryModal.component';
@@ -21,11 +18,40 @@ import '@uiw/react-md-editor/markdown-editor.css';
 import '@uiw/react-markdown-preview/markdown.css';
 import dynamic from 'next/dynamic';
 import { getArticle } from '../../przydatneMaterialy/ArticlePage/lib/getArticle';
-import { useRouter } from 'next/navigation';
+import {
+  MDXEditorMethods,
+  MDXEditorProps,
+  toolbarPlugin,
+} from '@mdxeditor/editor';
+import { forwardRef } from 'react';
+
+import {
+  headingsPlugin,
+  listsPlugin,
+  markdownShortcutPlugin,
+  quotePlugin,
+  thematicBreakPlugin,
+} from '@mdxeditor/editor';
 
 interface CMSProps {
   id?: number;
 }
+
+const Editor = dynamic(
+  () =>
+    import(
+      '../../../components/common/MDXEditor/InitializedMDXEditor.component'
+    ),
+  {
+    ssr: false,
+  },
+);
+
+export const ForwardRefEditor = forwardRef<MDXEditorMethods, MDXEditorProps>(
+  (props, ref) => <Editor {...props} editorRef={ref} />,
+);
+
+ForwardRefEditor.displayName = 'ForwardRefEditor';
 
 const CMS = ({ id }: CMSProps) => {
   const { createArticle } = useAdmin();
@@ -34,11 +60,7 @@ const CMS = ({ id }: CMSProps) => {
 
   const [editedArticle, setEditedArticle] = useState<Article>();
 
-  const { push } = useRouter();
-
-  const MDEditor = dynamic(() => import('@uiw/react-md-editor'), {
-    ssr: false,
-  });
+  ForwardRefEditor.displayName = 'ForwardRefEditor';
 
   const getEditedArticle = async () => {
     if (id) {
@@ -49,7 +71,6 @@ const CMS = ({ id }: CMSProps) => {
         failurePopUp('Wystąpił błąd podczas edycji artykułu!');
       }
     }
-    console.log(editedArticle);
   };
 
   useEffect(() => {
@@ -96,15 +117,13 @@ const CMS = ({ id }: CMSProps) => {
   const onSubmit = (values: Article) => {
     try {
       createArticle(values, id);
-      push('przydatne-materialy');
     } catch (error) {
-      console.log('ERROR while creating new article, error details: ', error);
+      console.error('ERROR while creating new article, error details: ', error);
       failurePopUp(
         'Wystąpił błąd podczas tworzenia nowego artykułu, sprawdź konsolę po więcej informacji.',
       );
     } finally {
-      console.log('STWORZONO');
-      push('przydatne-materialy');
+      successPopUp('Artykuł został utworzony!');
     }
   };
 
@@ -125,7 +144,6 @@ const CMS = ({ id }: CMSProps) => {
           handleChange,
           errors,
           touched,
-
           setFieldValue,
         }) => (
           <Form onSubmit={handleSubmit} className={styles.cmsWrapper__editor}>
@@ -311,13 +329,20 @@ const CMS = ({ id }: CMSProps) => {
                 Treść:
               </label>
 
-              <MDEditor
+              {/* <MDEditor
                 value={values.content}
                 id="content"
                 onChange={(value) => {
                   setFieldValue('content', value);
                 }}
                 className={styles.cmsWrapper__editor__row__editor}
+              /> */}
+
+              <ForwardRefEditor
+                markdown={values.content}
+                onChange={(value) => {
+                  setFieldValue('content', value);
+                }}
               />
 
               <ErrorMessage
@@ -329,7 +354,6 @@ const CMS = ({ id }: CMSProps) => {
 
             <p className={styles.cmsWrapper__editor__row__publishWrapper}>
               <button
-                onClick={() => console.log(values)}
                 type="submit"
                 value="Opublikuj"
                 className={

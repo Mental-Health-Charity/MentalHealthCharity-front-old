@@ -151,9 +151,7 @@ const MyForm: React.FC = () => {
               )}
             </FieldArray>
           </div>
-          <button onClick={() => console.log(values)} type="submit">
-            Wyślij
-          </button>
+          <button type="submit">Wyślij</button>
         </Form>
       )}
     </Formik>

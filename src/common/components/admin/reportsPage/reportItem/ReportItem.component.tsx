@@ -2,6 +2,10 @@ import { failurePopUp, successPopUp } from '@/utils/defaultNotifications';
 import { ReportData, closeReport } from '../apiCalls';
 import styles from './ReportItem.module.scss';
 
+interface ReportItemProps extends ReportData {
+  getAllReports: () => Promise<void>;
+}
+
 const ReportItem = ({
   created_by,
   creation_date,
@@ -9,11 +13,13 @@ const ReportItem = ({
   id,
   report_type,
   subject,
-}: ReportData) => {
+  getAllReports,
+}: ReportItemProps) => {
   const handleClose = async () => {
     try {
       closeReport(id);
       successPopUp('Zamknięto report.');
+      getAllReports();
     } catch (error) {
       console.error(error);
       failurePopUp('Błąd! Sprawdź konsolę po więcej informacji.');

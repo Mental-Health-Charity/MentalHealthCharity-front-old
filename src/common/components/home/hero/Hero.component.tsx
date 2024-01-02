@@ -2,46 +2,51 @@
 import Link from 'next/link';
 import styles from './Hero.module.scss';
 import DefaultButton from '@/common/components/common/defaultbutton/DefaultButton.component';
-import MentalHealthImg from '../../../images/static/mhimg.png';
-import MentalHealthImg2 from '../../../images/static/mhimg2.png';
 import Image from 'next/image';
 import FacebookIcon from '../../../images/static/facebook.png';
 import InstagramIcon from '../../../images/static/instagram.png';
 import ScrollDownIcon from '../../../images/gif/scrolldown.gif';
-import HeroImage from '../heroImage/HeroImage.component';
 import Floating from '../../common/floating/Floating.component';
 import buoyIcon from '../../../images/gif/buoy.gif';
-import { useEffect } from 'react';
-import { infoPopUp } from '@/utils/defaultNotifications';
+import { useAuth } from '@/contexts/authProvider/Auth.provider';
+import Roles from '@/utils/roles';
 
 const Hero = () => {
-  useEffect(() => {
-    infoPopUp(
-      'Korzystasz z wersji developerskiej, nie wszystkie funkcje są zaimplementowane.',
-    );
-  }, []);
+  const { user } = useAuth();
 
   return (
     <section className={styles.hero}>
       <main className={styles.hero__main}>
-        {/* <HeroImage
-          className={styles.hero__heroImageLeft}
-          alt="mental health graphic"
-          src={MentalHealthImg}
-          width={350}
-        /> */}
         <h1 className={styles.hero__heading}>Fundacja Peryskop</h1>
         <h2>Przybywam w celu:</h2>
         <div className={styles.hero__buttons_wrapper}>
+          {user?.user_role === Roles.user && (
+            <DefaultButton
+              fontSize="fmedium"
+              fillType="yellow"
+              content="Uzyskania pomocy"
+              href="/panelPodopiecznego"
+            />
+          )}
+          {!user && (
+            <DefaultButton
+              fontSize="fmedium"
+              fillType="yellow"
+              content="Uzyskania pomocy"
+              href="/panelPodopiecznego"
+            />
+          )}
+          {user?.user_role === Roles.admin && (
+            <DefaultButton
+              fontSize="fmedium"
+              fillType="navy"
+              content="Administracji"
+              href="/admin"
+            />
+          )}
           <DefaultButton
             fontSize="fmedium"
             fillType="white"
-            content="Uzyskania pomocy"
-            href="/panelPodopiecznego"
-          />
-          <DefaultButton
-            fontSize="fmedium"
-            fillType="navy"
             content="Niesienia pomocy"
             href="/panelWolontariusza"
           />
@@ -49,6 +54,7 @@ const Hero = () => {
         <Image
           className={styles.hero__main__scrollicon}
           width="30"
+          loading="lazy"
           src={ScrollDownIcon}
           alt="scroll icon"
         />
@@ -62,12 +68,6 @@ const Hero = () => {
         </Link>
       </div>
       <Floating offsetLeft={10} offsetTop={90} icon={buoyIcon} />
-      {/* <HeroImage
-        className={styles.hero__heroImageRight}
-        alt="mental health graphic"
-        src={MentalHealthImg2}
-        width={350}
-      /> */}
     </section>
   );
 };

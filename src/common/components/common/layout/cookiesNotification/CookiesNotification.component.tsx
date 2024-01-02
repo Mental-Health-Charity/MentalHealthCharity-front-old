@@ -15,12 +15,11 @@ const CookiesNotification = () => {
         dane, dotyczące ruchu na stronie. Korzystając dalej z witryny zgadzasz
         się na ich wykorzystywanie.
       </p>
-      <button
-        className={styles.cookiesDialog__button}
-        onClick={() => console.log('accepted')}
-      >
+      <button className={styles.cookiesDialog__button}>
         Rozumiem, zapamiętaj mój wybór
       </button>
     </dialog>
   );
 };
+
+export default CookiesNotification;

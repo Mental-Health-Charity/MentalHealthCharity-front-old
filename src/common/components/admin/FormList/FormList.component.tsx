@@ -27,7 +27,9 @@ const FormList = () => {
 
   return (
     <div className={styles.wrapper}>
-      <h1 className={styles.wrapper__heading}>Formularze</h1>
+      <h1 className={styles.wrapper__heading}>
+        Formularze o przydzielenie wolontariusza
+      </h1>
       <div className={styles.wrapper__filter}>
         <p className={styles.wrapper__filter__heading}>Pokaż:</p>
 

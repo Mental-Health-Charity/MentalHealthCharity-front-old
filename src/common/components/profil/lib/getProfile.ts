@@ -15,8 +15,6 @@ export const getProfile = async (id: number) => {
     },
   );
 
-  console.log(process.env.NEXT_PUBLIC_BASE_URL);
-
   const data: PublicProfileData = await res.json();
   return data;
 };

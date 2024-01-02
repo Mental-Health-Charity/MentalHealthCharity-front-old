@@ -29,7 +29,7 @@ const MergeUserModal = ({
         successPopUp('Wysłano zmiany dla użytkownika.');
         setIsModalVisible(false);
       } catch (error) {
-        console.log('ERROR while trying to edit user data ', error);
+        console.error('ERROR while trying to edit user data ', error);
         failurePopUp(
           'Wystąpił nieznany błąd podczas operacji. Sprawdź konsolę po więcej informacji, lub skontaktuj się z odpowiednim działem.',
         );

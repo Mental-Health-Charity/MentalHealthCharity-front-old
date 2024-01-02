@@ -39,6 +39,9 @@ const UserEditor = () => {
             type="number"
             placeholder="ID użytkownika docelowego"
             onChange={(e) => getUserByAdmin(e.target.valueAsNumber)}
+            min={0}
+            inputMode="numeric"
+            step="1"
           />
         </div>
         <form
@@ -87,6 +90,9 @@ const UserEditor = () => {
               <option value={Roles.user}>Użytkownik</option>
               <option value={Roles.volunteer}>Wolontariusz</option>
               <option value={Roles.admin}>Admin</option>
+              <option value={Roles.redactor}>Redaktor</option>
+              <option value={Roles.supervisor}>Supervisor</option>
+              <option value={Roles.coordinator}>Koordynator</option>
             </select>
           </p>
           <input

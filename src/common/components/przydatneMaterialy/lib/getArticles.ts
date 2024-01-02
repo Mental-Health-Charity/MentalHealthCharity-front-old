@@ -32,8 +32,6 @@ export const getArticles = async (page: number, size: number) => {
     },
   );
 
-  console.log(process.env.NEXT_PUBLIC_BASE_URL);
-
   const data: Articles = await res.json();
   return data;
 };

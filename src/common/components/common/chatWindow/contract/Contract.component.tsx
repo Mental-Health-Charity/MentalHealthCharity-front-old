@@ -97,7 +97,6 @@ const Contract = ({ chatId }: ContractProps) => {
               }}
               validationSchema={schema}
               onSubmit={(values) => {
-                console.log(values);
                 saveContract(values.content);
               }}
             >

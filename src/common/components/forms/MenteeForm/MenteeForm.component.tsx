@@ -46,7 +46,6 @@ const MenteeForm = () => {
     };
 
     try {
-      console.log('Wysyłam formularz', newForm);
       await sendForm(newForm);
       successPopUp('Wysyłano formularz');
     } catch (err) {
@@ -60,7 +59,6 @@ const MenteeForm = () => {
       initialValues={initialValues}
       validationSchema={validationSchema}
       onSubmit={(values) => {
-        console.log('GIT');
         sendFormToDB(values);
       }}
     >
@@ -162,11 +160,7 @@ const MenteeForm = () => {
             />
           </div>
 
-          <button
-            type="submit"
-            onClick={() => console.log(formikProps.values)}
-            className={styles.submitButton}
-          >
+          <button type="submit" className={styles.submitButton}>
             Wyślij
           </button>
         </Form>

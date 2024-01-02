@@ -157,7 +157,7 @@ export const ChatProvider: React.FC<{ children: React.ReactNode }> = ({
 
       ws.onmessage = (e) => {
         var server_message = e.data;
-        console.log('MESSAGE', server_message);
+        console.info('MESSAGE', server_message);
         return false;
       };
     }
@@ -184,7 +184,7 @@ export const ChatProvider: React.FC<{ children: React.ReactNode }> = ({
         var server_message = e.data;
         const newMessage = JSON.parse(server_message);
         setWsMessages((prevMessages) => [newMessage, ...prevMessages]);
-        console.log('MESSAGE2', server_message);
+
         return false;
       };
     }

@@ -1,5 +1,4 @@
 'use client';
-
 import Image from 'next/image';
 import Logo from '../../../../images/static/logo.png';
 import DefaultButton from '@/common/components/common/defaultbutton/DefaultButton.component';
@@ -11,8 +10,9 @@ import styles from './Navbar.module.scss';
 import clsx from 'clsx';
 import { useAuth } from '@/contexts/authProvider/Auth.provider';
 import Link from 'next/link';
-import roles from '@/utils/roles';
 import Roles from '@/utils/roles';
+import DefaultUserImg from '../../../../images/static/user.png';
+import DropDownIcon from '../../../../images/static/dropdown-1.svg';
 
 const Navbar = () => {
   const [isMobileVisible, setIsMobileVisible] = useState(true);
@@ -24,13 +24,15 @@ const Navbar = () => {
       })}
     >
       <div className={styles.navbar__logoWrapper}>
-        <Image
-          className={styles.navbar__logo}
-          priority
-          alt="Logotype"
-          src={Logo}
-          width={'200'}
-        />
+        <Link className={styles.navbar__authWrapper__loggedUser} href={'/'}>
+          <Image
+            className={styles.navbar__logo}
+            priority
+            alt="Logotype"
+            src={Logo}
+            width={'200'}
+          />
+        </Link>
         <MobileMenu
           setIsMobileVisible={setIsMobileVisible}
           isMobileVisible={isMobileVisible}
@@ -50,12 +52,21 @@ const Navbar = () => {
             className={styles.navbar__authWrapper__loggedUser}
             href={'/login'}
           >
-            <span
-              aria-hidden="true"
-              className={styles.navbar__authWrapper__loggedUser__dot}
-            ></span>
-            {user.user_role === roles.admin && '[admin] '}
+            <Image
+              src={user.avatar_url || DefaultUserImg}
+              width={45}
+              className={styles.navbar__authWrapper__loggedUser__avatar}
+              height={45}
+              alt="zdjęcie profilowe użytkownika"
+            />
             {user.full_name === '' ? 'Anonim' : user.full_name}
+            <Image
+              src={DropDownIcon}
+              width={45}
+              className={styles.navbar__authWrapper__loggedUser__dropDown}
+              height={45}
+              alt="zdjęcie profilowe użytkownika"
+            />
           </Link>
         ) : (
           <>

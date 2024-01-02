@@ -28,7 +28,6 @@ function MenteePanel() {
     try {
       const data = getChats(1, 2);
       setChats((await data).items);
-      console.log('chats', chats);
     } catch (error) {
       console.error(error);
     }

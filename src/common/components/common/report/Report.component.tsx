@@ -50,7 +50,6 @@ const Report = () => {
             validationSchema={schema}
             onSubmit={(values) => {
               sendReport(values);
-              console.log(values);
             }}
           >
             {() => (

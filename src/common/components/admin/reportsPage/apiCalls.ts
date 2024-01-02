@@ -29,14 +29,15 @@ export const getReports = async (options: ReportOptions) => {
   const queryParams: Array<string> = [];
 
   options.report_type && queryParams.push(`report_type=${options.report_type}`);
-  options.is_considered && queryParams.push(`author=${options.is_considered}`);
+  options.is_considered !== undefined &&
+    queryParams.push(`is_considered=${options.is_considered}`);
   options.page && queryParams.push(`post_type=${options.page}`);
   options.size && queryParams.push(`before=${options.size}`);
 
   const queryString = queryParams.join('&');
 
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/user-report/?=${options.is_considered}&${queryString}`,
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/user-report/?${queryString}`,
     {
       method: 'get',
       headers,
@@ -52,7 +53,7 @@ export const closeReport = async (id: number) => {
     is_considered: true,
   };
 
-  const res = await fetch(
+  await fetch(
     `${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/user-report/${id}/change-status`,
     {
       method: 'PUT',
@@ -60,6 +61,4 @@ export const closeReport = async (id: number) => {
       body: JSON.stringify(body),
     },
   );
-  const data = await res.json();
-  console.log(data);
 };

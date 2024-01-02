@@ -25,7 +25,7 @@ const PrzydatneMaterialy = () => {
       setArticles(articles);
       setLoading(true);
     } catch (error) {
-      console.log('Error while loading articles, error details ', error);
+      console.error('Error while loading articles, error details ', error);
       failurePopUp('Błąd wczytywania artykułów.');
     }
     setLoading(false);
@@ -57,12 +57,7 @@ const PrzydatneMaterialy = () => {
 
   return (
     <section className={styles.articlesWrapper}>
-      <h1
-        onClick={() => console.log(articles?.items.length)}
-        className={styles.articlesWrapper__heading}
-      >
-        Wszystkie artykuły
-      </h1>
+      <h1 className={styles.articlesWrapper__heading}>Wszystkie artykuły</h1>
       <div className={styles.articlesWrapper__articles}>
         <Table
           page={articles ? articles.page : 1}
