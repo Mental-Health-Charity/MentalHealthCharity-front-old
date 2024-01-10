@@ -21,17 +21,11 @@ import { getArticle } from '../../przydatneMaterialy/ArticlePage/lib/getArticle'
 import {
   MDXEditorMethods,
   MDXEditorProps,
-  toolbarPlugin,
+
 } from '@mdxeditor/editor';
 import { forwardRef } from 'react';
 
-import {
-  headingsPlugin,
-  listsPlugin,
-  markdownShortcutPlugin,
-  quotePlugin,
-  thematicBreakPlugin,
-} from '@mdxeditor/editor';
+
 
 interface CMSProps {
   id?: number;
@@ -339,6 +333,7 @@ const CMS = ({ id }: CMSProps) => {
               /> */}
 
               <ForwardRefEditor
+                className={styles.cmsWrapper__editor__row__editor}
                 markdown={values.content}
                 onChange={(value) => {
                   setFieldValue('content', value);

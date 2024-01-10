@@ -3,14 +3,7 @@ import styles from './VolunteerFormItem.module.scss';
 import { formStatusDescription } from './lib/utils';
 import { useAdmin } from '@/contexts/adminProvider/Admin.provider';
 import { failurePopUp, successPopUp } from '@/utils/defaultNotifications';
-import {
-  JSXElementConstructor,
-  Key,
-  ReactElement,
-  ReactFragment,
-  ReactPortal,
-  useState,
-} from 'react';
+import { useState } from 'react';
 import Roles from '@/utils/roles';
 import { FormStatus } from '@/utils/types';
 
@@ -77,7 +70,12 @@ const VolunteerFormItem = ({ form, handleReload }: FormItemProps) => {
     <li className={styles.formItem}>
       <div className={styles.formItem__step}>
         <p>
-          {status}/{form.form_type.max_step} <>{getFormStatus()}</>
+          {status}/{form.form_type.max_step}{' '}
+          <>
+            {form.form_status === FormStatus.REJECTED
+              ? 'ODRZUCONE'
+              : getFormStatus()}
+          </>
         </p>
         <p>{form.creation_date}</p>
       </div>
@@ -142,7 +140,7 @@ const VolunteerFormItem = ({ form, handleReload }: FormItemProps) => {
             Akceptuj
           </button>
         ) : (
-          form.form_status !== FormStatus.REJECTED && (
+          form.form_status === FormStatus.WAITED && (
             <button
               onClick={() => handleAddVolunteer()}
               className={styles.formItem__controls__accept}

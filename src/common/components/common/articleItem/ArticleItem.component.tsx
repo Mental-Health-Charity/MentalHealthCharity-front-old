@@ -38,7 +38,7 @@ const ArticleItem = ({ article, showAdminOptions }: ArticleItemProps) => {
     <article className={styles.article}>
       <Link
         className={styles.article__interact}
-        href={`./przydatne-materialy/${article.id}`}
+        href={showAdminOptions ? '' : `./przydatne-materialy/${article.id}`}
       >
         <div className={styles.article__banner}>
           <ul className={styles.article__banner__tags}>
@@ -46,6 +46,7 @@ const ArticleItem = ({ article, showAdminOptions }: ArticleItemProps) => {
               {article.article_category?.name}
             </li>
           </ul>
+
           <Image
             width={320}
             height={320}

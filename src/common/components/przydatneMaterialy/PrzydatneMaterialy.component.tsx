@@ -33,9 +33,16 @@ const PrzydatneMaterialy = () => {
 
   const loadArticles = () => {
     if (!loading && articles && articles?.items) {
-      return articles.items.map((article: Article, index) => (
-        <ArticleItem showAdminOptions={false} article={article} key={index} />
-      ));
+      return articles.items
+        .sort((a: Article, b: Article) => {
+          return (
+            new Date(b.creation_date).getTime() -
+            new Date(a.creation_date).getTime()
+          );
+        })
+        .map((article: Article, index) => (
+          <ArticleItem showAdminOptions={false} article={article} key={index} />
+        ));
     } else if (!loading && articles && !articles.items) {
       return (
         <p>

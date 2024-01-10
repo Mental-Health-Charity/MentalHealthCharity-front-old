@@ -15,8 +15,13 @@ import { getChats, getMessages } from './lib/api';
 import sendIcon from '../../../images/static/sendicon.png';
 import clsx from 'clsx';
 const ChatWindow = () => {
-  const { selectedChat, sendMessage, wsMessages, setWsMessages } =
-    useChatContext();
+  const {
+    selectedChat,
+    sendMessage,
+    wsMessages,
+    setWsMessages,
+    unreadedMessages,
+  } = useChatContext();
   const { user } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
@@ -63,6 +68,10 @@ const ChatWindow = () => {
   useEffect(() => {
     searchChats();
   }, []);
+
+  useEffect(() => {
+    console.log(unreadedMessages);
+  }, [unreadedMessages]);
 
   const getChatMessages = async () => {
     if (selectedChat) {

@@ -68,16 +68,16 @@ const ManageRecruitment = () => {
             height={60}
             alt="ikona ładowania"
           />
+        ) : forms?.items.length && forms?.items.length > 0 ? (
+          forms?.items.map((form) => (
+            <VolunteerFormItem
+              handleReload={searchForms}
+              key={form.id}
+              form={form}
+            />
+          ))
         ) : (
-          forms?.items
-            .filter((elem) => elem.created_by.user_role !== Roles.volunteer)
-            .map((form) => (
-              <VolunteerFormItem
-                handleReload={searchForms}
-                key={form.id}
-                form={form}
-              />
-            ))
+          <li>Brak formularzy do wyświetlenia</li>
         )}
       </ul>
     </div>

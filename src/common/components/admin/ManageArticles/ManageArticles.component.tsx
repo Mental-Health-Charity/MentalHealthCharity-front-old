@@ -38,7 +38,14 @@ const ManageArticles = () => {
   const loadArticles = () => {
     if (!loading && articles && articles.items.length > 0) {
       return articles.items.map((article, index) => (
-        <ArticleItem showAdminOptions={true} key={index} article={article} />
+        <ArticleItem
+          showAdminOptions={
+            article.status !== Status.DELETED &&
+            article.status !== Status.REJECT
+          }
+          key={index}
+          article={article}
+        />
       ));
     } else {
       return <p>Brak materiałów w tej kategorii.</p>;

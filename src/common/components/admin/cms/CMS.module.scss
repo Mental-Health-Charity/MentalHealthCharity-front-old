@@ -73,6 +73,11 @@
       margin-top: 1.5rem;
       border-radius: 0.3rem;
 
+      &__editor {
+        min-height: 700px;
+        background-color: #64646415;
+      }
+
       &__addVideoBtn {
         background-color: transparent;
         border: none;

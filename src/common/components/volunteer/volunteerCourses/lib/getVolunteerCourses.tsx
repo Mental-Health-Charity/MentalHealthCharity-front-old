@@ -16,6 +16,7 @@ export interface Article {
     id: number;
     name: string;
   };
+  status: Status;
   required_role?: 'ANYONE' | Roles.admin | Roles.volunteer;
 }
 
