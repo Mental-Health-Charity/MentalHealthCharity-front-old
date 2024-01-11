@@ -19,7 +19,10 @@ const InfoGrid = () => {
             width={200}
             height={200}
           />
-          <p>Lorem ipsum, lorem lorem</p>
+          <p>
+            Szkolimy wolontariuszy, oraz pomagamy im rozwijać się w obszarze
+            niesienia pomocy psychologicznej
+          </p>
         </article>
         <article className={styles.infoGrid__blocksWrapper__block}>
           <Image
@@ -29,7 +32,10 @@ const InfoGrid = () => {
             width={200}
             height={200}
           />
-          <p>Ipsum, ipsum lorem, lorem</p>
+          <p>
+            Oferujemy osobom w kryzysie darmowe wsparcie pełne uwagi i empatii,
+            bez oceny
+          </p>
         </article>
         <article className={styles.infoGrid__blocksWrapper__block}>
           <Image
@@ -39,7 +45,10 @@ const InfoGrid = () => {
             width={200}
             height={200}
           />
-          <p>Lorem ipsum, ipsum ipsum</p>
+          <p>
+            Tworzymy bazę wiedzy przy współpracy ze specjalistami dla tych,
+            którzy lubią wiedzieć więcej
+          </p>
         </article>
       </div>
       <Floating offsetLeft={68} offsetTop={102} icon={SeaWeedIcon} />

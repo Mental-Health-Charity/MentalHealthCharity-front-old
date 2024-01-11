@@ -19,9 +19,10 @@
     justify-content: space-around;
     width: 100%;
     height: fit-content;
-    grid-template-columns: repeat(auto-fit, 17em);
-    grid-template-rows: repeat(auto-fit, 22em);
+    grid-template-columns: repeat(auto-fit, 20em);
+    grid-template-rows: repeat(auto-fit, 24em);
     gap: 3em;
+    margin-top: 30px;
 
     &__block {
       @include flex-center-xy;
@@ -32,6 +33,11 @@
       border-radius: 15%;
       padding: 2em;
       position: relative;
+      text-align: center;
+      font-weight: bold;
+      min-height: 440px;
+      color: white;
+      text-shadow: 1px 1px 5px $black;
 
       &__image {
         height: auto;
