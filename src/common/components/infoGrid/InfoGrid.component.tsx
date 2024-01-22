@@ -1,7 +1,8 @@
 import Image from 'next/image';
 import styles from './InfoGrid.module.scss';
-import ExampleImage from '../../images/static/mhimg.png';
-import ExampleImage2 from '../../images/static/mhimg2.png';
+import VolunteerImg from '../../images/static/wolo.png';
+import MenteeImg from '../../images/static/podopieczni.png';
+import KnowledgeImg from '../../images/static/bazaWiedzy.png';
 import Floating from '../common/floating/Floating.component';
 import SeaWeedIcon from '../../images/gif/seaweed.gif';
 import ShellIcon from '../../images/gif/shell.gif';
@@ -14,7 +15,7 @@ const InfoGrid = () => {
         <article className={styles.infoGrid__blocksWrapper__block}>
           <Image
             className={styles.infoGrid__blocksWrapper__block__image}
-            src={ExampleImage}
+            src={VolunteerImg}
             alt={'Grafika zdrowie psychiczne'}
             width={200}
             height={200}
@@ -27,7 +28,7 @@ const InfoGrid = () => {
         <article className={styles.infoGrid__blocksWrapper__block}>
           <Image
             className={styles.infoGrid__blocksWrapper__block__image}
-            src={ExampleImage2}
+            src={MenteeImg}
             alt={'Grafika zdrowie psychiczne'}
             width={200}
             height={200}
@@ -40,7 +41,7 @@ const InfoGrid = () => {
         <article className={styles.infoGrid__blocksWrapper__block}>
           <Image
             className={styles.infoGrid__blocksWrapper__block__image}
-            src={ExampleImage}
+            src={KnowledgeImg}
             alt={'Grafika zdrowie psychiczne'}
             width={200}
             height={200}

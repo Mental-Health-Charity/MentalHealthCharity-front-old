@@ -9,8 +9,10 @@ $max-width: 140em;
   position: relative; //for Floating component
   width: 100%;
   height: auto;
+  flex-direction: column;
   padding: 1em;
   margin-bottom: 4em;
+  gap: 150px;
 
   &__article {
     position: relative;
@@ -29,12 +31,51 @@ $max-width: 140em;
 
     &__contentIndent {
       text-align: start;
-      text-indent: 30px;
     }
   }
 
   &__article__heading {
     font-size: 2em;
+    position: relative;
+
+    // &::before,
+    // &::after {
+    //   min-width: 25%;
+    //   min-height: 3px;
+    //   border-radius: 2px;
+    //   top: 50%;
+    //   transform: translate(-50%, -50%);
+
+    //   background-color: $white;
+    //   content: '';
+    //   position: absolute;
+    //   display: block;
+    //   transform: translateX(-50%);
+    // }
+
+    // &::after {
+    //   right: -3%;
+    // }
+
+    // &::before {
+    //   left: 22%;
+    // }
+    &__line {
+      min-width: 25%;
+      min-height: 3px;
+      border-radius: 2px;
+      top: 50%;
+
+      background-color: $white;
+
+      display: inline-block;
+      margin: 0 20px 10px 20px;
+
+      @media (max-width: 902px) {
+        display: block;
+        margin: 0;
+      }
+    }
   }
 
   &__article::before {

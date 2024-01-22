@@ -6,7 +6,20 @@ const About = () => {
   return (
     <section className={styles.about}>
       <article className={styles.about__article}>
-        <h2 className={styles.about__article__heading}>O nas</h2>
+        <h2 className={styles.about__article__heading}>
+          {' '}
+          <span
+            aria-disabled
+            aria-hidden="true"
+            className={styles.about__article__heading__line}
+          />
+          O nas
+          <span
+            aria-disabled
+            aria-hidden="true"
+            className={styles.about__article__heading__line}
+          />
+        </h2>
 
         <p className={styles.about__article__contentIndent}>
           Pomysł na powstanie projektu narodził się w wyniku kryzysu osobistego
@@ -40,6 +53,23 @@ const About = () => {
           widzimy więcej, możemy więcej i jesteśmy lepiej przygotowani do
           stawiania czoła nieustannej podróży, jaką jest życie.
         </p>
+      </article>
+      <Floating offsetLeft={74} offsetTop={120} icon={fishIcon} />
+      <article className={styles.about__article}>
+        <h2 className={styles.about__article__heading}>
+          <span
+            aria-disabled
+            aria-hidden="true"
+            className={styles.about__article__heading__line}
+          />{' '}
+          Jak działamy{' '}
+          <span
+            aria-disabled
+            aria-hidden="true"
+            className={styles.about__article__heading__line}
+          />
+        </h2>
+
         <p className={styles.about__article__contentIndent}>
           Zalążek naszego projektu powstał przez Internet i także tu, w sieci,
           chcemy tworzyć naszą społeczność. Choć mieszkamy w różnych rejonach
@@ -58,7 +88,6 @@ const About = () => {
           dobroczynny wpływ na zdrowie psychiczne, to witaj na pokładzie!
         </p>
       </article>
-      <Floating offsetLeft={74} offsetTop={120} icon={fishIcon} />
     </section>
   );
 };
