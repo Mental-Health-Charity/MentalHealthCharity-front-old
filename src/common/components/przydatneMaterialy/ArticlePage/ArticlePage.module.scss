@@ -3,8 +3,8 @@
 .wrapper {
   @include flex-center-xy;
   text-align: left;
-  padding-top: 8em;
-  max-width: 1920px;
+  padding: 200px 20px 20px 20px;
+  max-width: 1300px;
   min-height: 100vh;
   margin: 0 auto;
   flex-direction: column;
@@ -12,53 +12,56 @@
   &__bannerWrapper {
     @include flex-center-xy;
     width: 100%;
-    background-color: #1b1b1b2b;
-    box-shadow: 0.1em 0.1em 2em #1b1b1b2b;
     padding: 0;
     min-height: 500px;
+    gap: 30px;
+    margin-bottom: 100px;
+    @media (max-width: 710px) {
+      flex-wrap: wrap;
+    }
+
     &__banner {
+      @include flex-center-y;
+      flex-direction: column;
       width: auto;
-      min-height: 500px;
-      height: 100%;
+      width: 100%;
+      height: auto;
+
+      &__date {
+        color: #2b2b2b;
+        margin: 0;
+      }
+
+      &__user {
+        @include flex-center-x;
+        color: #2b2b2b;
+        margin: 0;
+        text-decoration: none;
+        width: 100%;
+        gap: 20px;
+
+        &__container {
+          width: 100%;
+          &__name,
+          &__role {
+            margin: 0;
+            padding: 0;
+          }
+
+          &__role {
+            color: #2b2b2b;
+          }
+
+          &__name {
+            font-size: 1.2em;
+            font-weight: 1000;
+            color: $navy;
+          }
+        }
+      }
     }
   }
 
-  &__title {
-    font-size: 2em;
-    margin-bottom: 0.5em;
-    font-weight: bold;
-  }
-
-  &__content {
-    font-size: 1.125em;
-    line-height: 1.6;
-    margin-bottom: 1em;
-    text-align: justify;
-    padding: 1em;
-  }
-
-  &__author {
-    display: flex;
-    align-items: center;
-    background-color: #1b1b1b2b;
-    padding: 0.5em;
-    border-radius: 1em;
-    margin: 1em 0 1em 0;
-    text-decoration: none;
-    color: $navy;
-
-    &__picture {
-      width: 3em;
-      height: 3em;
-      border-radius: 50%;
-      margin-right: 0.5em;
-    }
-
-    &__name {
-      font-size: 1.25em;
-      font-weight: bold;
-    }
-  }
   &__editArticle {
     margin-bottom: 1em;
     border: none;

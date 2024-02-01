@@ -15,18 +15,12 @@ import ReactPlayer from 'react-player';
 import ArticlePlaceholderImg from '../../../images/static/placeholderArticle.svg';
 import FullScreenLoading from '../../common/fullScreenLoading/FullScreenLoading.component';
 import defaultUserImg from '../../../images/static/user.png';
-import {
-  InsertFrontmatter,
-  MDXEditorMethods,
-  MDXEditorProps,
-  frontmatterPlugin,
-  toolbarPlugin,
-} from '@mdxeditor/editor';
+import { MDXEditorMethods, MDXEditorProps } from '@mdxeditor/editor';
 
 const Editor = dynamic(
   () =>
     import(
-      '../../../components/common/MDXEditor/InitializedMDXEditor.component'
+      '../../../components/common/MDXEditor/InitializedMDXReader.component'
     ),
   {
     ssr: false,
@@ -66,6 +60,43 @@ const ArticlePage = ({ id }: ArticlePageProps) => {
   return (
     <div className={styles.wrapper}>
       <div className={styles.wrapper__bannerWrapper}>
+        <div className={styles.wrapper__bannerWrapper__banner}>
+          <p className={styles.wrapper__bannerWrapper__banner__date}>
+            {article.creation_date}
+          </p>
+          <h1 className={styles.wrapper__bannerWrapper__banner__title}>
+            {article?.title}
+          </h1>
+          <Link
+            className={styles.wrapper__bannerWrapper__banner__user}
+            href={`/profil/${article.created_by.id}`}
+          >
+            <Image
+              width={50}
+              height={50}
+              alt="Profil użytkownika"
+              src={defaultUserImg}
+            />
+            <div
+              className={styles.wrapper__bannerWrapper__banner__user__container}
+            >
+              <p
+                className={
+                  styles.wrapper__bannerWrapper__banner__user__container__name
+                }
+              >
+                {article.created_by.full_name}
+              </p>
+              <p
+                className={
+                  styles.wrapper__bannerWrapper__banner__user__container__role
+                }
+              >
+                {article.created_by.user_role}
+              </p>
+            </div>
+          </Link>
+        </div>
         <Image
           className={styles.wrapper__bannerWrapper__banner}
           width={300}
@@ -79,34 +110,14 @@ const ArticlePage = ({ id }: ArticlePageProps) => {
         />
       </div>
 
-      <h1 className={styles.wrapper__title}>{article?.title}</h1>
       {article?.video_url && <ReactPlayer controls url={article?.video_url} />}
-      <p className={styles.wrapper__content}>
-        
+      <article className={styles.wrapper__content}>
         <ForwardRefEditor
-        
+          className={styles.cmsWrapper__editor__row__editor}
           markdown={article?.content}
-          plugins={[
-            frontmatterPlugin(),
-            toolbarPlugin({ toolbarContents: () => <InsertFrontmatter /> }),
-          ]}
+          readOnly
         />
-      </p>
-      <Link
-        href={`/profil/${article.created_by.id}`}
-        className={styles.wrapper__author}
-      >
-        <Image
-          className={styles.wrapper__author__picture}
-          width={80}
-          height={80}
-          alt="Profil użytkownika"
-          src={defaultUserImg}
-        />
-        <p className={styles.wrapper__author__name}>
-          {article.created_by.full_name}
-        </p>
-      </Link>
+      </article>
       {user?.user_role === Roles.admin && (
         <Link
           href={`/admin/CMS/${article?.id}`}
