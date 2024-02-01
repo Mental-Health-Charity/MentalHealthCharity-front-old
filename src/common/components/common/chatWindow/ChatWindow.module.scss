@@ -1,200 +1,54 @@
 @use '../../../styles/variables.module' as *;
 @use '../../../styles/mixins.module' as *;
 
-.hiddenMenu {
-  display: none !important;
-}
+.main {
+  min-width: 100%;
+  min-height: 80vh;
 
-.chatWindow {
-  background: linear-gradient(
-    to right bottom,
-    rgb(245, 248, 255),
-    rgb(240, 244, 253)
-  );
-  padding: 0;
-  margin: 8em 0 8em 0;
-  position: relative;
-  display: flex;
-
-  height: 80vh;
-  width: 100%;
-
-  &__chat__heading {
-    color: $navy;
-    width: 100%;
-  }
-
-  &__chatsList {
-    @include listScrollBar;
-    display: flex;
-    flex-direction: column;
-    padding: 0.4em 0.4em 0 0.4em;
-    gap: 1em;
-
-    margin-block-start: 0.1em;
-    width: fit-content;
-
-    overflow-y: auto;
-
-    &__closeIcon {
-      display: none;
-    }
-
-    @media (max-width: 650px) {
-      & {
-        position: absolute;
-        z-index: 2;
-        background: linear-gradient(
-          to right bottom,
-          rgb(245, 248, 255),
-          rgb(240, 244, 253)
-        );
-        padding: 1em;
-        height: 100%;
-        -webkit-box-shadow: 0px -5px 1em rgba(50, 50, 50, 0.75);
-        -moz-box-shadow: 0px -5px 1em rgba(50, 50, 50, 0.75);
-        box-shadow: 9px -10px 1em rgba(50, 50, 50, 0.07);
-
-        &__closeIcon {
-          display: block;
-          border: 0;
-          background-color: transparent;
-          font-size: 1em;
-          text-align: end;
-          font-weight: 1000;
-          color: $error;
-        }
-      }
-    }
-
-    &__error {
-      max-width: 12em;
-      background-color: $yellow;
-      padding: 1em;
-      color: $gray;
-      border-radius: 1em;
-    }
-  }
-
-  &__chat {
-    width: 100%;
-    position: relative;
-
-    @media (max-width: 1022px) {
-      & {
-        width: 100%;
-      }
-    }
-
-    &__report {
+  &__sidebar {
+    padding: 10px;
+    width: 300px;
+    &__user {
       display: flex;
-      margin-bottom: 0.2em;
-      align-items: center;
-      justify-content: flex-end;
-      width: 100%;
-      position: absolute;
-      right: 2em;
-    }
-
-    &__heading {
-      background-color: $white;
-      padding: 0.5em 3em 0.5em 3em;
-      width: 100%;
-      margin-top: -2px;
-      border-bottom: 2px solid #1b1b1b1b;
-    }
-
-    &__name {
-      color: $navy;
-      margin: 0.1em;
-    }
-
-    &__participants {
-      color: $gray;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.5em;
-      margin: 0;
-      padding: 0;
-
-      &__participant {
-        margin: 0;
-        padding: 0;
-        display: flex;
-        gap: 0.1em;
-        font-size: 0.7em;
-
-        &__roleAdmin {
-          color: $error;
-          font-weight: 1000;
-        }
-
-        &__roleVolunteer {
-          color: $lightNavy;
-          font-weight: 1000;
+      gap: 10px;
+      &__wrapper {
+        @include flex-center-y;
+        flex-direction: column;
+        & p {
+          margin: 0;
         }
 
         &__name {
-          margin: 0em;
+          font-size: 1.2em;
           font-weight: 1000;
-          color: $yellow;
-          text-shadow: 0.1em 0.1em 0.1em #1b1b1b1b;
+          color: $navy;
         }
-
-        &__id {
-          font-size: 0.8em;
-          color: $gray;
+        &__role {
+          color: #2b2b2b;
         }
       }
     }
 
-    &__messages {
-      @include listScrollBar;
-      display: flex;
-      flex-direction: column-reverse;
-      gap: 0.5em;
-      padding: 2em;
-      background-color: $white;
-      border-radius: 0.2em;
-      margin: 0;
-      height: calc(100% - 12.3em);
-      overflow-y: auto;
-      max-width: 100%;
+    &__search {
+      margin-top: 20px;
+      padding: 10px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      outline: none;
+      width: 100%;
     }
 
-    &__chatForm {
-      @include flex-center-xy;
-      background-color: $white;
-      padding: 1em;
-      -webkit-box-shadow: 0px -5px 1em rgba(50, 50, 50, 0.75);
-      -moz-box-shadow: 0px -5px 1em rgba(50, 50, 50, 0.75);
-      box-shadow: 9px -10px 1em rgba(50, 50, 50, 0.07);
-
-      &__send {
-        min-height: 3em;
-        margin: 0.5em;
-        background-color: $navy;
-        border: 0;
-        color: $white;
-        border-radius: 50%;
-        cursor: pointer;
-
-        transition: 0.3s;
-        padding: 0.5em;
-        @include flex-center-xy;
-
-        &:hover {
-          background-color: $lightNavy;
-        }
+    &__chatList {
+      & ul {
+        padding: 0;
+        margin: 0;
       }
-
-      &__input {
-        width: 100%;
-        border: 0.1em solid $navy;
-        font-size: 1.2em;
-        min-height: 3em;
-        padding: 0.5em;
-        resize: vertical;
+      &__heading {
+        margin-top: 20px;
+        margin-bottom: 10px;
+        font-size: 1.4em;
+        font-weight: 1000;
+        color: $navy;
       }
     }
   }

@@ -7,7 +7,6 @@ const VolunteerChats = () => {
   const { user } = useAuth();
   return (
     <section className={styles.volunteerChats}>
-      <h1>Czatuj z podopiecznymi, {user?.full_name}!</h1>
       <ChatWindow />
     </section>
   );

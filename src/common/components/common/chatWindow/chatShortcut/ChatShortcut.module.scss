@@ -5,15 +5,15 @@
   @include flex-center-xy;
   background-color: $white;
   flex-direction: column;
-  padding: 1em 1em 1em 1em;
-
-  box-shadow: 0.2em 0.2em 0.2em #1b1b1b1b;
+  padding: 1em;
+  width: 100%;
   transition: 0.2s;
   cursor: pointer;
   border: 0;
+  border-bottom: 1px solid rgb(240, 244, 253);
 
   &:hover {
-    scale: 1.05;
+    background-color: rgb(240, 244, 253);
   }
 
   &:active {
