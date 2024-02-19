@@ -1,6 +1,8 @@
 import clsx from 'clsx';
 import styles from './ChatMessage.module.scss';
 import { format } from 'date-fns';
+import Logo from '../../../../images/static/user.png';
+import Image from 'next/image';
 
 interface ChatMessageProps {
   senderIsAuthor: boolean | undefined;
@@ -22,11 +24,7 @@ const ChatMessage = ({
       })}
     >
       {!senderIsAuthor && (
-        <img
-          width={40}
-          height={40}
-          src="https://cdn-icons-png.flaticon.com/512/3177/3177440.png"
-        />
+        <Image alt="User default img" width={40} height={40} src={Logo} />
       )}
       <div
         className={clsx(styles.message__main, {

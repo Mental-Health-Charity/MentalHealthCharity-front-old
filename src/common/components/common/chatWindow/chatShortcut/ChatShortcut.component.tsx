@@ -2,27 +2,27 @@ import Image from 'next/image';
 import styles from './ChatShortcut.module.scss';
 import MessageIcon from '../../../../images/static/message.png';
 import { User } from '@/contexts/authProvider/Auth.provider';
-import { Chat, ChatData } from '@/utils/chatTypes';
+import { Chat } from '@/utils/chatTypes';
 
-import { useChatContext } from '@/hooks/useChatContext';
+import { Dispatch, SetStateAction } from 'react';
 
 interface ChatShortcutProps {
   participants: User[] | undefined;
   chat: Chat;
-  handleReadMessages: (chat: Chat) => Promise<void>;
+
+  setSelectedChat: Dispatch<SetStateAction<Chat | undefined>>;
 }
 
 const ChatShortcut = ({
   participants,
   chat,
-  handleReadMessages,
+
+  setSelectedChat,
 }: ChatShortcutProps) => {
-  const { setSelectedChat } = useChatContext();
   return (
     <button
       onClick={() => {
         setSelectedChat(chat);
-        handleReadMessages(chat);
       }}
       className={styles.chatShortcut}
     >

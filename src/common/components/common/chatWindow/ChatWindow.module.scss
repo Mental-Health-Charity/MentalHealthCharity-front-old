@@ -2,11 +2,66 @@
 @use '../../../styles/mixins.module' as *;
 
 .main {
+  display: flex;
   min-width: 100%;
   min-height: 80vh;
 
+  &__chat {
+    background-color: #f7faff;
+    width: 100%;
+    position: relative;
+
+    &__messages {
+      height: 600px;
+      overflow: auto;
+      display: flex;
+      flex-direction: column;
+      padding: 10px;
+    }
+    &__inputWrapper {
+      position: absolute;
+      bottom: 20px;
+      width: 90%;
+      max-width: 800px;
+      border-radius: 16px;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: #fff;
+      padding: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      box-shadow: 0 -2px 5px 0 rgba(0, 0, 0, 0.1);
+      & textarea {
+        width: 100%;
+        max-height: 120px;
+        padding: 10px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+        outline: none;
+      }
+
+      & button {
+        padding: 10px;
+        border-radius: 5px;
+        border: none;
+        background-color: $navy;
+        color: #fff;
+        cursor: pointer;
+        outline: none;
+        width: auto;
+        height: 57px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+    }
+  }
+
   &__sidebar {
-    padding: 10px;
+    box-shadow: 2px 0 5px 0 rgba(0, 0, 0, 0.1);
+    padding: 20px;
     width: 300px;
     &__user {
       display: flex;

@@ -21,14 +21,15 @@ const ChatWindow = () => {
     sendMessage,
     wsMessages,
     setWsMessages,
-    unreadedMessages,
+
+    setSelectedChat,
   } = useChatContext();
   const { user } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
-  const [messages, setMessages] = useState<Message[]>([]);
+  // const [messages, setMessages] = useState<Message[]>([]);
   const [newMessage, setNewMessage] = useState<string | null>();
   const [chats, setChats] = useState<Chat[]>([]);
-  const [isHiddenMobileMenu, setIsHiddenMobileMenu] = useState(false);
+  // const [isHiddenMobileMenu, setIsHiddenMobileMenu] = useState(false);
 
   // const getUserRole = (participant: User) => {
   //   switch (participant.user_role) {
@@ -70,9 +71,9 @@ const ChatWindow = () => {
     searchChats();
   }, []);
 
-  useEffect(() => {
-    console.log(unreadedMessages);
-  }, [unreadedMessages]);
+  // useEffect(() => {
+  //   console.log(unreadedMessages);
+  // }, [unreadedMessages]);
 
   const getChatMessages = async () => {
     if (selectedChat) {
@@ -98,6 +99,7 @@ const ChatWindow = () => {
   useEffect(() => {
     setWsMessages([]);
     getChatMessages();
+    console.log('PUFF');
   }, [selectedChat]);
 
   return (
@@ -130,7 +132,7 @@ const ChatWindow = () => {
           <ul className={styles.main__sidebar__chatList__list}>
             {chats.map((chat, index) => (
               <ChatShortcut
-                handleReadMessages={async () => getChatMessages()}
+                setSelectedChat={setSelectedChat}
                 key={index}
                 chat={chat}
                 participants={chat.participants}
@@ -139,7 +141,57 @@ const ChatWindow = () => {
           </ul>
         </div>
       </div>
-      <div className={styles.main__chat}></div>
+      <div className={styles.main__chat}>
+        <ul className={styles.main__chat__messages}>
+          {!isLoading ? (
+            wsMessages.length <= 0 && selectedChat ? (
+              <p>Napisz pierwszą wiadomość na tym chacie!</p>
+            ) : (
+              wsMessages.map((message, index) => {
+                return (
+                  <ChatMessage
+                    key={index}
+                    senderIsAuthor={
+                      message.sender && message.sender.id === user?.id
+                        ? true
+                        : message.sender_id === user?.id
+                    }
+                    author={message.sender ? message.sender.full_name : ''}
+                    content={message.content}
+                    date={message.creation_date}
+                  />
+                );
+              })
+            )
+          ) : (
+            <Image
+              alt="ikona ładowania"
+              src={LoadingIcon}
+              width={60}
+              height={60}
+            />
+          )}
+        </ul>
+        <div className={styles.main__chat__inputWrapper}>
+          <textarea
+            value={newMessage || ''}
+            onChange={(e) => setNewMessage(e.target.value)}
+          />
+          <button
+            onClick={() => {
+              selectedChat &&
+                newMessage &&
+                sendMessage(selectedChat?.id, newMessage);
+              setNewMessage('');
+            }}
+            type="submit"
+            aria-label="submit message"
+            value=">"
+          >
+            <Image alt="send icon" src={sendIcon} height={36} width={36} />
+          </button>
+        </div>
+      </div>
       <div className={styles.main__sidebar}></div>
     </div>
     // <div className={styles.chatWindow}>
