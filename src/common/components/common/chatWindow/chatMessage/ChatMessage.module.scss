@@ -10,6 +10,7 @@
   width: fit-content;
   max-width: 400px;
   position: relative;
+  margin-bottom: 10px;
 
   @media (max-width: 550px) {
     max-width: 12em;
@@ -54,6 +55,19 @@
 
   &__main--authorMe {
     background-color: $yellow;
+  }
+
+  &--pending {
+    opacity: 60%;
+    align-self: flex-end;
+    border-radius: 1em;
+    padding: 0.5em 1em 0.5em 1em;
+    margin-left: 0.5em;
+    min-width: 20em;
+
+    & img {
+      display: none;
+    }
   }
 
   &__date {

@@ -9,6 +9,12 @@
   box-shadow: 0.1em 0.1em 0.5em #1b1b1b4b;
   color: $white;
   font-size: 1.1em;
+  width: 500px;
+  height: 420px;
+
+  @media (max-width: 550px) {
+    width: 100%;
+  }
 
   &::before {
     position: absolute;
@@ -57,6 +63,7 @@
       padding: 0.2em;
       max-height: 8em;
       max-width: 35em;
+      min-height: 140px;
       overflow: auto;
 
       &__participant {

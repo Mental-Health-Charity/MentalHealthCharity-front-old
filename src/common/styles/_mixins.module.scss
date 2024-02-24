@@ -1,3 +1,5 @@
+@use './variables.module' as *;
+
 @mixin flex-center-xy {
   display: flex;
   align-items: center;
@@ -47,11 +49,11 @@
   }
 
   &::-webkit-scrollbar-thumb {
-    background-color: #6fa5d1;
+    background-color: $yellow;
     border-radius: 10px;
   }
 
   &::-webkit-scrollbar-thumb:hover {
-    background-color: #5082a1;
+    background-color: $yellow;
   }
 }

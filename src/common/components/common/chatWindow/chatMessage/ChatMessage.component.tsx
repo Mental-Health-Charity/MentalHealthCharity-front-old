@@ -8,6 +8,7 @@ interface ChatMessageProps {
   senderIsAuthor: boolean | undefined;
   author: string;
   content: string;
+  isPending?: boolean;
   date: string;
 }
 
@@ -16,6 +17,7 @@ const ChatMessage = ({
   author,
   content,
   date,
+  isPending,
 }: ChatMessageProps) => {
   return (
     <li
@@ -29,6 +31,7 @@ const ChatMessage = ({
       <div
         className={clsx(styles.message__main, {
           [styles['message__main--authorMe']]: senderIsAuthor,
+          [styles['message--pending']]: isPending,
         })}
       >
         {!senderIsAuthor && (
@@ -37,7 +40,9 @@ const ChatMessage = ({
         <p className={styles.message__main__content}>{content}</p>
       </div>
       <span className={styles.message__date}>
-        {format(new Date(date), 'dd/MM/yyyy HH:mm')}
+        {isPending
+          ? 'Wysyłanie...'
+          : format(new Date(date), 'dd/MM/yyyy HH:mm')}
       </span>
     </li>
   );

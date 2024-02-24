@@ -20,6 +20,7 @@ export interface Message {
   content: string;
   id: number;
   sender: User;
+  isPending?: boolean;
   sender_id?: number;
   creation_date: string;
 }

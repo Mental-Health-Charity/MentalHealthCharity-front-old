@@ -1,6 +1,7 @@
 import { BASE_URL } from '@/config';
 import { Chat, ChatData, Message, Messages } from '@/utils/chatTypes';
 import { getCookies, getCookiesAuth } from '@/utils/cookies';
+import { set } from 'date-fns';
 import React, {
   Dispatch,
   SetStateAction,
@@ -8,6 +9,8 @@ import React, {
   useEffect,
   useState,
 } from 'react';
+import { User, useAuth } from '../authProvider/Auth.provider';
+import { failurePopUp } from '@/utils/defaultNotifications';
 
 type Contract = {
   is_confirmed: boolean;
@@ -92,15 +95,40 @@ export const ChatProvider: React.FC<{ children: React.ReactNode }> = ({
   const [unreadedMessagesWS, initUnreadedMessagesWS] = useState<WebSocket>();
   const [unreadedMessages, setUnreadedMessages] = useState(0);
   const [wsMessages, setWsMessages] = useState<Message[]>([]);
+  const { user } = useAuth();
 
   const wsConnectToChat = useCallback(async () => {
     const data = await getCookies('jwtToken');
-    if (data && selectedChat?.id)
-      initWS(
-        new WebSocket(
-          `wss://mentalhealthcharity-backend-production.up.railway.app/ws-chat?token=${data}&chat_id=${selectedChat.id}`,
-        ),
+
+    if (data && selectedChat?.id) {
+      if (ws) {
+        ws.close();
+      }
+
+      const newWebSocket = new WebSocket(
+        `wss://mentalhealthcharity-backend-production.up.railway.app/ws-chat?token=${data}&chat_id=${selectedChat.id}`,
       );
+
+      newWebSocket.onopen = () => {
+        console.warn('connected');
+        console.warn('[WS][CONNECTED]');
+      };
+
+      newWebSocket.onclose = (evt) => {
+        failurePopUp(
+          'Połączenie z chatem zostało przerwane, sprawdź swoje połączenie z internetem.',
+        );
+        console.warn(
+          `[WS][CLOSED] ${
+            specificStatusCodeMappings[
+              evt.code as keyof typeof specificStatusCodeMappings
+            ]
+          }`,
+        );
+      };
+
+      initWS(newWebSocket);
+    }
   }, [selectedChat]);
 
   useEffect(() => {
@@ -134,6 +162,16 @@ export const ChatProvider: React.FC<{ children: React.ReactNode }> = ({
 
   const sendMessage = async (chatId: number, content: string) => {
     if (ws && content.trim() !== '') {
+      setWsMessages((prevMessages) => [
+        {
+          content,
+          creation_date: new Date().toISOString(),
+          id: 0,
+          sender: user as User,
+          isPending: true,
+        },
+        ...prevMessages,
+      ]);
       ws.send(JSON.stringify({ chatId, content }));
     }
   };
@@ -165,30 +203,33 @@ export const ChatProvider: React.FC<{ children: React.ReactNode }> = ({
 
   useEffect(() => {
     if (ws) {
-      ws.onopen = () => {
-        console.warn('connected');
-        console.warn('[WS][CONNECTED]');
-      };
-
-      ws.onclose = (evt) => {
-        console.warn(
-          `[WS][CLOSED] ${
-            specificStatusCodeMappings[
-              evt.code as keyof typeof specificStatusCodeMappings
-            ]
-          }`,
-        );
-      };
-
       ws.onmessage = (e) => {
-        var server_message = e.data;
+        const server_message = e.data;
         const newMessage = JSON.parse(server_message);
-        setWsMessages((prevMessages) => [newMessage, ...prevMessages]);
 
-        return false;
+        console.log('newMessage', newMessage);
+
+        setWsMessages((prevMessages) => {
+          const updatedMessages = prevMessages.map((message) => {
+            if (message.isPending && message.content === newMessage.content) {
+              return newMessage;
+            } else {
+              return message;
+            }
+          });
+
+          // If the new message is not found in the previous messages, add it to the array
+          if (
+            !updatedMessages.some((message) => message.id === newMessage.id)
+          ) {
+            updatedMessages.unshift(newMessage);
+          }
+
+          return updatedMessages;
+        });
       };
     }
-  }, [ws]);
+  }, [ws, wsMessages]);
 
   return (
     <ChatContext.Provider

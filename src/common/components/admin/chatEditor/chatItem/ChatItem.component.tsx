@@ -97,12 +97,14 @@ const ChatItem = ({ chat, readChats, page }: ChatItemProps) => {
               );
             })}
         </ul>
-        <input
-          onChange={(e) => setUserId(e.target.valueAsNumber)}
-          type="number"
-          placeholder="id"
-        />
-        <button onClick={handleAddParticipant}>dodaj</button>
+        <div>
+          <input
+            onChange={(e) => setUserId(e.target.valueAsNumber)}
+            type="number"
+            placeholder="id"
+          />
+          <button onClick={handleAddParticipant}>dodaj</button>
+        </div>
       </div>
     </div>
   );
