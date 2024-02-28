@@ -1,22 +1,22 @@
 'use client';
 import { useEffect, useState } from 'react';
-
 import styles from './ManageArticles.module.scss';
-
-import { failurePopUp, successPopUp } from '@/utils/defaultNotifications';
-import Image from 'next/image';
-import LoadingIcon from '../../../images/static/loading.svg';
+import { failurePopUp } from '@/utils/defaultNotifications';
 import ArticleItem from '../../common/articleItem/ArticleItem.component';
 import Table from '../../common/table/Table.component';
-import { getVolunteerCourses } from '../../volunteer/volunteerCourses/lib/getVolunteerCourses';
-
+import {
+  Article,
+  getVolunteerCourses,
+} from '../../volunteer/volunteerCourses/lib/getVolunteerCourses';
 import { Articles } from '../../volunteer/volunteerCourses/lib/getVolunteerCourses';
 import { Status } from '@/contexts/adminProvider/Admin.provider';
+import ArticlePreview from '../../common/ArticlePreview/ArticlePreview.component';
 
 const ManageArticles = () => {
   const [articles, setArticles] = useState<Articles>();
   const [loading, setLoading] = useState(true);
   const [statusOfArticles, setStatusOfArticles] = useState<Status>();
+  const [selectedArticle, setSelectedArticle] = useState<Article>();
 
   const getAllArticles = async (page: number) => {
     try {
@@ -43,6 +43,7 @@ const ManageArticles = () => {
             article.status !== Status.DELETED &&
             article.status !== Status.REJECT
           }
+          onClick={(article) => setSelectedArticle(article)}
           key={index}
           article={article}
         />
@@ -87,6 +88,13 @@ const ManageArticles = () => {
           {loadArticles()}
         </Table>
       </div>
+      {selectedArticle && (
+        <ArticlePreview
+          open
+          article={selectedArticle}
+          handleClose={() => setSelectedArticle(undefined)}
+        />
+      )}
     </section>
   );
 };

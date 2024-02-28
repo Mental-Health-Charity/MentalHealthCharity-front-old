@@ -1,21 +1,23 @@
-import { ArticleCategory } from '@/contexts/adminProvider/Admin.provider';
+import {
+  ArticleCategory,
+  Status,
+} from '@/contexts/adminProvider/Admin.provider';
 import { User } from '@/contexts/authProvider/Auth.provider';
-import { getCookiesAuth } from '@/utils/cookies';
+import Roles from '@/utils/roles';
 
 export interface Article {
+  id: number;
   title: string;
   content: string;
+  created_by: User;
   banner_url: string;
   video_url: string;
-  id: number;
-  article_category: ArticleCategory;
-  minimal_role: string;
-  status: string;
-  reject_message: string;
-  created_by: User;
   creation_date: string;
+  article_category_id?: number;
+  article_category: ArticleCategory;
+  status: Status;
+  required_role?: 'ANYONE' | Roles.admin | Roles.volunteer;
 }
-
 export interface Articles {
   items: Article[];
   total: number;

@@ -12,20 +12,19 @@ import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import CategoryModal from './CategoryModal/CategoryModal.component';
 
-import { Article, useAdmin } from '@/contexts/adminProvider/Admin.provider';
-
+import {
+  Article,
+  Status,
+  useAdmin,
+} from '@/contexts/adminProvider/Admin.provider';
 import '@uiw/react-md-editor/markdown-editor.css';
 import '@uiw/react-markdown-preview/markdown.css';
 import dynamic from 'next/dynamic';
 import { getArticle } from '../../przydatneMaterialy/ArticlePage/lib/getArticle';
-import {
-  MDXEditorMethods,
-  MDXEditorProps,
-
-} from '@mdxeditor/editor';
+import { MDXEditorMethods, MDXEditorProps } from '@mdxeditor/editor';
 import { forwardRef } from 'react';
-
-
+import ArticlePreview from '../../common/ArticlePreview/ArticlePreview.component';
+import { useAuth } from '@/contexts/authProvider/Auth.provider';
 
 interface CMSProps {
   id?: number;
@@ -51,6 +50,8 @@ const CMS = ({ id }: CMSProps) => {
   const { createArticle } = useAdmin();
   const [addVideoToArticle, setAddVideoToArticle] = useState(false);
   const [isModalOpen, setModalOpen] = useState(false);
+  const { user } = useAuth();
+  const [showPreview, setShowPreview] = useState(false);
 
   const [editedArticle, setEditedArticle] = useState<Article>();
 
@@ -323,15 +324,6 @@ const CMS = ({ id }: CMSProps) => {
                 Treść:
               </label>
 
-              {/* <MDEditor
-                value={values.content}
-                id="content"
-                onChange={(value) => {
-                  setFieldValue('content', value);
-                }}
-                className={styles.cmsWrapper__editor__row__editor}
-              /> */}
-
               <ForwardRefEditor
                 className={styles.cmsWrapper__editor__row__editor}
                 markdown={values.content}
@@ -357,7 +349,36 @@ const CMS = ({ id }: CMSProps) => {
               >
                 {id ? 'Wyślij edycje' : 'Wyślij artykuł'}
               </button>
+              <button
+                type="button"
+                value="Podgląd artykułu"
+                aria-label="Podgląd artykułu"
+                className={
+                  styles.cmsWrapper__editor__row__publishWrapper__preview
+                }
+                onClick={() => setShowPreview(!showPreview)}
+              >
+                Podgląd artykułu
+              </button>
             </p>
+            {user && showPreview && (
+              <ArticlePreview
+                handleClose={() => setShowPreview(false)}
+                article={{
+                  ...values,
+                  created_by: user,
+                  id: 0,
+                  status: Status.DRAFT,
+                  creation_date: '',
+                  article_category: {
+                    id: values.article_category?.id || 0,
+                    is_active: true,
+                    name: 'string',
+                  },
+                }}
+                open={showPreview}
+              />
+            )}
           </Form>
         )}
       </Formik>

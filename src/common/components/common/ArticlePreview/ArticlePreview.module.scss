@@ -1,0 +1,23 @@
+@use '../../../styles/mixins.module' as *;
+@use '../../../styles/variables.module' as *;
+
+.dialog {
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  z-index: 2;
+  top: 0;
+  overflow: auto;
+
+  &__closeButton {
+    @include default-button;
+    position: absolute;
+    top: 140px;
+    background-color: $error;
+    border-color: $error;
+    cursor: pointer;
+    color: $white;
+    font-size: 1em;
+    font-weight: bold;
+  }
+}

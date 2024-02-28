@@ -35,9 +35,10 @@ ForwardRefEditor.displayName = 'ForwardRefEditor';
 
 interface ArticlePageProps {
   id: number;
+  preview?: Article;
 }
 
-const ArticlePage = ({ id }: ArticlePageProps) => {
+const ArticlePage = ({ id, preview }: ArticlePageProps) => {
   const [article, setArticle] = useState<Article>();
 
   const { user } = useAuth();
@@ -52,8 +53,8 @@ const ArticlePage = ({ id }: ArticlePageProps) => {
   };
 
   useEffect(() => {
-    readArticle();
-  }, []);
+    preview ? setArticle(preview) : readArticle();
+  }, [preview]);
 
   if (!article) return <FullScreenLoading />;
 
@@ -69,7 +70,7 @@ const ArticlePage = ({ id }: ArticlePageProps) => {
           </h1>
           <Link
             className={styles.wrapper__bannerWrapper__banner__user}
-            href={`/profil/${article.created_by.id}`}
+            href={preview ? '#' : `/profil/${article.created_by.id}`}
           >
             <Image
               width={50}
@@ -120,7 +121,7 @@ const ArticlePage = ({ id }: ArticlePageProps) => {
       </article>
       {user?.user_role === Roles.admin && (
         <Link
-          href={`/admin/CMS/${article?.id}`}
+          href={preview ? '#' : `/admin/CMS/${article?.id}`}
           className={styles.wrapper__editArticle}
         >
           Edytuj artykuł

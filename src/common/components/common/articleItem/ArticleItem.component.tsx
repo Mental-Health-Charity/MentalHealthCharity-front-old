@@ -1,4 +1,3 @@
-import ArticlePlaceholder from '../../../images/static/ArticlePlaceholder.jpg';
 import Link from 'next/link';
 import Image from 'next/image';
 import styles from './ArticleItem.module.scss';
@@ -13,9 +12,14 @@ import placeholderUserImg from '../../../images/static/user.png';
 interface ArticleItemProps {
   article: Article;
   showAdminOptions: boolean;
+  onClick?: (article: Article) => void;
 }
 
-const ArticleItem = ({ article, showAdminOptions }: ArticleItemProps) => {
+const ArticleItem = ({
+  article,
+  showAdminOptions,
+  onClick,
+}: ArticleItemProps) => {
   const date = new Date(article.creation_date);
   const formattedDate = format(date, 'dd/MM/yyyy HH:mm');
   const { user } = useAuth();
@@ -39,6 +43,7 @@ const ArticleItem = ({ article, showAdminOptions }: ArticleItemProps) => {
       <Link
         className={styles.article__interact}
         href={showAdminOptions ? '' : `./przydatne-materialy/${article.id}`}
+        onClick={onClick ? () => onClick(article) : undefined}
       >
         <div className={styles.article__banner}>
           <ul className={styles.article__banner__tags}>

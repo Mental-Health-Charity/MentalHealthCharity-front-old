@@ -1,4 +1,7 @@
-import { Status } from '@/contexts/adminProvider/Admin.provider';
+import {
+  ArticleCategory,
+  Status,
+} from '@/contexts/adminProvider/Admin.provider';
 import { User } from '@/contexts/authProvider/Auth.provider';
 import { getCookiesAuth } from '@/utils/cookies';
 import Roles from '@/utils/roles';
@@ -12,10 +15,7 @@ export interface Article {
   video_url: string;
   creation_date: string;
   article_category_id?: number;
-  article_category: {
-    id: number;
-    name: string;
-  };
+  article_category: ArticleCategory;
   status: Status;
   required_role?: 'ANYONE' | Roles.admin | Roles.volunteer;
 }
