@@ -3,11 +3,10 @@ import styles from './ChatWindow.module.scss';
 import ChatMessage from './chatMessage/ChatMessage.component';
 import ChatShortcut from './chatShortcut/ChatShortcut.component';
 import { useEffect, useState } from 'react';
-import { Chat, Message } from '@/utils/chatTypes';
-import { User, useAuth } from '@/contexts/authProvider/Auth.provider';
+import { Chat } from '@/utils/chatTypes';
+import { useAuth } from '@/contexts/authProvider/Auth.provider';
 import Image from 'next/image';
 import LoadingIcon from '../../../images/static/loading.svg';
-import Roles from '@/utils/roles';
 import { useChatContext } from '@/hooks/useChatContext';
 import Contract from './contract/Contract.component';
 import Report from '../report/Report.component';
@@ -17,20 +16,23 @@ import clsx from 'clsx';
 import MessageIcon from '../../../images/static/message.png';
 import defaultUserImg from '../../../images/static/user.png';
 import { failurePopUp } from '@/utils/defaultNotifications';
-import ReportItem from '../../admin/reportsPage/reportItem/ReportItem.component';
+import Arrow from '../../../images/static/arrow.svg';
+import Notes from './notes/Notes.component';
+
 const ChatWindow = () => {
   const {
     selectedChat,
     sendMessage,
     wsMessages,
     setWsMessages,
-
     setSelectedChat,
   } = useChatContext();
   const { user } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
   const [newMessage, setNewMessage] = useState<string | null>();
   const [chats, setChats] = useState<Chat[]>([]);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [isChatListOpen, setIsChatListOpen] = useState(false);
 
   const searchChats = async () => {
     try {
@@ -76,7 +78,10 @@ const ChatWindow = () => {
   return (
     <>
       <section className={styles.mobileTopbar}>
-        <button className={styles.mobileTopbar__chatInfo}>
+        <button
+          onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+          className={styles.mobileTopbar__chatInfo}
+        >
           <Image
             alt="Ikona wiadomości"
             src={MessageIcon}
@@ -85,11 +90,20 @@ const ChatWindow = () => {
           />
           <p>{selectedChat?.name}</p>
         </button>
-        <button className={styles.mobileTopbar__moreChats}>Lista chatów</button>
+        <button
+          onClick={() => setIsChatListOpen(!isChatListOpen)}
+          className={styles.mobileTopbar__moreChats}
+        >
+          Lista chatów
+        </button>
       </section>
       <section className={styles.main}>
         {/* sidebar */}
-        <div className={styles.main__sidebar}>
+        <div
+          className={clsx(styles.main__sidebar, {
+            [styles['sidebar--active']]: isChatListOpen,
+          })}
+        >
           <div className={styles.main__sidebar__user}>
             <Image
               width={50}
@@ -105,12 +119,19 @@ const ChatWindow = () => {
                 {user?.user_role}
               </p>
             </div>
+            <button
+              onClick={() => setIsChatListOpen(false)}
+              className={styles.main__sidebar__user__mobileCloseBtn}
+            >
+              <Image src={Arrow} alt="Arrow back" width={32} height={32} />
+            </button>
           </div>
           <input
             className={styles.main__sidebar__search}
             placeholder="Wyszukaj..."
             type="text"
           />
+
           <div className={styles.main__sidebar__chatList}>
             <p className={styles.main__sidebar__chatList__heading}>Chaty</p>
             <ul className={styles.main__sidebar__chatList__list}>
@@ -180,7 +201,11 @@ const ChatWindow = () => {
             </button>
           </div>
         </div>
-        <div className={styles.main__sidebar}>
+        <div
+          className={clsx(styles.main__sidebar, {
+            [styles['sidebar--active']]: isSidebarOpen,
+          })}
+        >
           <div className={styles.main__sidebar__chatInfo}>
             <Image
               alt="Ikona wiadomości"
@@ -189,11 +214,19 @@ const ChatWindow = () => {
               height={32}
             />
             <p>{selectedChat?.name}</p>
+
+            <button
+              onClick={() => setIsSidebarOpen(false)}
+              className={styles.main__sidebar__user__mobileCloseBtn}
+            >
+              <Image src={Arrow} alt="Arrow back" width={32} height={32} />
+            </button>
           </div>
 
           <div className={styles.main__sidebar__chatSettings}>
             {selectedChat && <Contract chatId={selectedChat.id} />}
             {selectedChat && <Report />}
+            {selectedChat && <Notes chatId={selectedChat.id} />}
           </div>
           <div className={styles.main__sidebar__usersWrapper}>
             <p>Uczestnicy</p>

@@ -25,6 +25,7 @@ import { MDXEditorMethods, MDXEditorProps } from '@mdxeditor/editor';
 import { forwardRef } from 'react';
 import ArticlePreview from '../../common/ArticlePreview/ArticlePreview.component';
 import { useAuth } from '@/contexts/authProvider/Auth.provider';
+import BackupModal from '../../common/backupModal/BackupModal.component';
 
 interface CMSProps {
   id?: number;
@@ -52,8 +53,8 @@ const CMS = ({ id }: CMSProps) => {
   const [isModalOpen, setModalOpen] = useState(false);
   const { user } = useAuth();
   const [showPreview, setShowPreview] = useState(false);
-
   const [editedArticle, setEditedArticle] = useState<Article>();
+  const [submitted, setSubmitted] = useState(false);
 
   ForwardRefEditor.displayName = 'ForwardRefEditor';
 
@@ -119,6 +120,7 @@ const CMS = ({ id }: CMSProps) => {
       );
     } finally {
       successPopUp('Artykuł został utworzony!');
+      setSubmitted(true);
     }
   };
 
@@ -378,6 +380,9 @@ const CMS = ({ id }: CMSProps) => {
                 }}
                 open={showPreview}
               />
+            )}
+            {submitted && (
+              <BackupModal redirectTo="/przydatne-materialy" values={values} />
             )}
           </Form>
         )}

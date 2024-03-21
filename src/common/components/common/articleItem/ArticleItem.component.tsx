@@ -83,7 +83,15 @@ const ArticleItem = ({
               {formattedDate}
             </p>
           </div>
-          {showAdminOptions && (
+          {article.status === Status.REJECT && (
+            <button
+              className={styles.article__content__controls}
+              onClick={() => ManageArticle(Status.DRAFT)}
+            >
+              Przywróć do szkiców
+            </button>
+          )}
+          {showAdminOptions && article.status !== Status.REJECT && (
             <>
               <button
                 className={styles.article__content__controls}

@@ -39,10 +39,7 @@ const ManageArticles = () => {
     if (!loading && articles && articles.items.length > 0) {
       return articles.items.map((article, index) => (
         <ArticleItem
-          showAdminOptions={
-            article.status !== Status.DELETED &&
-            article.status !== Status.REJECT
-          }
+          showAdminOptions={article.status !== Status.DELETED}
           onClick={(article) => setSelectedArticle(article)}
           key={index}
           article={article}
