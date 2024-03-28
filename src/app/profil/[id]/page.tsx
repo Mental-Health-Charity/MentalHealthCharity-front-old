@@ -1,7 +1,6 @@
 'use client';
 import UserProfile from '@/common/components/profil/UserProfile.component';
-import { usePathname, useRouter } from 'next/navigation';
-import Router from 'next/router';
+import { usePathname } from 'next/navigation';
 
 const Profil = () => {
   const id = usePathname();

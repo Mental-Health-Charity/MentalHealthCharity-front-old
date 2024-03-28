@@ -36,7 +36,7 @@ export const getVolunteerCourses = async (
   const headers = await getCookiesAuth();
 
   const res = await fetch(
-    `https://mentalhealthcharity-backend-production.up.railway.app/api/v1/article/?status=${status}&page=${page}&size=${size}`,
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/article/?status=${status}&page=${page}&size=${size}`,
     {
       method: 'get',
       headers,
@@ -51,7 +51,7 @@ export const getPublicArticle = async (page: number, size: number) => {
   const headers = await getCookiesAuth();
 
   const res = await fetch(
-    `https://mentalhealthcharity-backend-production.up.railway.app/api/v1/article/public?status=PUBLISHED&page=${page}&size=${size}`,
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/article/public?status=PUBLISHED&page=${page}&size=${size}`,
     {
       method: 'get',
       headers,

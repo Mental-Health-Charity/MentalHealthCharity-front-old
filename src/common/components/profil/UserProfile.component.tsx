@@ -2,13 +2,19 @@
 
 import Image from 'next/image';
 import styles from './UserProfile.module.scss';
-import getProfile, { PublicProfileData } from './lib/getProfile';
+import { PublicProfileData, getMyArticles, getProfile } from './lib/api';
 import { useEffect, useState } from 'react';
 import LoadingIcon from '../../images/static/loading.svg';
 import userDefaultIcon from '../../images/static/user.png';
 import { PublicProfile, useAuth } from '@/contexts/authProvider/Auth.provider';
 import ChangePictureModal from './modal/ChangePictureModal.component';
 import { failurePopUp, successPopUp } from '@/utils/defaultNotifications';
+import Table from '../common/table/Table.component';
+import { Article, Articles } from '../przydatneMaterialy/lib/getArticles';
+import { Status } from '@/contexts/adminProvider/Admin.provider';
+import ArticleItem from '../common/articleItem/ArticleItem.component';
+import getStatusName from '@/utils/getStatusName';
+import ArticlePreview from '../common/ArticlePreview/ArticlePreview.component';
 
 interface UserProfileProps {
   id: number;
@@ -19,6 +25,13 @@ const UserProfile = ({ id }: UserProfileProps) => {
   const [error, setError] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { user, editPublicProfile } = useAuth();
+
+  const [previewArticle, setPreviewArticle] = useState<Article | null>(null);
+  const [articles, setArticles] = useState<Articles>();
+  const [loading, setLoading] = useState(true);
+  const [selectedStatus, setSelectedStatus] = useState<Status>(
+    Status.PUBLISHED,
+  );
   const [isUserProfileOwner, setIsUserProfileOwner] = useState(
     profile?.user.email === user?.email,
   );
@@ -36,6 +49,23 @@ const UserProfile = ({ id }: UserProfileProps) => {
       console.error('error while downloading public profile', err);
       setError(true);
     }
+  };
+
+  const getArticles = async (page: number) => {
+    try {
+      setLoading(true);
+      const articles = await getMyArticles({
+        page,
+        size: 10,
+        status: selectedStatus,
+        userId: id.toString(),
+      });
+      setArticles(articles);
+    } catch (error) {
+      console.error('Error while loading articles, error details ', error);
+      failurePopUp('Błąd wczytywania artykułów.');
+    }
+    setLoading(false);
   };
 
   const handleEditProfile = async () => {
@@ -56,7 +86,11 @@ const UserProfile = ({ id }: UserProfileProps) => {
   }, []);
 
   useEffect(() => {
-    setIsUserProfileOwner(profile?.user.email === user?.email);
+    getArticles(1);
+  }, [selectedStatus]);
+
+  useEffect(() => {
+    setIsUserProfileOwner(profile?.user.id === user?.id);
   }, [user, profile]);
 
   if (!profile)
@@ -73,6 +107,23 @@ const UserProfile = ({ id }: UserProfileProps) => {
       </div>
     );
   }
+
+  const loadArticles = () => {
+    if (!loading && articles && articles?.items) {
+      return articles.items.map((article: Article, index) => (
+        <ArticleItem
+          onClick={(article) => setPreviewArticle(article)}
+          showAdminOptions={false}
+          article={article}
+          key={index}
+        />
+      ));
+    } else {
+      return (
+        <Image src={LoadingIcon} alt="Ikona ładowania" width={60} height={60} />
+      );
+    }
+  };
 
   return (
     <div className={styles.profile}>
@@ -135,6 +186,32 @@ const UserProfile = ({ id }: UserProfileProps) => {
           )}
         </div>
       </div>
+      <div className={styles.profile__articles}>
+        <div>
+          <h2 className={styles.profile__articles__heading}>Moje publikacje</h2>
+          <select onChange={(e) => setSelectedStatus(e.target.value as Status)}>
+            {Object.entries(Status).map(([key, value]) => (
+              <option key={key} value={value}>
+                {getStatusName(value)}
+              </option>
+            ))}
+          </select>
+        </div>
+        <Table
+          handleReads={getArticles}
+          page={articles ? articles.page : 1}
+          pages={articles ? articles.pages : 1}
+        >
+          {loadArticles()}
+        </Table>
+      </div>
+      {previewArticle && (
+        <ArticlePreview
+          article={previewArticle}
+          open={previewArticle !== null}
+          handleClose={() => setPreviewArticle(null)}
+        />
+      )}
     </div>
   );
 };
