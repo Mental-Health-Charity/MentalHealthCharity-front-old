@@ -25,6 +25,7 @@ const UserProfile = ({ id }: UserProfileProps) => {
   const [error, setError] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { user, editPublicProfile } = useAuth();
+  const [profileLoading, setProfileLoading] = useState(true);
 
   const [previewArticle, setPreviewArticle] = useState<Article | null>(null);
   const [articles, setArticles] = useState<Articles>();
@@ -32,23 +33,24 @@ const UserProfile = ({ id }: UserProfileProps) => {
   const [selectedStatus, setSelectedStatus] = useState<Status>(
     Status.PUBLISHED,
   );
-  const [isUserProfileOwner, setIsUserProfileOwner] = useState(
-    profile?.user.email === user?.email,
-  );
+  const [isUserProfileOwner, setIsUserProfileOwner] = useState(false);
   const [editedProfile, setEditedProfile] = useState<PublicProfile>();
 
   const getPublicProfile = async () => {
     try {
+      setProfileLoading(true);
       const profile = await getProfile(id);
       setProfile(profile);
       setEditedProfile({
         avatar_url: profile.avatar_url,
         description: profile.description,
       });
+      setIsUserProfileOwner(profile?.user.id === user?.id);
     } catch (err) {
       console.error('error while downloading public profile', err);
       setError(true);
     }
+    setProfileLoading(false);
   };
 
   const getArticles = async (page: number) => {
@@ -89,18 +91,14 @@ const UserProfile = ({ id }: UserProfileProps) => {
     getArticles(1);
   }, [selectedStatus]);
 
-  useEffect(() => {
-    setIsUserProfileOwner(profile?.user.id === user?.id);
-  }, [user, profile]);
-
-  if (!profile)
+  if (profileLoading)
     return (
       <div className={styles.profile}>
         <Image src={LoadingIcon} alt="Ikona ładowania" width={60} height={60} />
       </div>
     );
 
-  if (error || !profile.user) {
+  if (error || profile === undefined) {
     return (
       <div className={styles.profile}>
         <p>Wystąpił błąd! Profil nie istnieje.</p>
@@ -115,6 +113,7 @@ const UserProfile = ({ id }: UserProfileProps) => {
           onClick={(article) => setPreviewArticle(article)}
           showAdminOptions={false}
           article={article}
+          disableRouting={true}
           key={index}
         />
       ));
@@ -189,7 +188,11 @@ const UserProfile = ({ id }: UserProfileProps) => {
       <div className={styles.profile__articles}>
         <div>
           <h2 className={styles.profile__articles__heading}>Moje publikacje</h2>
-          <select onChange={(e) => setSelectedStatus(e.target.value as Status)}>
+          <select
+            className={styles.profile__articles__select}
+            defaultValue={selectedStatus}
+            onChange={(e) => setSelectedStatus(e.target.value as Status)}
+          >
             {Object.entries(Status).map(([key, value]) => (
               <option key={key} value={value}>
                 {getStatusName(value)}

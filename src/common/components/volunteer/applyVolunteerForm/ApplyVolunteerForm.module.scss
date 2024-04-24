@@ -1,40 +1,74 @@
-/* components/MyForm.module.scss */
-
 .myForm {
-  display: flex;
-  min-height: 100vh;
-  flex-direction: column;
-  max-width: 400px;
-  margin: 9em auto 0 auto;
+  max-width: 600px;
+  margin: 180px auto;
 
-  .formGroup {
-    margin-bottom: 16px;
+  button[type='submit'],
+  button[type='button'] {
+    background-color: dodgerblue;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 12px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
 
-    label {
-      font-weight: bold;
+    &:hover {
+      background-color: #0056b3;
     }
+  }
+}
 
-    input[type='text'],
-    input[type='number'],
-    textarea,
-    select {
-      width: 100%;
-      padding: 8px;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-    }
+.formGroup {
+  margin-bottom: 20px;
 
-    .error {
-      color: red;
+  label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 8px;
+  }
+
+  input[type='text'],
+  input[type='number'],
+  textarea,
+  select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    transition: border-color 0.3s ease;
+
+    &:focus {
+      outline: none;
+      border-color: dodgerblue;
     }
   }
 
-  button {
-    background-color: #007bff;
-    color: #fff;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
+  .error {
+    color: red;
+    font-size: 14px;
+    margin-top: 4px;
+  }
+
+  button[type='button'] {
+    background-color: #ccc;
+    color: #444;
+    transition: background-color 0.3s ease;
+
+    &:hover {
+      background-color: #999;
+    }
+  }
+
+  .themeGroup {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+
+    input[type='text'] {
+      flex: 1;
+      margin-right: 10px;
+    }
   }
 }

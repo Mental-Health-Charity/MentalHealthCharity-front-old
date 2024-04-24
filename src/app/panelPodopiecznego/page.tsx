@@ -13,6 +13,7 @@ import { infoPopUp } from '@/utils/defaultNotifications';
 
 function MenteePanel() {
   const [chats, setChats] = useState<Chat[] | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
   const { user } = useAuth();
 
   const router = useRouter();
@@ -25,12 +26,14 @@ function MenteePanel() {
   }, []);
 
   const searchChats = async () => {
+    setIsLoading(true);
     try {
       const data = getChats(1, 2);
       setChats((await data).items);
     } catch (error) {
       console.error(error);
     }
+    setIsLoading(false);
   };
 
   useEffect(() => {
@@ -39,10 +42,10 @@ function MenteePanel() {
 
   return (
     <>
-      {!chats ? (
+      {isLoading ? (
         <FullScreenLoading />
       ) : (
-        <>{chats.length > 0 ? <ChatSection /> : <MenteeForm />}</>
+        <>{!chats || chats.length <= 0 ? <MenteeForm /> : <ChatSection />}</>
       )}
     </>
   );

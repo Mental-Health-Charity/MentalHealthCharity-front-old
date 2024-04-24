@@ -18,9 +18,25 @@
   }
 
   &__heading {
-    text-align: center;
-    color: $navy;
-    font-size: 2em;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 1em;
+
+    &__title {
+      text-align: center;
+      color: $navy;
+      font-size: 2em;
+    }
+
+    &__newArticle {
+      @include default-button;
+      background-color: $navy;
+      color: $white;
+      font-weight: 800;
+      text-decoration: none;
+    }
   }
 
   &__articles {

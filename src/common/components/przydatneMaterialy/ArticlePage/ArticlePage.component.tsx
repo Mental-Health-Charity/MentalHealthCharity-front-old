@@ -16,6 +16,7 @@ import ArticlePlaceholderImg from '../../../images/static/placeholderArticle.svg
 import FullScreenLoading from '../../common/fullScreenLoading/FullScreenLoading.component';
 import defaultUserImg from '../../../images/static/user.png';
 import { MDXEditorMethods, MDXEditorProps } from '@mdxeditor/editor';
+import { format } from 'date-fns';
 
 const Editor = dynamic(
   () =>
@@ -63,7 +64,7 @@ const ArticlePage = ({ id, preview }: ArticlePageProps) => {
       <div className={styles.wrapper__bannerWrapper}>
         <div className={styles.wrapper__bannerWrapper__banner}>
           <p className={styles.wrapper__bannerWrapper__banner__date}>
-            {article.creation_date}
+            {format(new Date(article?.creation_date), 'dd/MM/yyyy HH:mm')}
           </p>
           <h1 className={styles.wrapper__bannerWrapper__banner__title}>
             {article?.title}

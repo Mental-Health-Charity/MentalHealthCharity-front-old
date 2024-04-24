@@ -11,13 +11,12 @@ import { helpType } from '../lib/themeList';
 
 const validationSchema = Yup.object().shape({
   age: Yup.number()
-    .min(1, 'Wiek musi być większy niż 0')
+    .min(18, 'Musisz być pełnoletni, abyśmy mogli Ci pomóc')
     .required('To pole jest wymagane'),
 
   contacts: Yup.array().of(
     Yup.object().shape({
       name: Yup.string().required('To pole jest wymagane'),
-      value: Yup.string().required('To pole jest wymagane'),
     }),
   ),
   description: Yup.string().required('To pole jest wymagane'),
@@ -30,9 +29,10 @@ const validationSchema = Yup.object().shape({
   ),
 });
 
-const initialValues = {
+const initialValues: MenteeFormArgs = {
   age: '',
   contacts: [{ name: '', value: '' }],
+  phone: undefined,
   description: '',
   source: '',
   themes: [{ name: '', value: '' }],
@@ -55,117 +55,133 @@ const MenteeForm = () => {
   };
 
   return (
-    <Formik
-      initialValues={initialValues}
-      validationSchema={validationSchema}
-      onSubmit={(values) => {
-        sendFormToDB(values);
-      }}
-    >
-      {(formikProps) => (
-        <Form className={styles.form}>
-          <div className={styles.field}>
-            <label htmlFor="age">Wiek:</label>
-            <Field type="number" id="age" name="age" />
-            <ErrorMessage name="age" component="div" className={styles.error} />
-          </div>
-
-          <div className={styles.field}>
-            <label htmlFor="contacts">Kontakty:</label>
-            <Field as="select" id="contacts" name="contacts[0].name">
-              <option value="">Wybierz kontakt</option>
-              <option value="Telefoniczna">Telefoniczna</option>
-              <option value="Mailowa">Mailowa</option>
-            </Field>
-            {formikProps.values.contacts[0].name && (
-              <Field
-                type="text"
-                id="contacts"
-                name="contacts[0].value"
-                placeholder="Wprowadź dane kontaktowe"
+    <div className={styles.form}>
+      <h1>Formularz dołączenia do grona podopiecznych</h1>
+      <p>
+        Dziękujemy za chęci dołączenia do nas! To pierwszy krok do poprawy
+        samopoczucia, oraz całego życia. Potrzebujemy tych danych, aby móc dodać
+        Cię do grona naszych podopiecznych i przydzielić Ci najlepszego
+        wolontariusza.
+      </p>
+      <Formik
+        initialValues={initialValues}
+        validationSchema={validationSchema}
+        onSubmit={(values) => {
+          sendFormToDB(values);
+        }}
+      >
+        {(formikProps) => (
+          <Form>
+            <div className={styles.field}>
+              <label htmlFor="age">Wiek:</label>
+              <Field type="number" id="age" name="age" />
+              <ErrorMessage
+                name="age"
+                component="div"
+                className={styles.error}
               />
-            )}
-            <ErrorMessage
-              name="contacts[0].name"
-              component="div"
-              className={styles.error}
-            />
-            <ErrorMessage
-              name="contacts[0].value"
-              component="div"
-              className={styles.error}
-            />
-          </div>
+            </div>
 
-          <div className={styles.field}>
-            <label htmlFor="themes">Rodzaj problemu:</label>
-            <FieldArray name="themes">
-              {(arrayHelpers) => (
-                <div>
-                  {formikProps.values.themes.map((theme, index) => (
-                    <div key={index}>
-                      <Field
-                        as="select"
-                        id={`themes[${index}].name`}
-                        name={`themes[${index}].name`}
-                        defaultValue=""
-                      >
-                        <option disabled value="">
-                          Wybierz rodzaj problemu
-                        </option>
-
-                        {helpType.map((type) => (
-                          <option key={type.value} value={type.label}>
-                            {type.label}
-                          </option>
-                        ))}
-                      </Field>
-
-                      <button
-                        type="button"
-                        onClick={() => arrayHelpers.remove(index)}
-                      >
-                        Usuń
-                      </button>
-                    </div>
-                  ))}
-                  <button
-                    type="button"
-                    onClick={() => arrayHelpers.push({ name: '', value: '' })}
-                  >
-                    Dodaj kolejny rodzaj problemu
-                  </button>
-                </div>
+            <div className={styles.field}>
+              <label htmlFor="contacts">Preferuje kontakt:</label>
+              <Field as="select" id="contacts" name="contacts[0].name">
+                <option value="">Wybierz kontakt</option>
+                <option value="Telefoniczna">Telefoniczny</option>
+                <option value="Mailowa">Mailowy</option>
+              </Field>
+              {formikProps.values.contacts[0].name === 'Telefoniczna' && (
+                <Field
+                  type="number"
+                  id="phone"
+                  min="100000000"
+                  name="phone"
+                  placeholder="Wprowadź dane kontaktowe"
+                />
               )}
-            </FieldArray>
-          </div>
+              <ErrorMessage
+                name="contacts[0].name"
+                component="div"
+                className={styles.error}
+              />
+              <ErrorMessage
+                name="phone"
+                component="div"
+                className={styles.error}
+              />
+            </div>
 
-          <div className={styles.field}>
-            <label htmlFor="description">Opis problemu:</label>
-            <Field as="textarea" id="description" name="description" />
-            <ErrorMessage
-              name="description"
-              component="div"
-              className={styles.error}
-            />
-          </div>
+            <div className={styles.field}>
+              <label htmlFor="themes">Rodzaj problemu:</label>
+              <FieldArray name="themes">
+                {(arrayHelpers) => (
+                  <div>
+                    {formikProps.values.themes.map((theme, index) => (
+                      <div key={index} className={styles.themesInput}>
+                        <Field
+                          as="select"
+                          id={`themes[${index}].name`}
+                          name={`themes[${index}].name`}
+                          defaultValue=""
+                        >
+                          <option disabled value="">
+                            Wybierz rodzaj problemu
+                          </option>
 
-          <div className={styles.field}>
-            <label htmlFor="source">Skąd nas poznałeś:</label>
-            <Field type="text" id="source" name="source" />
-            <ErrorMessage
-              name="source"
-              component="div"
-              className={styles.error}
-            />
-          </div>
+                          {helpType.map((type) => (
+                            <option key={type.value} value={type.label}>
+                              {type.label}
+                            </option>
+                          ))}
+                        </Field>
 
-          <button type="submit" className={styles.submitButton}>
-            Wyślij
-          </button>
-        </Form>
-      )}
-    </Formik>
+                        {formikProps.values.themes.length > 1 && (
+                          <button
+                            type="button"
+                            onClick={() => arrayHelpers.remove(index)}
+                          >
+                            Usuń
+                          </button>
+                        )}
+                      </div>
+                    ))}
+                    <button
+                      type="button"
+                      onClick={() => arrayHelpers.push({ name: '', value: '' })}
+                    >
+                      Dodaj kolejny rodzaj problemu
+                    </button>
+                  </div>
+                )}
+              </FieldArray>
+            </div>
+
+            <div className={styles.field}>
+              <label htmlFor="description">Opis problemu:</label>
+              <Field as="textarea" id="description" name="description" />
+              <ErrorMessage
+                name="description"
+                component="div"
+                className={styles.error}
+              />
+            </div>
+
+            <div className={styles.field}>
+              <label htmlFor="source">Skąd nas poznałeś:</label>
+              <Field type="text" id="source" name="source" />
+              <ErrorMessage
+                name="source"
+                component="div"
+                className={styles.error}
+              />
+            </div>
+
+            <button type="submit" className={styles.submitButton}>
+              Wyślij
+            </button>
+          </Form>
+        )}
+      </Formik>
+    </div>
   );
 };
 

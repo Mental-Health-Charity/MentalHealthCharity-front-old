@@ -1,10 +1,9 @@
 'use client';
 
-import AccessDenied from '@/common/components/admin/accessDenied/AccessDenied.component';
 import ApplyVolunteerForm from '@/common/components/volunteer/applyVolunteerForm/ApplyVolunteerForm.component';
 import { useAuth } from '@/contexts/authProvider/Auth.provider';
 import { ChatProvider } from '@/contexts/chatProvider/Chat.provider';
-import { failurePopUp } from '@/utils/defaultNotifications';
+import { infoPopUp } from '@/utils/defaultNotifications';
 import Roles from '@/utils/roles';
 import { useRouter } from 'next/navigation';
 
@@ -26,7 +25,7 @@ export default function VolunteerLayout({
       return <ApplyVolunteerForm />;
     } else {
       push('login');
-      failurePopUp('Zaloguj się, aby wyświetlić tą podstronę!');
+      infoPopUp('Zaloguj się, aby wyświetlić tą podstronę');
     }
   };
 

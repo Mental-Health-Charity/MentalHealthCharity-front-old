@@ -1,4 +1,4 @@
-import { Form } from '@/utils/types';
+import { Form, VolunteerForm } from '@/utils/types';
 import styles from './VolunteerFormItem.module.scss';
 import { formStatusDescription } from './lib/utils';
 import { useAdmin } from '@/contexts/adminProvider/Admin.provider';
@@ -8,7 +8,7 @@ import Roles from '@/utils/roles';
 import { FormStatus } from '@/utils/types';
 
 interface FormItemProps {
-  form: Form<any>;
+  form: Form<VolunteerForm>;
   handleReload: () => Promise<void>;
 }
 
@@ -43,7 +43,7 @@ const VolunteerFormItem = ({ form, handleReload }: FormItemProps) => {
     try {
       const data = await updateForm(form.id);
       setStatus(data.current_step);
-      successPopUp('Pomyślnie nadano poziom akceptacji na ');
+      successPopUp('Operacja przebiegła pomyślnie');
     } catch (error) {
       console.error(error);
     }
@@ -56,13 +56,15 @@ const VolunteerFormItem = ({ form, handleReload }: FormItemProps) => {
         user_role: Roles.volunteer,
         is_active: true,
       });
+      updateFormById();
+    } catch (error) {
+      failurePopUp('Nie udało się nałożyć uprawnień dla tego użytkownika.');
+      console.error(error);
+    } finally {
       successPopUp(
         `Pomyślnie nadano uprawnienia ${Roles.volunteer} dla użytkownika ${form.created_by.full_name}`,
       );
       handleReload();
-    } catch (error) {
-      failurePopUp('Nie udało się nałożyć uprawnień dla tego użytkownika.');
-      console.error(error);
     }
   };
 
@@ -108,7 +110,7 @@ const VolunteerFormItem = ({ form, handleReload }: FormItemProps) => {
         </div>
         <div className={styles.formItem__fields__field}>
           <p>Nr. telefonu</p>
-          <p>{form.fields.phone}</p>
+          <p>{form.fields.phone ? form.fields.phone : 'Nie podano'}</p>
         </div>
         <div className={styles.formItem__fields__field}>
           <p>Edukacja</p>
@@ -116,7 +118,7 @@ const VolunteerFormItem = ({ form, handleReload }: FormItemProps) => {
         </div>
         <div className={styles.formItem__fields__field}>
           <p>Czy pomagał wcześniej</p>
-          <p>{form.fields.description}</p>
+          <p>{form.fields.did_help}</p>
         </div>
         <div className={styles.formItem__fields__field}>
           <p>Opis</p>

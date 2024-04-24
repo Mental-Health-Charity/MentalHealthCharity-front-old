@@ -8,21 +8,21 @@ import { sendForm } from '../../forms/lib/sendForm';
 import { failurePopUp, successPopUp } from '@/utils/defaultNotifications';
 import { useRouter } from 'next/dist/client/components/navigation';
 
+const phoneRegExp =
+  /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
+
 const initialValues = {
   form_type_id: 2,
   fields: {
-    age: 19,
+    age: 0,
     contacts: [{ name: 'Telefoniczną', value: 0 }],
     description: '',
-    did_help: 'Tak, udzielałem/am profesjonalnie',
-    education: 'student/absolwent psychologii',
-    phone: '132223',
-    reason: 'Powód dołączenia',
-    source: 'Facebook',
-    themes: [
-      { name: 'Borderline', value: '1' },
-      { name: 'Uzależnienia', value: '3' },
-    ],
+    did_help: '',
+    education: '',
+    phone: '',
+    reason: '',
+    source: '',
+    themes: [],
   },
 };
 
@@ -30,7 +30,9 @@ const validationSchema = Yup.object().shape({
   fields: Yup.object().shape({
     age: Yup.number().required('Pole wymagane'),
     description: Yup.string(),
-    phone: Yup.string().required('Pole wymagane'),
+    phone: Yup.string()
+      .matches(phoneRegExp, 'Niepoprawny numer telefonu')
+      .required('Pole wymagane'),
     reason: Yup.string().required('Pole wymagane'),
     source: Yup.string().required('Pole wymagane'),
     did_help: Yup.string().required('Pole wymagane'),
@@ -91,9 +93,12 @@ const MyForm: React.FC = () => {
             />
           </div>
           <div className={styles.formGroup}>
-            <label htmlFor="source">Źródło:</label>
+            <label htmlFor="source">Skąd się o nas dowiedziałeś?</label>
             <Field as="select" id="source" name="fields.source">
               <option value="Facebook">Facebook</option>
+              <option value="Tiktok">Tiktok</option>
+              <option value="Instagram">Instagram</option>
+              <option value="Od znajomego">Od znajomego</option>
               <option value="Inny">Inny</option>
             </Field>
             <ErrorMessage

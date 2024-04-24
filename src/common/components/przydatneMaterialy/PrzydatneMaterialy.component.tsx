@@ -9,6 +9,8 @@ import Image from 'next/image';
 import LoadingIcon from '../../images/static/loading.svg';
 import Table from '../common/table/Table.component';
 import { getPublicArticle } from '../volunteer/volunteerCourses/lib/getVolunteerCourses';
+import Restricted from '../common/Restricted/Restricted.component';
+import Roles from '@/utils/roles';
 
 const PrzydatneMaterialy = () => {
   const [articles, setArticles] = useState<Articles>();
@@ -44,7 +46,28 @@ const PrzydatneMaterialy = () => {
 
   return (
     <section className={styles.articlesWrapper}>
-      <h1 className={styles.articlesWrapper__heading}>Wszystkie artykuły</h1>
+      <div className={styles.articlesWrapper__heading}>
+        <h1 className={styles.articlesWrapper__heading__title}>
+          Wszystkie artykuły
+        </h1>
+        <Restricted
+          roles={[
+            Roles.admin,
+            Roles.coordinator,
+            Roles.redactor,
+            Roles.supervisor,
+            Roles.volunteer,
+          ]}
+        >
+          <a
+            className={styles.articlesWrapper__heading__newArticle}
+            href="/admin/CMS"
+          >
+            + Dodaj artykuł
+          </a>
+        </Restricted>
+      </div>
+
       <div className={styles.articlesWrapper__articles}>
         <Table
           page={articles ? articles.page : 1}

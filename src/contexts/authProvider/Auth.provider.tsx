@@ -1,18 +1,11 @@
 'use client';
 
-import {
-  createCookies,
-  expireCookie,
-  getCookies,
-  getCookiesAuth,
-  isCookieExist,
-} from '@/utils/cookies';
+import { createCookies, expireCookie, getCookiesAuth } from '@/utils/cookies';
 import { failurePopUp, successPopUp } from '@/utils/defaultNotifications';
+import { getMessageForError } from '@/utils/errors';
 import Roles from '@/utils/roles';
-import { headers } from 'next/headers';
 import { useRouter } from 'next/navigation';
-import { createContext, useState, useEffect, useContext, use } from 'react';
-import { CookiesProvider } from 'react-cookie';
+import { createContext, useState, useContext } from 'react';
 
 export interface User {
   full_name: string;
@@ -57,6 +50,7 @@ interface AuthContextType {
     publicProfileData: PublicProfile,
   ) => Promise<User>;
   error: AccessToken | undefined;
+  loading: boolean;
 }
 
 const AuthContext = createContext<AuthContextType>({} as AuthContextType);
@@ -64,9 +58,11 @@ const AuthContext = createContext<AuthContextType>({} as AuthContextType);
 const useProvideAuth = (userData: User | undefined) => {
   const [user, setUser] = useState<User | undefined>(userData);
   const [error, setError] = useState<AccessToken>();
+  const [loading, setLoading] = useState(false);
   const { push } = useRouter();
 
   const signIn = async (newUserParams: User) => {
+    setLoading(true);
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/users/open`,
       {
@@ -84,10 +80,9 @@ const useProvideAuth = (userData: User | undefined) => {
       push('login');
     } else {
       setError(data);
-      failurePopUp(
-        'Wystąpił błąd podczas rejestracji. Wprowadź poprawne dane.',
-      );
+      failurePopUp(getMessageForError(data.detail));
     }
+    setLoading(false);
   };
 
   const editPublicProfile = async (
@@ -109,6 +104,7 @@ const useProvideAuth = (userData: User | undefined) => {
   };
 
   const login = async (loginDataParams: LoginUserData) => {
+    setLoading(true);
     const res = await fetch(`${process.env.NEXT_PUBLIC_ACCESS_TOKEN_URL}`, {
       method: 'POST',
       headers: {
@@ -143,9 +139,9 @@ const useProvideAuth = (userData: User | undefined) => {
       successPopUp('Pomyślnie zalogowano!');
     } else {
       setError(data);
-
-      failurePopUp('Wystąpił błąd, niepoprawne dane.');
+      failurePopUp(getMessageForError(data.detail));
     }
+    setLoading(false);
   };
 
   const logout = () => {
@@ -161,6 +157,7 @@ const useProvideAuth = (userData: User | undefined) => {
     signIn,
     error,
     editPublicProfile,
+    loading,
   };
 };
 

@@ -6,6 +6,8 @@ import {
   useAdmin,
 } from '@/contexts/adminProvider/Admin.provider';
 import { FormikErrors } from 'formik';
+import Restricted from '@/common/components/common/Restricted/Restricted.component';
+import Roles from '@/utils/roles';
 
 interface CategoryModalProps {
   setModalOpen: Dispatch<SetStateAction<boolean>>;
@@ -59,25 +61,31 @@ const CategoryModal = ({ setModalOpen, setFieldValue }: CategoryModalProps) => {
               >
                 {category.name}
               </button>
-              <button className={styles.editButton}>Edytuj</button>
+              <Restricted
+                roles={[Roles.admin, Roles.coordinator, Roles.redactor]}
+              >
+                <button className={styles.editButton}>Edytuj</button>
+              </Restricted>
             </div>
           ))}
         </div>
-        <div className={styles.addCategory}>
-          <input
-            type="text"
-            placeholder="Nowa kategoria"
-            value={newCategoryName}
-            onChange={(e) => setNewCategoryName(e.target.value)}
-          />
-          <button
-            disabled={!newCategoryName}
-            className={styles.addButton}
-            onClick={() => newCategoryName && createCategory(newCategoryName)}
-          >
-            Dodaj nową kategorię
-          </button>
-        </div>
+        <Restricted roles={[Roles.admin, Roles.coordinator, Roles.redactor]}>
+          <div className={styles.addCategory}>
+            <input
+              type="text"
+              placeholder="Nowa kategoria"
+              value={newCategoryName}
+              onChange={(e) => setNewCategoryName(e.target.value)}
+            />
+            <button
+              disabled={!newCategoryName}
+              className={styles.addButton}
+              onClick={() => newCategoryName && createCategory(newCategoryName)}
+            >
+              Dodaj nową kategorię
+            </button>
+          </div>
+        </Restricted>
         <button
           className={styles.closeButton}
           onClick={() => setModalOpen(false)}

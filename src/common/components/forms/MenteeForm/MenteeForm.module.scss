@@ -4,7 +4,7 @@
   display: flex;
   flex-direction: column;
   max-width: 700px;
-  padding-top: 8em;
+  padding: 8em 0;
   min-height: 100vh;
   margin: 0 auto;
   font-family: Arial, sans-serif;
@@ -43,26 +43,21 @@
     margin-top: 0.5em;
   }
 
-  /* Nowe style dla select */
   select {
     background-color: #f4f4f4;
   }
 
-  /* Nowe style dla przycisku Dodaj i Usuń */
   button[type='button'] {
     background-color: $navy;
+    margin: 10px 0;
     color: white;
     border: none;
     border-radius: 0.3em;
-    padding: 0.3em 0.5em;
+    padding: 0.7em 0.5em;
     font-size: 0.9em;
-    margin-top: 0.5em;
+
     cursor: pointer;
     transition: background-color 0.2s ease-in-out;
-
-    &:hover {
-      background-color: #d22d17;
-    }
   }
 }
 
@@ -79,4 +74,11 @@
   &:hover {
     background-color: #0056b3;
   }
+}
+
+.themesInput {
+  display: flex;
+  gap: 1em;
+  align-items: center;
+  justify-content: center;
 }

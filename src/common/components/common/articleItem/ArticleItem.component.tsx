@@ -13,12 +13,14 @@ interface ArticleItemProps {
   article: Article;
   showAdminOptions: boolean;
   onClick?: (article: Article) => void;
+  disableRouting?: boolean;
 }
 
 const ArticleItem = ({
   article,
   showAdminOptions,
   onClick,
+  disableRouting = false,
 }: ArticleItemProps) => {
   const date = new Date(article.creation_date);
   const formattedDate = format(date, 'dd/MM/yyyy HH:mm');
@@ -42,7 +44,11 @@ const ArticleItem = ({
     <article className={styles.article}>
       <Link
         className={styles.article__interact}
-        href={showAdminOptions ? '' : `./przydatne-materialy/${article.id}`}
+        href={
+          showAdminOptions || disableRouting
+            ? ''
+            : `./przydatne-materialy/${article.id}`
+        }
         onClick={onClick ? () => onClick(article) : undefined}
       >
         <div className={styles.article__banner}>

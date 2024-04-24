@@ -4,6 +4,8 @@ import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import styles from './SignInForm.module.scss';
 import { User, useAuth } from '@/contexts/authProvider/Auth.provider';
+import Image from 'next/image';
+import LoadingIcon from '../../../images/static/loading.svg';
 
 const RegistrationSchema = Yup.object().shape({
   full_name: Yup.string().required('Pole wymagane'),
@@ -22,7 +24,7 @@ const RegistrationSchema = Yup.object().shape({
 });
 
 const SignInForm = () => {
-  const { signIn } = useAuth();
+  const { signIn, loading } = useAuth();
 
   return (
     <div className={styles.container}>
@@ -45,26 +47,7 @@ const SignInForm = () => {
         {({ values }) => (
           <Form className={styles.form}>
             <div className={styles.formGroup}>
-              <div className={styles.switchContainer}>
-                {/* <label>
-                  <Field
-                    className={styles.switchButton}
-                    type="radio"
-                    name="role"
-                    value="Volunteer"
-                  />
-                  <span>Wolontariusz</span>
-                </label>
-                <label>
-                  <Field
-                    className={`${styles.switchButton} ${styles.rightButton}`}
-                    type="radio"
-                    name="role"
-                    value="Mentee"
-                  />
-                  <span>Podopieczny</span>
-                </label> */}
-              </div>
+              <div className={styles.switchContainer}></div>
             </div>
 
             <div className={styles.formGroup}>
@@ -97,8 +80,15 @@ const SignInForm = () => {
               />
             </div>
 
-            <button type="submit" className={styles.submitButton}>
-              Zarejestruj się
+            <button
+              disabled={loading}
+              type="submit"
+              className={styles.submitButton}
+            >
+              <span>Zarejestruj</span>
+              {loading && (
+                <Image alt="loading icon" src={LoadingIcon} width={32} />
+              )}
             </button>
           </Form>
         )}

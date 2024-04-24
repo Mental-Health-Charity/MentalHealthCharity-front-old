@@ -21,7 +21,8 @@ export default function AdminLayout({
             user?.user_role === Roles.admin ||
             user?.user_role === Roles.coordinator ||
             user?.user_role === Roles.redactor ||
-            user?.user_role === Roles.supervisor
+            user?.user_role === Roles.supervisor ||
+            user?.user_role === Roles.volunteer
           }
         >
           {children}

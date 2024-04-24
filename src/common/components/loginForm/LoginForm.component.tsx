@@ -4,9 +4,11 @@ import { useAuth } from '@/contexts/authProvider/Auth.provider';
 import UserInfo from './UserInfo/UserInfo.component';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
+import LoadingIcon from '../../images/static/loading.svg';
+import Image from 'next/image';
 
 const LoginForm = () => {
-  const { login, user } = useAuth();
+  const { login, user, loading } = useAuth();
 
   const RegistrationSchema = Yup.object().shape({
     username: Yup.string()
@@ -57,8 +59,15 @@ const LoginForm = () => {
                 />
               </div>
 
-              <button type="submit" className={styles.submitButton}>
-                Zaloguj
+              <button
+                disabled={loading}
+                type="submit"
+                className={styles.submitButton}
+              >
+                <span>Zaloguj</span>
+                {loading && (
+                  <Image alt="loading icon" src={LoadingIcon} width={32} />
+                )}
               </button>
             </Form>
           )}
