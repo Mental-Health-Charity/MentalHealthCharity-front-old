@@ -303,13 +303,15 @@ const CMS = ({ id }: CMSProps) => {
                   className={styles.cmsWrapper__editor__row__banner}
                 />
               ) : (
-                <img
-                  src={values.banner_url === '' ? undefined : values.banner_url}
-                  alt="Podgląd banera artykułu"
-                  width={128}
-                  className={styles.cmsWrapper__editor__row__banner}
-                  // onError={() => handleBannerUrlError(setFieldError)}
-                />
+                values.banner_url && (
+                  <Image
+                    src={values.banner_url}
+                    alt="Podgląd banera artykułu"
+                    width={128}
+                    className={styles.cmsWrapper__editor__row__banner}
+                    // onError={() => handleBannerUrlError(setFieldError)}
+                  />
+                )
               )}
               <ErrorMessage
                 name="banner_url"

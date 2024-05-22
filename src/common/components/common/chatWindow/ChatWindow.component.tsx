@@ -166,11 +166,11 @@ const ChatWindow = () => {
                   Napisz pierwszą wiadomość na tym chacie!
                 </p>
               ) : (
-                wsMessages.map((message, index) => {
+                wsMessages.map((message) => {
                   return (
                     <ChatMessage
                       isPending={message.isPending}
-                      key={index}
+                      key={message.id}
                       senderIsAuthor={
                         message.sender && message.sender.id === user?.id
                           ? true
@@ -244,7 +244,10 @@ const ChatWindow = () => {
             <p>Uczestnicy</p>
             <ul className={styles.main__sidebar__usersWrapper__list}>
               {selectedChat?.participants?.map((user) => (
-                <li className={styles.main__sidebar__usersWrapper__list__item}>
+                <li
+                  key={user.id}
+                  className={styles.main__sidebar__usersWrapper__list__item}
+                >
                   <Image
                     alt="User default img"
                     width={32}
