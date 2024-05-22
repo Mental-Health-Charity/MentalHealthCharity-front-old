@@ -86,11 +86,13 @@
 }
 
 .formItem__controls__accept {
+  @include flex-center-xy;
   background-color: #4caf50;
   color: #fff;
 }
 
 .formItem__controls__reject {
+  @include flex-center-xy;
   background-color: #f44336;
   color: #fff;
 }

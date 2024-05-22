@@ -1,14 +1,7 @@
-import { Form, Field } from 'formik';
 import styles from './Notes.module.scss';
-import * as Yup from 'yup';
 import { useEffect, useRef, useState } from 'react';
-import {
-  failurePopUp,
-  infoPopUp,
-  successPopUp,
-} from '@/utils/defaultNotifications';
+import { failurePopUp, successPopUp } from '@/utils/defaultNotifications';
 import { useAuth } from '@/contexts/authProvider/Auth.provider';
-import Roles from '@/utils/roles';
 import LoadingIcon from '../../../../images/static/loading.svg';
 import Image from 'next/image';
 import { editNotes, getNotes } from './api/api';

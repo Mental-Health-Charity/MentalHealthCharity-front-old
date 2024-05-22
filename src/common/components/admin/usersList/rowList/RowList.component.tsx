@@ -1,10 +1,11 @@
-import clsx from 'clsx';
 import styles from './RowList.module.scss';
+import translateRole from '@/utils/translateRole';
+import Roles from '@/utils/roles';
 
 interface RowListProps {
   email: string | undefined;
   id: number | undefined;
-  role: string | undefined;
+  role: Roles | undefined;
   name: string | undefined;
   isActive: boolean | undefined;
 }
@@ -22,7 +23,7 @@ const RowList = ({ email, id, role, name, isActive }: RowListProps) => {
         IMIE: {name === null || undefined ? 'anonim' : name}
       </p>
       <p className={styles.rowlist__role}>
-        UPRAWIENIA: {role ? role : errorMessage}
+        UPRAWIENIA: {role ? translateRole(role) : errorMessage}
       </p>
     </li>
   );

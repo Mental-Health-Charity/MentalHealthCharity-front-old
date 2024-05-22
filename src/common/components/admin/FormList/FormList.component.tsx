@@ -5,13 +5,17 @@ import { Form, FormStatus, MenteeFormArgs, Pagination } from '@/utils/types';
 import { useEffect, useState } from 'react';
 import Roles from '@/utils/roles';
 import MenteeFormItem from './formItem/MenteeFormItem.component';
+import LoadingIcon from '../../../images/static/loading.svg';
+import Image from 'next/image';
 
 const FormList = () => {
   const [forms, setForms] = useState<Pagination<Form<MenteeFormArgs>>>();
-  const { getForms, updateForm } = useAdmin();
+  const { getForms } = useAdmin();
   const [status, setStatus] = useState(FormStatus.WAITED);
+  const [isLoading, setIsLoading] = useState(false);
 
   const searchForms = async () => {
+    setIsLoading(true);
     try {
       const data = await getForms(1, 50, 1, status);
       // todo: fix
@@ -19,6 +23,7 @@ const FormList = () => {
     } catch (error) {
       console.error(error);
     }
+    setIsLoading(false);
   };
 
   useEffect(() => {
@@ -60,15 +65,19 @@ const FormList = () => {
         </select>
       </div>
       <ul className={styles.wrapper__Formlist}>
-        {forms?.items
-          .filter((elem) => elem.created_by.user_role !== Roles.volunteer)
-          .map((form) => (
+        {isLoading ? (
+          <Image src={LoadingIcon} alt="Loading icon" width={64} />
+        ) : forms && forms.items.length ? (
+          forms?.items.map((form) => (
             <MenteeFormItem
               handleReload={searchForms}
               key={form.id}
               form={form}
             />
-          ))}
+          ))
+        ) : (
+          <p>Brak formularzy w tej kategorii</p>
+        )}
       </ul>
     </div>
   );

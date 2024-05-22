@@ -18,7 +18,7 @@
   &__buttonsWrapper {
     display: flex;
     position: absolute;
-    width: 30%;
+    width: 60%;
     align-items: center;
     justify-content: center;
     flex-wrap: wrap;
@@ -84,7 +84,7 @@
     }
   }
 
-  @media (max-width: 1080px) {
+  @media (max-width: 1380px) {
     & {
       overflow: hidden;
       flex-wrap: wrap;
@@ -98,8 +98,9 @@
       position: relative;
       width: 100%;
       overflow: hidden;
+      display: flex;
       justify-content: space-around;
-      flex-wrap: nowrap;
+      flex-wrap: wrap;
     }
     &__logoWrapper {
       width: 100%;

@@ -5,6 +5,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import defaultUserPic from '../../../images/static/user.png';
 import Roles from '@/utils/roles';
+import translateRole from '@/utils/translateRole';
 
 const UserInfo = () => {
   const { user, logout } = useAuth();
@@ -51,7 +52,7 @@ const UserInfo = () => {
         <li className={styles.userWrapper__list__item}>
           <p className={styles.userWrapper__list__item__label}>Uprawnienia:</p>
           <p className={styles.userWrapper__list__item__value}>
-            {user?.user_role}
+            {translateRole(user?.user_role)}
           </p>
         </li>
       </ul>

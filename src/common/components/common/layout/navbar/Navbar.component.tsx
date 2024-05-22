@@ -45,6 +45,16 @@ const Navbar = () => {
         {user && user.user_role !== Roles.user && (
           <NavLink name="Profil" href={`/profil/${user.id}`} />
         )}
+        {user && (
+          <NavLink
+            name="Czaty"
+            href={
+              user.user_role === Roles.user
+                ? `/panelPodopiecznego/czaty`
+                : `/panelWolontariusza/czaty`
+            }
+          />
+        )}
       </ul>
       <div className={styles.navbar__authWrapper}>
         {user ? (

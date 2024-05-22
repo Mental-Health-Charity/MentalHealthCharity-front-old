@@ -3,6 +3,7 @@ import styles from './MergeUserModal.module.scss';
 import { Dispatch, SetStateAction } from 'react';
 import { useAdmin } from '@/contexts/adminProvider/Admin.provider';
 import { failurePopUp, successPopUp } from '@/utils/defaultNotifications';
+import translateRole from '@/utils/translateRole';
 
 interface MergeUserModalProps {
   targetUserData: User | undefined;
@@ -47,12 +48,14 @@ const MergeUserModal = ({
           <ul className={styles.modal__content__compare__before}>
             <li>Stan poprzedni:</li>
             <li>Imie: {targetUserData?.full_name}</li>
-            <li>Uprawnienia: {targetUserData?.user_role}</li>
+            <li>Uprawnienia: {translateRole(targetUserData?.user_role)}</li>
           </ul>
           <ul className={styles.modal__content__compare__after}>
             <li>Stan edytowany:</li>
             <li>Imie: {targetEditedUserData?.full_name}</li>
-            <li>Uprawnienia: {targetEditedUserData?.user_role}</li>
+            <li>
+              Uprawnienia: {translateRole(targetEditedUserData?.user_role)}
+            </li>
           </ul>
         </div>
         <button

@@ -7,6 +7,7 @@
   cursor: pointer;
   background-color: transparent;
   border: 0;
+
   height: auto;
   &:active > .mobile_menu__deco_line {
     transform: scaleX(120%);
@@ -22,7 +23,7 @@
     transition: 0.2s;
   }
 
-  @media (max-width: 1080px) {
+  @media (max-width: 1380px) {
     display: block;
   }
 

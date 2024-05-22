@@ -4,8 +4,10 @@ import { formStatusDescription } from './lib/utils';
 import { useAdmin } from '@/contexts/adminProvider/Admin.provider';
 import { failurePopUp, successPopUp } from '@/utils/defaultNotifications';
 import { useState } from 'react';
+import LoadingIcon from '../../../../images/static/loading.svg';
 
 import { FormStatus } from '@/utils/types';
+import Image from 'next/image';
 
 interface FormItemProps {
   form: Form<MenteeFormArgs>;
@@ -15,6 +17,8 @@ interface FormItemProps {
 const MenteeFormItem = ({ form, handleReload }: FormItemProps) => {
   const [status, setStatus] = useState(form.current_step);
   const { updateForm, editUser, rejectForm } = useAdmin();
+  const [isRejectLoading, setIsRejectLoading] = useState(false);
+  const [isAcceptLoading, setIsAcceptLoading] = useState(false);
 
   const getFormStatus = () => {
     switch (form.current_step) {
@@ -26,6 +30,7 @@ const MenteeFormItem = ({ form, handleReload }: FormItemProps) => {
   };
 
   const rejectFormById = async () => {
+    setIsRejectLoading(true);
     try {
       await rejectForm(form.id);
       successPopUp('Pomyślnie odrzucono.');
@@ -35,9 +40,11 @@ const MenteeFormItem = ({ form, handleReload }: FormItemProps) => {
       );
       console.error(error);
     }
+    setIsRejectLoading(false);
   };
 
   const updateFormById = async () => {
+    setIsAcceptLoading(true);
     try {
       const data = await updateForm(form.id);
       setStatus(data.current_step);
@@ -45,6 +52,7 @@ const MenteeFormItem = ({ form, handleReload }: FormItemProps) => {
     } catch (error) {
       console.error(error);
     }
+    setIsAcceptLoading(false);
   };
 
   return (
@@ -73,6 +81,10 @@ const MenteeFormItem = ({ form, handleReload }: FormItemProps) => {
           </p>
         </div>
         <div className={styles.formItem__fields__field}>
+          <p>Numer telefonu:</p>
+          <p>{form.fields.phone || 'Nie podano'}</p>
+        </div>
+        <div className={styles.formItem__fields__field}>
           <p>Wiek</p>
           <p>{form.fields.age}</p>
         </div>
@@ -81,15 +93,12 @@ const MenteeFormItem = ({ form, handleReload }: FormItemProps) => {
           <p>{form.fields.source}</p>
         </div>
         <div className={styles.formItem__fields__field}>
-          <p>Motyw:</p>
-          <p>
-            {form.fields.themes.map((theme, index) => (
-              <span key={theme.name + index}>
-                {theme.name}
-                {index < form.fields.contacts.length - 1 ? ', ' : ''}
-              </span>
+          <p>Rodzaj problemu:</p>
+          <ul>
+            {form.fields.themes.map((theme) => (
+              <li key={theme.name}>{theme.name}</li>
             ))}
-          </p>
+          </ul>
         </div>
         <div className={styles.formItem__fields__field}>
           <p>Opis</p>
@@ -102,7 +111,10 @@ const MenteeFormItem = ({ form, handleReload }: FormItemProps) => {
             onClick={() => updateFormById()}
             className={styles.formItem__controls__accept}
           >
-            Zamknij jako rozwiązane
+            <span>Zamknij jako rozwiązane</span>
+            {isAcceptLoading && (
+              <Image alt="loading icon" src={LoadingIcon} width={32} />
+            )}
           </button>
         )}
         {form.form_status === FormStatus.WAITED && (
@@ -110,7 +122,10 @@ const MenteeFormItem = ({ form, handleReload }: FormItemProps) => {
             onClick={() => rejectFormById()}
             className={styles.formItem__controls__reject}
           >
-            Odrzuć
+            <span>Odrzuć</span>
+            {isRejectLoading && (
+              <Image alt="loading icon" src={LoadingIcon} width={32} />
+            )}
           </button>
         )}
       </div>

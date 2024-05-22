@@ -17,6 +17,7 @@ import FullScreenLoading from '../../common/fullScreenLoading/FullScreenLoading.
 import defaultUserImg from '../../../images/static/user.png';
 import { MDXEditorMethods, MDXEditorProps } from '@mdxeditor/editor';
 import { format } from 'date-fns';
+import translateRole from '@/utils/translateRole';
 
 const Editor = dynamic(
   () =>
@@ -94,7 +95,7 @@ const ArticlePage = ({ id, preview }: ArticlePageProps) => {
                   styles.wrapper__bannerWrapper__banner__user__container__role
                 }
               >
-                {article.created_by.user_role}
+                {translateRole(article.created_by.user_role)}
               </p>
             </div>
           </Link>

@@ -8,6 +8,7 @@ export interface MenteeFormArgs {
   }>;
   description: string;
   phone?: number;
+  tos?: boolean;
   source: string;
   themes: Array<{ name: string; value: string }>;
 }

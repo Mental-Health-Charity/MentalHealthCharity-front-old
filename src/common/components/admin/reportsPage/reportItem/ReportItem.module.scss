@@ -39,7 +39,7 @@
     .reportCategory {
       margin-right: 1em;
       &::before {
-        content: 'Category: ';
+        content: 'Kategoria: ';
         font-weight: bold;
       }
     }
@@ -47,14 +47,14 @@
     .reportUser {
       margin-right: 1em;
       &::before {
-        content: 'Reported by: ';
+        content: 'Wysłane przez: ';
         font-weight: bold;
       }
     }
 
     .reportUserId {
       &::before {
-        content: 'User ID: ';
+        content: 'ID: ';
         font-weight: bold;
       }
     }

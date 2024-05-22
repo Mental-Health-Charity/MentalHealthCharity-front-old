@@ -31,10 +31,12 @@ const ChatWindow = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [newMessage, setNewMessage] = useState<string | null>();
   const [chats, setChats] = useState<Chat[]>([]);
+  const [isChatsLoading, setIsChatsLoading] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isChatListOpen, setIsChatListOpen] = useState(false);
 
   const searchChats = async () => {
+    setIsChatsLoading(true);
     try {
       const data = getChats(1, 50);
       setChats((await data).items);
@@ -42,6 +44,7 @@ const ChatWindow = () => {
     } catch (error) {
       console.error(error);
     }
+    setIsChatsLoading(false);
   };
 
   useEffect(() => {
@@ -135,14 +138,23 @@ const ChatWindow = () => {
           <div className={styles.main__sidebar__chatList}>
             <p className={styles.main__sidebar__chatList__heading}>Chaty</p>
             <ul className={styles.main__sidebar__chatList__list}>
-              {chats.map((chat, index) => (
-                <ChatShortcut
-                  setSelectedChat={setSelectedChat}
-                  key={index}
-                  chat={chat}
-                  participants={chat.participants}
+              {isChatsLoading ? (
+                <Image
+                  alt="ikona ładowania"
+                  src={LoadingIcon}
+                  width={60}
+                  height={60}
                 />
-              ))}
+              ) : (
+                chats.map((chat, index) => (
+                  <ChatShortcut
+                    setSelectedChat={setSelectedChat}
+                    key={index}
+                    chat={chat}
+                    participants={chat.participants}
+                  />
+                ))
+              )}
             </ul>
           </div>
         </div>
