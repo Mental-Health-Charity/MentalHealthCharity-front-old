@@ -200,6 +200,9 @@
         list-style: none;
         padding: 0;
         margin: 0;
+        max-height: 400px;
+        overflow: auto;
+
         &__item {
           display: flex;
           align-items: center;
@@ -233,8 +236,11 @@
 
     &__chatList {
       & ul {
+        @include listScrollBar;
         padding: 0;
         margin: 0;
+        max-height: 510px;
+        overflow: auto;
       }
       &__heading {
         margin-top: 20px;

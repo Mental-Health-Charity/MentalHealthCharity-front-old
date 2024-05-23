@@ -45,6 +45,7 @@ const Reports = () => {
       <div className={styles.wrapper__list}>
         <div className={styles.wrapper__list__menu}>
           <button
+            disabled={loading}
             onClick={async () => {
               setOptions((prev) => ({
                 ...prev,
@@ -56,6 +57,7 @@ const Reports = () => {
             Błędy
           </button>
           <button
+            disabled={loading}
             onClick={() => {
               setOptions((prev) => ({
                 ...prev,
@@ -67,6 +69,7 @@ const Reports = () => {
             Prośby o zmiany
           </button>
           <button
+            disabled={loading}
             onClick={() => {
               setOptions((prev) => ({
                 ...prev,

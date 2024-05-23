@@ -2,10 +2,8 @@ import Link from 'next/link';
 import Image from 'next/image';
 import styles from './ArticleItem.module.scss';
 import { format } from 'date-fns';
-import { useAuth } from '@/contexts/authProvider/Auth.provider';
 import { Article } from '../../volunteer/volunteerCourses/lib/getVolunteerCourses';
-import { Status, useAdmin } from '@/contexts/adminProvider/Admin.provider';
-import { failurePopUp, successPopUp } from '@/utils/defaultNotifications';
+import { Status } from '@/contexts/adminProvider/Admin.provider';
 import placeholderImg from '../../../images/static/placeholderArticle.svg';
 import placeholderUserImg from '../../../images/static/user.png';
 
@@ -14,6 +12,9 @@ interface ArticleItemProps {
   showAdminOptions: boolean;
   onClick?: (article: Article) => void;
   disableRouting?: boolean;
+  handlePublish?: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  handleDelete?: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  handleRestore?: (e: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
 const ArticleItem = ({
@@ -21,24 +22,12 @@ const ArticleItem = ({
   showAdminOptions,
   onClick,
   disableRouting = false,
+  handleDelete,
+  handlePublish,
+  handleRestore,
 }: ArticleItemProps) => {
   const date = new Date(article.creation_date);
   const formattedDate = format(date, 'dd/MM/yyyy HH:mm');
-  const { user } = useAuth();
-  const { manageArticle } = useAdmin();
-
-  const ManageArticle = async (status: Status) => {
-    try {
-      await manageArticle(article.id, {
-        reject_message: `Zmieniono status przez ${user?.full_name}`,
-        status: status,
-      });
-      successPopUp('Operacja przebiegła pomyślnie.');
-    } catch (err) {
-      failurePopUp('Błąd podczas zarządzania artykułem.');
-      console.error(err);
-    }
-  };
 
   return (
     <article className={styles.article}>
@@ -92,22 +81,24 @@ const ArticleItem = ({
           {article.status === Status.REJECT && (
             <button
               className={styles.article__content__controls}
-              onClick={() => ManageArticle(Status.DRAFT)}
+              onClick={handleRestore}
             >
               Przywróć do szkiców
             </button>
           )}
           {showAdminOptions && article.status !== Status.REJECT && (
             <>
+              {article.status !== Status.PUBLISHED && (
+                <button
+                  className={styles.article__content__controls}
+                  onClick={handlePublish}
+                >
+                  Publikuj
+                </button>
+              )}
               <button
                 className={styles.article__content__controls}
-                onClick={() => ManageArticle(Status.PUBLISHED)}
-              >
-                Publikuj
-              </button>
-              <button
-                className={styles.article__content__controls}
-                onClick={() => ManageArticle(Status.REJECT)}
+                onClick={handleDelete}
               >
                 Odrzuć
               </button>

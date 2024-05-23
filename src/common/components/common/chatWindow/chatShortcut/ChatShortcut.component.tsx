@@ -1,22 +1,19 @@
 import Image from 'next/image';
 import styles from './ChatShortcut.module.scss';
 import MessageIcon from '../../../../images/static/message.png';
-import { User } from '@/contexts/authProvider/Auth.provider';
 import { Chat } from '@/utils/chatTypes';
 
 import { Dispatch, SetStateAction } from 'react';
 
 interface ChatShortcutProps {
-  participants: User[] | undefined;
   chat: Chat;
-
   setSelectedChat: Dispatch<SetStateAction<Chat | undefined>>;
+  disabled?: boolean;
 }
 
 const ChatShortcut = ({
-  participants,
   chat,
-
+  disabled,
   setSelectedChat,
 }: ChatShortcutProps) => {
   return (
@@ -25,6 +22,8 @@ const ChatShortcut = ({
         setSelectedChat(chat);
       }}
       className={styles.chatShortcut}
+      disabled={disabled}
+      style={{ opacity: disabled ? 0.5 : 1 }}
     >
       <div className={styles.chatShortcut__heading}>
         <Image

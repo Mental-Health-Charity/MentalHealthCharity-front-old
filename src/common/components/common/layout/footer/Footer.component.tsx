@@ -20,11 +20,11 @@ const Footer = () => {
             Przydatne materiały
           </Link>
         </li>
-        <li>
+        {/* <li>
           <Link className={styles.footer__block__item} href="/kontakt">
             Kontakt
           </Link>
-        </li>
+        </li> */}
       </ul>
       <div className={styles.footer__block}>
         <Image width={200} src={LogoLight} alt="Logo" />

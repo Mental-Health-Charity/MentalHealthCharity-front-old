@@ -33,20 +33,24 @@
     &__status {
       @include flex-center-xy;
       width: 100%;
+      flex-wrap: wrap;
 
       &__catButton {
+        @include flex-center-xy;
         background-color: $navy;
         color: $white;
         border: none;
         padding: 1em;
-        font-size: 0.9em;
+        font-size: 1em;
         margin: 0.5em;
         border-radius: 1em;
         transition: 0.2s;
+        min-height: 60px;
+        min-width: 175px;
         cursor: pointer;
 
         &__selected {
-          background: #000;
+          opacity: 0.6;
         }
 
         &:hover {

@@ -1,3 +1,7 @@
 .wrapper {
   padding: 8em 2em 8em 2em;
+
+  & h1 {
+    text-align: center;
+  }
 }

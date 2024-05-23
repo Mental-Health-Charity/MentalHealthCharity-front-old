@@ -18,6 +18,7 @@ import defaultUserImg from '../../../images/static/user.png';
 import { failurePopUp } from '@/utils/defaultNotifications';
 import Arrow from '../../../images/static/arrow.svg';
 import Notes from './notes/Notes.component';
+import translateRole from '@/utils/translateRole';
 
 const ChatWindow = () => {
   const {
@@ -34,6 +35,7 @@ const ChatWindow = () => {
   const [isChatsLoading, setIsChatsLoading] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isChatListOpen, setIsChatListOpen] = useState(false);
+  const [chatFilter, setChatFilter] = useState('');
 
   const searchChats = async () => {
     setIsChatsLoading(true);
@@ -119,7 +121,7 @@ const ChatWindow = () => {
                 {user?.full_name}
               </p>
               <p className={styles.main__sidebar__user__wrapper__role}>
-                {user?.user_role}
+                {translateRole(user?.user_role)}
               </p>
             </div>
             <button
@@ -133,6 +135,7 @@ const ChatWindow = () => {
             className={styles.main__sidebar__search}
             placeholder="Wyszukaj..."
             type="text"
+            onChange={(e) => setChatFilter(e.target.value)}
           />
 
           <div className={styles.main__sidebar__chatList}>
@@ -146,14 +149,16 @@ const ChatWindow = () => {
                   height={60}
                 />
               ) : (
-                chats.map((chat, index) => (
-                  <ChatShortcut
-                    setSelectedChat={setSelectedChat}
-                    key={index}
-                    chat={chat}
-                    participants={chat.participants}
-                  />
-                ))
+                chats
+                  .filter((e) => e.name.includes(chatFilter))
+                  .map((chat, index) => (
+                    <ChatShortcut
+                      setSelectedChat={setSelectedChat}
+                      key={index}
+                      chat={chat}
+                      disabled={isLoading}
+                    />
+                  ))
               )}
             </ul>
           </div>
@@ -195,6 +200,7 @@ const ChatWindow = () => {
           <div className={styles.main__chat__inputWrapper}>
             <textarea
               value={newMessage || ''}
+              disabled={isLoading}
               onChange={(e) => setNewMessage(e.target.value)}
               onKeyDown={(e) => {
                 if (e.key === 'Enter' && !e.shiftKey) {
@@ -271,7 +277,7 @@ const ChatWindow = () => {
                         styles.main__sidebar__usersWrapper__list__item__userInfo__role
                       }
                     >
-                      {user.user_role}
+                      {translateRole(user.user_role)}
                     </p>
                   </div>
                 </li>

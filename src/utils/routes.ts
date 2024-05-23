@@ -7,10 +7,10 @@ export const menuRoutes = [
     name: 'Przydatne materiały',
     href: '/przydatne-materialy',
   },
-  {
-    name: 'Kontakt',
-    href: '/kontakt',
-  },
+  // {
+  //   name: 'Kontakt',
+  //   href: '/kontakt',
+  // },
 ];
 
 export const panelRoutes = {
