@@ -4,6 +4,7 @@ import { ChatData } from '@/utils/chatTypes';
 import { getCookiesAuth } from '@/utils/cookies';
 import Roles from '@/utils/roles';
 import { Form, FormStatus, Pagination, VolunteerForm } from '@/utils/types';
+import { failurePopUp, successPopUp } from '@/utils/defaultNotifications';
 
 interface AdminContextType {
   getUsers: (limit: { from: number; to: number }) => Promise<Pagination<User>>;
@@ -28,6 +29,8 @@ interface AdminContextType {
   ) => Promise<Pagination<Form<VolunteerForm>>>;
   updateForm: (formId: number) => Promise<Form<VolunteerForm>>;
   rejectForm: (formId: number) => Promise<void>;
+  removeArticleCategory: (id: number) => Promise<void>;
+  editArticleCategory: (name: string, id: number) => Promise<void>;
 }
 
 export interface Article {
@@ -232,6 +235,60 @@ const useProvideAdmin = () => {
     );
   };
 
+  const removeArticleCategory = async (id: number) => {
+    try {
+      const headers = await getCookiesAuth();
+
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/article-category/${id}`,
+        {
+          method: 'delete',
+          headers,
+        },
+      );
+
+      if (!res.ok) {
+        throw new Error('Error while deleting category');
+      } else {
+        successPopUp('Kategoria została usunięta');
+      }
+    } catch (error) {
+      failurePopUp('Błąd podczas usuwania kategorii');
+      console.error(error);
+    }
+  };
+
+  const editArticleCategory = async (name: string, id: number) => {
+    try {
+      const headers = await getCookiesAuth();
+
+      const body = {
+        name: name,
+      };
+
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/article-category/${id}`,
+        {
+          method: 'put',
+          headers,
+          body: JSON.stringify(body),
+        },
+      );
+
+      if (!res.ok) {
+        failurePopUp('Błąd podczas edycji kategorii');
+        throw new Error('Error while deleting category');
+      } else {
+        successPopUp('Kategoria została zaktualizowana');
+      }
+
+      const data = await res.json();
+    } catch (error) {
+      failurePopUp('Błąd podczas edycji kategorii');
+      console.error(error);
+    }
+  };
+
   const addParticipant = async (chatId: number, userId: number) => {
     const headers = await getCookiesAuth();
 
@@ -278,6 +335,8 @@ const useProvideAdmin = () => {
     createChat,
     addParticipant,
     removeParticipant,
+    removeArticleCategory,
+    editArticleCategory,
     createArticle,
     getArticleCategory,
     createArticleCategory,

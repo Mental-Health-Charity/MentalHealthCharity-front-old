@@ -373,7 +373,7 @@ const CMS = ({ id }: CMSProps) => {
                   created_by: user,
                   id: 0,
                   status: Status.DRAFT,
-                  creation_date: '',
+                  creation_date: new Date().toDateString(),
                   article_category: {
                     id: values.article_category?.id || 0,
                     is_active: true,

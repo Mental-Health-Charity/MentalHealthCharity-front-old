@@ -8,6 +8,7 @@ import { sendForm } from '../../forms/lib/sendForm';
 import { failurePopUp, successPopUp } from '@/utils/defaultNotifications';
 import { useRouter } from 'next/dist/client/components/navigation';
 import Link from 'next/link';
+// import FormWrapper from '../../common/FormWrapper/FormWrapper.component';
 
 const phoneRegExp =
   /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
@@ -69,6 +70,7 @@ const MyForm: React.FC = () => {
         świetnie! Wypełnij poniższy formularz, abyśmy mogli Cię lepiej poznać i
         rozpocząć współpracę. To pierwszy krok do zmiany świata na lepsze!
       </p>
+      {/* <FormWrapper> */}
       <Formik
         initialValues={initialValues}
         validationSchema={validationSchema}
@@ -252,6 +254,7 @@ const MyForm: React.FC = () => {
           </Form>
         )}
       </Formik>
+      {/* </FormWrapper> */}
     </div>
   );
 };

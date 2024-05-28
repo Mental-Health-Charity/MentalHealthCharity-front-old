@@ -198,25 +198,42 @@ const ChatWindow = () => {
             )}
           </ul>
           <div className={styles.main__chat__inputWrapper}>
-            <textarea
-              value={newMessage || ''}
-              disabled={isLoading}
-              onChange={(e) => setNewMessage(e.target.value)}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter' && !e.shiftKey) {
-                  e.preventDefault();
-                  handleSendMessage();
-                }
-              }}
-            />
-            <button
-              onClick={handleSendMessage}
-              type="submit"
-              aria-label="submit message"
-              value=">"
-            >
-              <Image alt="send icon" src={sendIcon} height={36} width={36} />
-            </button>
+            {!selectedChat ||
+            selectedChat.participants?.find(
+              (participant) => participant.id === user?.id,
+            ) ? (
+              <>
+                <textarea
+                  value={newMessage || ''}
+                  disabled={isLoading}
+                  onChange={(e) => setNewMessage(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' && !e.shiftKey) {
+                      e.preventDefault();
+                      handleSendMessage();
+                    }
+                  }}
+                />
+                <button
+                  onClick={handleSendMessage}
+                  type="submit"
+                  aria-label="submit message"
+                  value=">"
+                >
+                  <Image
+                    alt="send icon"
+                    src={sendIcon}
+                    height={36}
+                    width={36}
+                  />
+                </button>
+              </>
+            ) : (
+              <p>
+                Nie jesteś uczestnikiem tego czatu, możesz jedynie odczytywać
+                wiadomości
+              </p>
+            )}
           </div>
         </div>
         <div

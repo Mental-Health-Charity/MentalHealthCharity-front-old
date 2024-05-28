@@ -51,6 +51,7 @@ interface AuthContextType {
   ) => Promise<User>;
   error: AccessToken | undefined;
   loading: boolean;
+  canUserSendForm: () => Promise<boolean>;
 }
 
 const AuthContext = createContext<AuthContextType>({} as AuthContextType);
@@ -60,6 +61,19 @@ const useProvideAuth = (userData: User | undefined) => {
   const [error, setError] = useState<AccessToken>();
   const [loading, setLoading] = useState(false);
   const { push } = useRouter();
+
+  const canUserSendForm = async () => {
+    const headers = await getCookiesAuth();
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/form/can-send-form`,
+      {
+        method: 'get',
+        headers,
+      },
+    );
+    const data: boolean = await res.json();
+    return data;
+  };
 
   const signIn = async (newUserParams: User) => {
     setLoading(true);
@@ -158,6 +172,7 @@ const useProvideAuth = (userData: User | undefined) => {
     error,
     editPublicProfile,
     loading,
+    canUserSendForm,
   };
 };
 

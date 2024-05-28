@@ -23,7 +23,7 @@ const Notes = ({ chatId }: NotesProps) => {
     setLoading(true);
     try {
       const data = await getNotes(chatId);
-      setNotesContent(data.content);
+      data !== null && setNotesContent(data.content);
     } catch (error) {
       failurePopUp('Wystąpił błąd podczas wczytywania notatek');
       console.error(error);

@@ -54,6 +54,7 @@ const BackupModal = ({ redirectTo, values }: BackupModalProps) => {
           <button
             className={styles.modal__wrapper__content__actions__download}
             onClick={handleDownload}
+            type="button"
           >
             Pobierz
           </button>

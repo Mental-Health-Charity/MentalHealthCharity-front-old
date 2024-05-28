@@ -22,12 +22,12 @@
     justify-content: space-around;
     padding: 3em;
     width: 100%;
-    box-shadow: 0em 0em 0.9em $lightNavy;
 
     &__controls {
       &__desc {
         font-size: 1.2em;
         text-align: center;
+        text-align: start;
       }
 
       &__input {
@@ -42,6 +42,11 @@
         border: 1px solid $navy;
         border-radius: 0.5em;
         margin: 1em;
+
+        &:disabled {
+          opacity: 0.5;
+          cursor: not-allowed;
+        }
       }
     }
   }

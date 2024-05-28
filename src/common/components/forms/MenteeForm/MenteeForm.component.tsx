@@ -10,6 +10,7 @@ import { failurePopUp, successPopUp } from '@/utils/defaultNotifications';
 import { helpType } from '../lib/themeList';
 import Link from 'next/link';
 import { useRouter } from 'next/dist/client/components/navigation';
+// import FormWrapper from '../../common/FormWrapper/FormWrapper.component';
 
 const validationSchema = Yup.object().shape({
   age: Yup.number()
@@ -72,6 +73,7 @@ const MenteeForm = () => {
         Cię do grona naszych podopiecznych i przydzielić Ci najlepszego
         wolontariusza.
       </p>
+      {/* <FormWrapper> */}
       <Formik
         initialValues={initialValues}
         validationSchema={validationSchema}
@@ -256,6 +258,7 @@ const MenteeForm = () => {
           </Form>
         )}
       </Formik>
+      {/* </FormWrapper> */}
     </div>
   );
 };

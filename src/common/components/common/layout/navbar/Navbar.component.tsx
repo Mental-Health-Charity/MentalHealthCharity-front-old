@@ -50,7 +50,7 @@ const Navbar = () => {
             name="Czaty"
             href={
               user.user_role === Roles.user
-                ? `/panelPodopiecznego/czaty`
+                ? `/panelPodopiecznego`
                 : `/panelWolontariusza/czaty`
             }
           />

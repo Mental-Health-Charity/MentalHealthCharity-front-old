@@ -1,0 +1,15 @@
+@use '../../styles/variables.module' as *;
+
+.wrapper {
+  padding: 120px 20px 20px 20px;
+  max-width: 1300px;
+  min-height: 100vh;
+  margin: 0 auto;
+  color: $navy;
+  & > h1 {
+    font-size: 2em;
+
+    margin-bottom: 20px;
+    text-align: center;
+  }
+}
