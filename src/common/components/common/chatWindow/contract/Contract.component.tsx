@@ -9,7 +9,7 @@ import {
   successPopUp,
 } from '@/utils/defaultNotifications';
 import {
-  Contract,
+  Contract as ContractType,
   editContract,
   getContract,
   confirmContract,
@@ -25,7 +25,7 @@ interface ContractProps {
 
 const Contract = ({ chatId }: ContractProps) => {
   const [isModalVisible, setModalVisible] = useState(false);
-  const [contractContent, setContractContent] = useState<Contract>();
+  const [contractContent, setContractContent] = useState<ContractType>();
   const [loading, setLoading] = useState(true);
 
   const { user } = useAuth();

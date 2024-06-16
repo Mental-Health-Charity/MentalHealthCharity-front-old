@@ -32,7 +32,8 @@
     "socket.io": "^4.7.5",
     "socket.io-client": "^4.7.5",
     "use-debounce": "^10.0.1",
-    "yup": "^1.4.0"
+    "yup": "^1.4.0",
+    "sass": "^1.77.5"
   },
   "devDependencies": {
     "@types/js-cookie": "^3.0.6",
@@ -43,7 +44,6 @@
     "eslint": "9.5.0",
     "eslint-config-next": "^14.2.4",
     "prettier": "^3.3.2",
-    "sass": "^1.77.5",
     "typescript": "5.4.5"
   }
 }

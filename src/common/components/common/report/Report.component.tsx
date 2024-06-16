@@ -3,13 +3,13 @@ import styles from './Report.module.scss';
 import * as Yup from 'yup';
 import { useState } from 'react';
 import { failurePopUp, successPopUp } from '@/utils/defaultNotifications';
-import { Report } from '@/contexts/chatProvider/Chat.provider';
+import { Report as ReportType } from '@/contexts/chatProvider/Chat.provider';
 import createReport from './lib/report';
 
 const Report = () => {
   const [isModalVisible, setModalVisible] = useState(false);
 
-  const sendReport = async (value: Report) => {
+  const sendReport = async (value: ReportType) => {
     try {
       createReport(value);
     } catch (error) {
