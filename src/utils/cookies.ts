@@ -11,15 +11,15 @@ export const createCookies = async (
   cookies().set(key, value, options);
 };
 
-export const getCookies = (key: string) => {
+export const getCookies = async (key: string) => {
   return cookies().get(key)?.value;
 };
 
-export const isCookieExist = (key: string) => {
+export const isCookieExist = async (key: string) => {
   return cookies().get(key)?.value !== undefined;
 };
 
-export const expireCookie = (key: string) => {
+export const expireCookie = async (key: string) => {
   return cookies().set(key, '', { maxAge: 0 });
 };
 
@@ -43,9 +43,9 @@ export const getCookiesAuth = async () => {
 
 
 export const restoreUserSession = async () => {
-  const jwtToken = getCookies('jwtToken');
-  const jwtTokenType = getCookies('jwtTokenType');
-  const isTokenExist = isCookieExist('jwtToken');
+  const jwtToken = await getCookies('jwtToken');
+  const jwtTokenType = await getCookies('jwtTokenType');
+  const isTokenExist = await isCookieExist('jwtToken');
 
   if (isTokenExist && jwtTokenType && jwtToken) {
     const res = await fetch(`${process.env.NEXT_PUBLIC_LOGIN_ME_URL}`, {
