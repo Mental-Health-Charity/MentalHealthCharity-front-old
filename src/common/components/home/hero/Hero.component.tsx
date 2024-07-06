@@ -60,10 +60,20 @@ const Hero = () => {
         />
       </main>
       <div className={styles.hero__social}>
-        <Link target="blank" rel="noopener" href="https://facebook.pl/">
+        <Link
+          className={styles.hero__social__button}
+          target="blank"
+          rel="noopener"
+          href="https://facebook.pl/"
+        >
           <Image width={32} src={FacebookIcon} alt="facebook icon" />
         </Link>
-        <Link target="blank" rel="noopener" href="https://instagram.pl/">
+        <Link
+          className={styles.hero__social__button}
+          target="blank"
+          rel="noopener"
+          href="https://instagram.pl/"
+        >
           <Image width={32} src={InstagramIcon} alt="instagram icon" />
         </Link>
       </div>

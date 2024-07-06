@@ -15,10 +15,11 @@ import sendIcon from '../../../images/static/sendicon.png';
 import clsx from 'clsx';
 import MessageIcon from '../../../images/static/message.png';
 import defaultUserImg from '../../../images/static/user.png';
-import { failurePopUp } from '@/utils/defaultNotifications';
+import { failurePopUp, successPopUp } from '@/utils/defaultNotifications';
 import Arrow from '../../../images/static/arrow.svg';
 import Notes from './notes/Notes.component';
 import translateRole from '@/utils/translateRole';
+import { useAdmin } from '@/contexts/adminProvider/Admin.provider';
 
 const ChatWindow = () => {
   const {
@@ -36,6 +37,24 @@ const ChatWindow = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isChatListOpen, setIsChatListOpen] = useState(false);
   const [chatFilter, setChatFilter] = useState('');
+  const { addParticipant } = useAdmin();
+
+  const handleAddMeToChat = async () => {
+    if (user && selectedChat) {
+      try {
+        await addParticipant(selectedChat.id, user.id);
+        searchChats();
+        successPopUp('Pomyślnie dołączono do czatu' + selectedChat.id);
+      } catch (error) {
+        console.error('ERROR while adding new participant ', error);
+        failurePopUp('Błąd podczas dołaczania do czatu!');
+      }
+    } else {
+      failurePopUp(
+        'Błąd podczas dołaczania do czatu. Spróbuj odświeżyć stronę.',
+      );
+    }
+  };
 
   const searchChats = async () => {
     setIsChatsLoading(true);
@@ -229,10 +248,13 @@ const ChatWindow = () => {
                 </button>
               </>
             ) : (
-              <p>
-                Nie jesteś uczestnikiem tego czatu, możesz jedynie odczytywać
-                wiadomości
-              </p>
+              <div>
+                <p>
+                  Nie jesteś uczestnikiem tego czatu, możesz jedynie odczytywać
+                  wiadomości
+                </p>
+                <button onClick={handleAddMeToChat}>Dołącz do czatu</button>
+              </div>
             )}
           </div>
         </div>

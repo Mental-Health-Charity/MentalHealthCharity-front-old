@@ -15,6 +15,7 @@ export interface User {
   avatar_url?: string;
   id: number;
   is_active: boolean;
+  user_public_profile: PublicProfile;
 }
 
 export interface EditUser {

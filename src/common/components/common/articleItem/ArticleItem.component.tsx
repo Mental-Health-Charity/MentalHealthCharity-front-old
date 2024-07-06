@@ -64,8 +64,11 @@ const ArticleItem = ({
             width={160}
             height={160}
             className={styles.article__avatar__img}
-            src={placeholderUserImg}
-            alt={'przykładowe zdjęcie avatara'}
+            src={
+              article.created_by.user_public_profile.avatar_url ||
+              placeholderUserImg
+            }
+            alt={'zdjęcie avataru użytkownika ' + article.created_by.full_name}
           />
         </div>
         <div className={styles.article__content}>

@@ -77,8 +77,12 @@ const ArticlePage = ({ id, preview }: ArticlePageProps) => {
             <Image
               width={50}
               height={50}
+              style={{ borderRadius: '50%' }}
               alt="Profil użytkownika"
-              src={defaultUserImg}
+              src={
+                article.created_by.user_public_profile.avatar_url ||
+                defaultUserImg
+              }
             />
             <div
               className={styles.wrapper__bannerWrapper__banner__user__container}

@@ -1,3 +1,5 @@
+@use '../../../styles/variables.module' as *;
+
 @mixin hero-wave {
   display: block;
   position: absolute;
@@ -98,6 +100,15 @@
     width: 100%;
     margin-right: 3em;
     gap: 1em;
+
+    &__button {
+      background-color: $navy;
+
+      cursor: pointer;
+      padding: 14px 14px 7px 14px;
+      border-radius: 50%;
+      transition: 0.3s;
+    }
   }
 
   &__social:hover {
