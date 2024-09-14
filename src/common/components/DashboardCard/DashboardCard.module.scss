@@ -1,0 +1,32 @@
+@use '../../styles/variables.module' as *;
+
+.card {
+  background-color: $white;
+  border: 1px solid $borderPrimary;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  transition: box-shadow 0.3s ease;
+  background-color: $lightGray;
+
+  &:hover {
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15);
+  }
+
+  .header {
+    background-color: $lightNavy;
+    padding: 16px;
+    border-bottom: 1px solid $borderSecondary;
+
+    .title {
+      color: $white;
+      font-size: 1.25rem;
+      margin: 0;
+    }
+  }
+
+  .body {
+    padding: 16px;
+    color: $grayText;
+  }
+}

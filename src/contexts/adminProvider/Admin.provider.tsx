@@ -3,7 +3,13 @@ import { EditUser, User } from '../authProvider/Auth.provider';
 import { ChatData } from '@/utils/chatTypes';
 import { getCookiesAuth } from '@/utils/cookies';
 import Roles from '@/utils/roles';
-import { Form, FormStatus, Pagination, VolunteerForm } from '@/utils/types';
+import {
+  CreateChatPayload,
+  Form,
+  FormStatus,
+  Pagination,
+  VolunteerForm,
+} from '@/utils/types';
 import { failurePopUp, successPopUp } from '@/utils/defaultNotifications';
 
 interface AdminContextType {
@@ -11,7 +17,7 @@ interface AdminContextType {
   getUserById: (id: number) => Promise<User>;
   editUser: (id: number, userData: EditUser) => Promise<User>;
   getChats: (page: number, size: number) => Promise<ChatData>;
-  createChat: (name: string) => Promise<void>;
+  createChat: (payload: CreateChatPayload) => Promise<void>;
   addParticipant: (chatId: number, userId: number) => Promise<void>;
   removeParticipant: (chatId: number, userId: number) => Promise<void>;
   createArticle: (article: Article, id?: number) => Promise<void>;
@@ -204,17 +210,13 @@ const useProvideAdmin = () => {
     });
   };
 
-  const createChat = async (name: string) => {
+  const createChat = async (payload: CreateChatPayload) => {
     const headers = await getCookiesAuth();
-
-    const body = {
-      name: name,
-    };
 
     await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/chat/`, {
       method: 'post',
       headers,
-      body: JSON.stringify(body),
+      body: JSON.stringify(payload),
     });
   };
 

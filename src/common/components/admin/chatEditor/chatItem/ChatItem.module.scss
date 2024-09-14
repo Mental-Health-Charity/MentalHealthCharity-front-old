@@ -1,93 +1,152 @@
 @use '../../../../styles/mixins.module' as *;
 @use '../../../../styles/variables.module' as *;
 
-.chatItem {
-  position: relative;
-  padding: 0.7em;
-  background: linear-gradient(to right bottom, $lightNavy, #6100bb);
-  border-radius: 1em;
-  box-shadow: 0.1em 0.1em 0.5em #1b1b1b4b;
-  color: $white;
-  font-size: 1.1em;
-  width: 500px;
-  height: 420px;
+.chatInfo {
+  margin-bottom: 16px;
+  font-size: 0.9rem;
+  color: $grayText;
 
-  @media (max-width: 550px) {
-    width: 100%;
+  p {
+    margin: 4px 0;
+  }
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 16px;
+
+  .input {
+    padding: 8px;
+    border: 1px solid $borderPrimary;
+    border-radius: 4px;
+    font-size: 1rem;
   }
 
-  &::before {
-    position: absolute;
-    top: 1em;
-    box-shadow: 0em 0em 1em rgb(5, 250, 5);
-    left: 1em;
-    width: 1em;
-    height: 1em;
-    border-radius: 50%;
-    background-color: rgb(5, 250, 5);
-    content: '';
+  .error {
+    color: $error;
+    font-size: 0.8rem;
   }
 
-  &__name {
-    font-weight: 1000;
-    text-align: center;
-    margin: 0.3em;
-  }
+  .addButton {
+    background-color: $lightNavy;
+    color: $white;
+    padding: 8px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
 
-  &__date {
-    font-size: 0.8em;
-  }
-
-  &__active {
-    @include flex-center-x;
-    justify-content: space-between;
-
-    &__button {
-      @include default-button;
-      padding: 0;
-      background: none;
-      border: none;
-
-      &:active {
-        background-color: $error;
-        color: $white;
-      }
+    &:hover {
+      background-color: darken($lightNavy, 10%);
     }
   }
+}
 
-  &__participants {
-    padding-top: 0.2em;
+.participants {
+  margin: 16px 0;
 
-    &__list {
-      @include listScrollBar;
-      padding: 0.2em;
-      max-height: 8em;
-      max-width: 35em;
-      min-height: 140px;
-      overflow: auto;
+  &__list {
+    @include listScrollBar;
+    padding-right: 8px;
+    overflow-y: auto;
+    height: 195px;
+  }
 
-      &__participant {
-        @include flex-center-xy;
-        margin: 0.6em 0em 0.6em 0em;
-        justify-content: space-between;
-        list-style: none;
+  h4 {
+    font-size: 1.1rem;
+    margin-bottom: 8px;
+  }
 
-        &__remove {
-          @include default-button;
-          padding: 0.1em;
-          background-color: $error;
-          color: $white;
-          border-radius: 0;
-          font-size: 0.7em;
-          border: 0.175em solid $error;
-          margin-left: 2em;
+  .participant {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+    padding: 8px;
+    background-color: $lightGray;
+    border: 1px solid $borderSecondary;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 
-          &:active {
-            background-color: $error;
-            color: $white;
+    .participantInfo {
+      display: flex;
+      align-items: center;
+
+      .avatar {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        margin-right: 12px;
+      }
+
+      .details {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+
+        .fullName {
+          font-weight: bold;
+          font-size: 0.95rem;
+          color: $black;
+        }
+
+        .email {
+          font-size: 0.85rem;
+          color: $grayText;
+        }
+
+        .role {
+          font-size: 0.85rem;
+          color: $grayText;
+        }
+
+        .profileLink {
+          font-size: 0.8rem;
+          color: $lightNavy;
+          text-decoration: underline;
+          cursor: pointer;
+
+          &:hover {
+            color: darken($lightNavy, 10%);
           }
         }
       }
     }
+
+    .removeButton {
+      background-color: $error;
+      color: $white;
+      padding: 4px 8px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+
+      &:hover {
+        background-color: darken($error, 10%);
+      }
+    }
+  }
+}
+
+.toggleButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  transition: transform 0.3s ease;
+
+  &:hover {
+    transform: scale(1.1);
+  }
+
+  img {
+    width: 20px;
+    height: 20px;
   }
 }
