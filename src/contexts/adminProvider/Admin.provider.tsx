@@ -11,6 +11,7 @@ import {
   VolunteerForm,
 } from '@/utils/types';
 import { failurePopUp, successPopUp } from '@/utils/defaultNotifications';
+import { SearchUsersPayload } from '@/common/components/admin/types';
 
 interface AdminContextType {
   getUsers: (limit: { from: number; to: number }) => Promise<Pagination<User>>;
@@ -37,6 +38,7 @@ interface AdminContextType {
   rejectForm: (formId: number) => Promise<void>;
   removeArticleCategory: (id: number) => Promise<void>;
   editArticleCategory: (name: string, id: number) => Promise<void>;
+  searchUsers: (payload: SearchUsersPayload) => Promise<Pagination<User>>;
 }
 
 export interface Article {
@@ -213,11 +215,62 @@ const useProvideAdmin = () => {
   const createChat = async (payload: CreateChatPayload) => {
     const headers = await getCookiesAuth();
 
+    console.log('headers from chat', headers);
+
     await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/chat/`, {
       method: 'post',
       headers,
       body: JSON.stringify(payload),
     });
+  };
+
+  // const searchUsers = async ({
+  //   searchQuery,
+  //   page,
+  //   size,
+  // }: SearchUsersPayload): Promise<Pagination<User>> => {
+  //   const headers = await getCookiesAuth();
+
+  //   try {
+  //     const res = await fetch(
+  //       `${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/users?query=${searchQuery}&page=${page || 1}&size=${size || 100}`,
+  //       {
+  //         method: 'GET',
+  //         headers,
+  //       },
+  //     );
+
+  //     if (!res.ok) {
+  //       const errorText = await res.text();
+  //       console.error(`Error: ${res.status} - ${errorText}`);
+  //       failurePopUp('Wystąpił problem podczas pobierania użytkowników');
+  //       return; // Możesz zwrócić jakąś domyślną wartość lub rzucić wyjątek
+  //     }
+
+  //     return await res.json();
+  //   } catch (error) {
+  //     console.error('Fetch error:', error);
+  //     failurePopUp('Wystąpił problem podczas pobierania użytkowników');
+  //     return; // Możesz zwrócić jakąś domyślną wartość lub rzucić wyjątek
+  //   }
+  // };
+
+  const searchUsers = async ({
+    searchQuery,
+    page,
+    size,
+  }: SearchUsersPayload) => {
+    const headers = await getCookiesAuth();
+
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/users?query=${searchQuery}&page=${page || 1}&size=${size || 100}`,
+      {
+        method: 'get',
+        headers,
+      },
+    );
+    const data = await res.json();
+    return data as Pagination<Form<VolunteerForm>>;
   };
 
   const createArticleCategory = async (name: string) => {
@@ -345,6 +398,7 @@ const useProvideAdmin = () => {
     getForms,
     updateForm,
     rejectForm,
+    searchUsers,
   };
 };
 

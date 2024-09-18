@@ -6,7 +6,7 @@ import { restoreUserSession } from '@/utils/cookies';
 import ToastProvider from '@/common/components/common/layout/modalPortal/ModalPortal.component';
 import { Metadata } from 'next';
 import CookiesBar from '@/common/components/common/CookiesBar/CookiesBar.component';
-import Sidebar from '@/common/components/Sidebar/Sidebar.component';
+// import Sidebar from '@/common/components/Sidebar/Sidebar.component';
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://fundacjaperyskop.org'),
@@ -53,7 +53,7 @@ export default async function RootLayout({
       <body className={styles.body}>
         <AuthProvider user={user}>
           <ToastProvider>
-            <Sidebar />
+            {/* <Sidebar /> */}
             <Navbar />
             {children}
             <Footer />

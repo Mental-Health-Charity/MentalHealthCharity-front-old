@@ -10,6 +10,7 @@ import { failurePopUp, successPopUp } from '@/utils/defaultNotifications';
 import DashboardCard from '@/common/components/DashboardCard/DashboardCard.component';
 import translateRole from '@/utils/translateRole';
 import { useAuth } from '@/contexts/authProvider/Auth.provider';
+import SearchUser from '../../SearchUser/SearchUser.component';
 
 interface ChatItemProps {
   chat: Chat;
@@ -77,7 +78,7 @@ const ChatItem = ({ chat, readChats, page }: ChatItemProps) => {
       </div>
 
       <form onSubmit={formik.handleSubmit} className={styles.form}>
-        <input
+        {/* <input
           id="participantId"
           name="participantId"
           type="text"
@@ -88,7 +89,8 @@ const ChatItem = ({ chat, readChats, page }: ChatItemProps) => {
         />
         {formik.touched.participantId && formik.errors.participantId ? (
           <div className={styles.error}>{formik.errors.participantId}</div>
-        ) : null}
+        ) : null} */}
+        <SearchUser onChange={(user) => console.log(user)} />
 
         <button type="submit" className={styles.addButton}>
           Dodaj uczestnika

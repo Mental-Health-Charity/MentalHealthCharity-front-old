@@ -46,7 +46,7 @@ const ChatEditor = () => {
         .required('Nazwa chatu jest wymagana')
         .min(3, 'Nazwa chatu musi zawierać co najmniej 3 znaki'),
       autoGroupChat: Yup.string().oneOf(
-        ['volunteer', 'admin', 'supervisor', 'redactor'],
+        ['VOLUNTEER', 'ADMIN', 'SUPERVISOR', 'REDACTOR'],
         'Nieprawidłowa rola',
       ),
     }),
@@ -55,7 +55,7 @@ const ChatEditor = () => {
         await createChat({
           name: values.chatName,
           flags: {
-            autoGroupChat: values.autoGroupChat,
+            autoGroupChat: [values.autoGroupChat],
           },
         });
         successPopUp('Utworzono nowy chat: ' + values.chatName);
@@ -109,10 +109,10 @@ const ChatEditor = () => {
             }
           >
             <option value="" label="Wybierz rolę" />
-            <option value="volunteer" label="Volunteer" />
-            <option value="admin" label="Admin" />
-            <option value="supervisor" label="Supervisor" />
-            <option value="redactor" label="Redactor" />
+            <option value="VOLUNTEER" label="Volunteer" />
+            <option value="ADMIN" label="Admin" />
+            <option value="SUPERVISOR" label="Supervisor" />
+            <option value="REDACTOR" label="Redactor" />
           </select>
           {formik.touched.autoGroupChat && formik.errors.autoGroupChat ? (
             <div className={styles.error}>{formik.errors.autoGroupChat}</div>
