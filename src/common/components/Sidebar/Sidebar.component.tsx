@@ -3,7 +3,7 @@
 import React from 'react';
 import Link from 'next/link';
 import styles from './Sidebar.module.scss';
-import { useRouter } from 'next/navigation';
+import { useRouter } from 'next/router';
 import Image from 'next/image';
 import { MdDashboard } from 'react-icons/md';
 import { BsChatSquareDotsFill } from 'react-icons/bs';
@@ -12,7 +12,7 @@ import { IoIosSettings } from 'react-icons/io';
 import { IoMdLogOut } from 'react-icons/io';
 
 const Sidebar = () => {
-  const router = useRouter();
+  const { pathname } = useRouter();
 
   const handleLogout = () => {
     // Implementacja funkcji wylogowania
@@ -31,7 +31,7 @@ const Sidebar = () => {
         <ul className={styles.sidebar__list}>
           <li
             className={`${styles.sidebar__item} ${
-              router.pathname === '/admin/dashboard' ? styles.active : ''
+              pathname === '/admin/dashboard' ? styles.active : ''
             }`}
           >
             <Link href="/admin/dashboard" className={styles.sidebar__link}>
@@ -41,7 +41,7 @@ const Sidebar = () => {
           </li>
           <li
             className={`${styles.sidebar__item} ${
-              router.pathname === '/admin/chats' ? styles.active : ''
+              pathname === '/admin/chats' ? styles.active : ''
             }`}
           >
             <Link href="/admin/chats" className={styles.sidebar__link}>
@@ -51,7 +51,7 @@ const Sidebar = () => {
           </li>
           <li
             className={`${styles.sidebar__item} ${
-              router.pathname === '/admin/users' ? styles.active : ''
+              pathname === '/admin/users' ? styles.active : ''
             }`}
           >
             <Link href="/admin/users" className={styles.sidebar__link}>
@@ -61,7 +61,7 @@ const Sidebar = () => {
           </li>
           <li
             className={`${styles.sidebar__item} ${
-              router.pathname === '/admin/settings' ? styles.active : ''
+              pathname === '/admin/settings' ? styles.active : ''
             }`}
           >
             <Link href="/admin/settings" className={styles.sidebar__link}>
