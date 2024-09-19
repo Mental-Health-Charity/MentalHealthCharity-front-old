@@ -3,15 +3,22 @@ import { EditUser, User } from '../authProvider/Auth.provider';
 import { ChatData } from '@/utils/chatTypes';
 import { getCookiesAuth } from '@/utils/cookies';
 import Roles from '@/utils/roles';
-import { Form, FormStatus, Pagination, VolunteerForm } from '@/utils/types';
+import {
+  CreateChatPayload,
+  Form,
+  FormStatus,
+  Pagination,
+  VolunteerForm,
+} from '@/utils/types';
 import { failurePopUp, successPopUp } from '@/utils/defaultNotifications';
+import { SearchUsersPayload } from '@/common/components/admin/types';
 
 interface AdminContextType {
   getUsers: (limit: { from: number; to: number }) => Promise<Pagination<User>>;
   getUserById: (id: number) => Promise<User>;
   editUser: (id: number, userData: EditUser) => Promise<User>;
   getChats: (page: number, size: number) => Promise<ChatData>;
-  createChat: (name: string) => Promise<void>;
+  createChat: (payload: CreateChatPayload) => Promise<void>;
   addParticipant: (chatId: number, userId: number) => Promise<void>;
   removeParticipant: (chatId: number, userId: number) => Promise<void>;
   createArticle: (article: Article, id?: number) => Promise<void>;
@@ -31,6 +38,7 @@ interface AdminContextType {
   rejectForm: (formId: number) => Promise<void>;
   removeArticleCategory: (id: number) => Promise<void>;
   editArticleCategory: (name: string, id: number) => Promise<void>;
+  searchUsers: (payload: SearchUsersPayload) => Promise<Pagination<User>>;
 }
 
 export interface Article {
@@ -204,18 +212,65 @@ const useProvideAdmin = () => {
     });
   };
 
-  const createChat = async (name: string) => {
+  const createChat = async (payload: CreateChatPayload) => {
     const headers = await getCookiesAuth();
 
-    const body = {
-      name: name,
-    };
+    console.log('headers from chat', headers);
 
     await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/chat/`, {
       method: 'post',
       headers,
-      body: JSON.stringify(body),
+      body: JSON.stringify(payload),
     });
+  };
+
+  // const searchUsers = async ({
+  //   searchQuery,
+  //   page,
+  //   size,
+  // }: SearchUsersPayload): Promise<Pagination<User>> => {
+  //   const headers = await getCookiesAuth();
+
+  //   try {
+  //     const res = await fetch(
+  //       `${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/users?query=${searchQuery}&page=${page || 1}&size=${size || 100}`,
+  //       {
+  //         method: 'GET',
+  //         headers,
+  //       },
+  //     );
+
+  //     if (!res.ok) {
+  //       const errorText = await res.text();
+  //       console.error(`Error: ${res.status} - ${errorText}`);
+  //       failurePopUp('Wystąpił problem podczas pobierania użytkowników');
+  //       return; // Możesz zwrócić jakąś domyślną wartość lub rzucić wyjątek
+  //     }
+
+  //     return await res.json();
+  //   } catch (error) {
+  //     console.error('Fetch error:', error);
+  //     failurePopUp('Wystąpił problem podczas pobierania użytkowników');
+  //     return; // Możesz zwrócić jakąś domyślną wartość lub rzucić wyjątek
+  //   }
+  // };
+
+  const searchUsers = async ({
+    searchQuery,
+    page,
+    size,
+  }: SearchUsersPayload) => {
+    const headers = await getCookiesAuth();
+
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/users?query=${searchQuery}&page=${page || 1}&size=${size || 100}`,
+      {
+        method: 'get',
+        headers,
+      },
+    );
+    const data = await res.json();
+    return data as Pagination<Form<VolunteerForm>>;
   };
 
   const createArticleCategory = async (name: string) => {
@@ -343,6 +398,7 @@ const useProvideAdmin = () => {
     getForms,
     updateForm,
     rejectForm,
+    searchUsers,
   };
 };
 

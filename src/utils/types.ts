@@ -67,3 +67,8 @@ export interface Pagination<T> {
   size: number;
   pages: number;
 }
+
+export interface CreateChatPayload {
+  name: string;
+  flags: Record<string, any>;
+}

@@ -1,10 +1,16 @@
+import React, { useState } from 'react';
 import { Chat } from '@/utils/chatTypes';
 import styles from './ChatItem.module.scss';
 import { useAdmin } from '@/contexts/adminProvider/Admin.provider';
-import { useState } from 'react';
-import PowerOffIcon from '../../../../images/static/poweroff.png';
 import Image from 'next/image';
+import { useFormik } from 'formik';
+import * as Yup from 'yup';
+import PowerOffIcon from '../../../../images/static/poweroff.png';
 import { failurePopUp, successPopUp } from '@/utils/defaultNotifications';
+import DashboardCard from '@/common/components/DashboardCard/DashboardCard.component';
+import translateRole from '@/utils/translateRole';
+import { useAuth } from '@/contexts/authProvider/Auth.provider';
+import SearchUser from '../../SearchUser/SearchUser.component';
 
 interface ChatItemProps {
   chat: Chat;
@@ -15,98 +21,131 @@ interface ChatItemProps {
 const ChatItem = ({ chat, readChats, page }: ChatItemProps) => {
   const { addParticipant, removeParticipant } = useAdmin();
   const [userId, setUserId] = useState<number | undefined>();
+  const { user } = useAuth();
 
-  const handleAddParticipant = async () => {
-    if (userId) {
+  const formik = useFormik({
+    initialValues: {
+      participantId: '',
+    },
+    validationSchema: Yup.object({
+      participantId: Yup.number()
+        .required('User ID is required')
+        .positive('User ID must be positive')
+        .integer('User ID must be an integer'),
+    }),
+    onSubmit: async (values, { resetForm }) => {
+      const participantId = Number(values.participantId);
+      setUserId(participantId);
       try {
-        await addParticipant(chat.id, userId);
+        await addParticipant(chat.id, participantId);
         readChats(page);
         successPopUp(
-          'Dodano nowego członka o id: ' + userId + 'na chat o id: ' + chat.id,
+          `Dodano nowego członka o id: ${participantId} na chat o id: ${chat.id}`,
         );
+        resetForm();
       } catch (error) {
         console.error('ERROR while adding new participant ', error);
         failurePopUp('Błąd podczas dodawania nowego członka!');
       }
-    } else {
-      failurePopUp('Błąd podczas dodawania nowego członka! Wprowadź ID.');
-    }
-  };
+    },
+  });
 
-  const handleRemoveParticipant = async (
-    chatId: number,
-    removeUserId: number | undefined,
-  ) => {
+  const handleRemoveParticipant = async (removeUserId: number | undefined) => {
     if (removeUserId) {
       try {
-        await removeParticipant(chatId, removeUserId);
+        await removeParticipant(chat.id, removeUserId);
         readChats(page);
-        successPopUp(
-          'Członek o id ' + removeUserId + ' został poprawnie usunięty.',
-        );
+        successPopUp(`Członek o id ${removeUserId} został poprawnie usunięty.`);
       } catch (error) {
         console.error('ERROR while removing participant ', error);
         failurePopUp('Błąd podczas usuwania członka!');
       }
     } else {
-      console.error('ERROR user id is not provided!');
       failurePopUp('ID użytkownika nie zostało wprowadzone!');
     }
   };
 
   return (
-    <div className={styles.chatItem}>
-      <p className={styles.chatItem__name}>
-        <span>ID: {chat.id}</span> | {chat.name}
-      </p>
-      <p className={styles.chatItem__date}>Utworzono: {chat.creation_date}</p>
-      <p className={styles.chatItem__active}>
-        {chat.is_active ? 'Aktywny' : 'Nieaktywny'}
-        <button className={styles.chatItem__active__button}>
-          <Image
-            src={PowerOffIcon}
-            width={30}
-            height={30}
-            alt="Ikona wyłączenia"
-          />
-        </button>
-      </p>
-      <div className={styles.chatItem__participants}>
-        <p className={styles.chatItem__participants__heading}>
-          Członkowie ({chat.participants?.length} / &infin;):
+    <DashboardCard
+      style={{ width: '450px', height: '550px' }}
+      cardTitle={chat.name}
+    >
+      <div className={styles.chatInfo}>
+        <p>
+          Utworzono w dniu: {new Date(chat.creation_date).toLocaleDateString()}
         </p>
-        <ul className={styles.chatItem__participants__list}>
-          {chat.participants &&
-            chat.participants.map((user, index) => {
-              return (
-                <li
-                  className={styles.chatItem__participants__list__participant}
-                  key={index}
-                >
-                  {user.id} | {user.user_role} | {user.email} |{' '}
-                  {user.full_name ? user.full_name : 'ANONIM'}
-                  <button
-                    onClick={() => handleRemoveParticipant(chat.id, user.id)}
-                    className={
-                      styles.chatItem__participants__list__participant__remove
-                    }
+        <p>Status: {chat.is_active ? 'Aktywny' : 'Nieaktywny'}</p>
+      </div>
+
+      <form onSubmit={formik.handleSubmit} className={styles.form}>
+        {/* <input
+          id="participantId"
+          name="participantId"
+          type="text"
+          placeholder="Wpisz id użytkownika"
+          onChange={formik.handleChange}
+          value={formik.values.participantId}
+          className={styles.input}
+        />
+        {formik.touched.participantId && formik.errors.participantId ? (
+          <div className={styles.error}>{formik.errors.participantId}</div>
+        ) : null} */}
+        <SearchUser onChange={(user) => console.log(user)} />
+
+        <button type="submit" className={styles.addButton}>
+          Dodaj uczestnika
+        </button>
+      </form>
+
+      <div className={styles.participants}>
+        <h4>Uczestnicy</h4>
+        <div className={styles.participants__list}>
+          {chat.participants?.map((participant) => (
+            <div key={participant.id} className={styles.participant}>
+              <div className={styles.participantInfo}>
+                <div className={styles.details}>
+                  <span
+                    className={styles.fullName}
+                    style={{
+                      color:
+                        user?.id === participant.id ? '#67B7D1' : 'inherit',
+                    }}
                   >
-                    WYRZUĆ
-                  </button>
-                </li>
-              );
-            })}
-        </ul>
-        <div>
-          <input
-            onChange={(e) => setUserId(e.target.valueAsNumber)}
-            type="number"
-            placeholder="id"
-          />
-          <button onClick={handleAddParticipant}>dodaj</button>
+                    {participant.full_name} ({participant.id})
+                  </span>
+
+                  <span className={styles.email}>{participant.email}</span>
+                  <span className={styles.role}>
+                    {translateRole(participant.user_role)}
+                  </span>
+                  {participant.user_public_profile && (
+                    <a
+                      href={`/profil/${participant.id}`}
+                      className={styles.profileLink}
+                    >
+                      Zobacz profil
+                    </a>
+                  )}
+                </div>
+              </div>
+              <button
+                onClick={() => handleRemoveParticipant(participant.id)}
+                className={styles.removeButton}
+              >
+                Usuń
+              </button>
+            </div>
+          ))}
         </div>
       </div>
-    </div>
+
+      <button
+        className={styles.toggleButton}
+        onClick={() => console.log('Toggle chat status')}
+      >
+        <Image src={PowerOffIcon} alt="Toggle Status" />
+      </button>
+    </DashboardCard>
   );
 };
 

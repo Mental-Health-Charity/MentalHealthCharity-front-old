@@ -10,7 +10,6 @@ import Roles from '@/utils/roles';
 import MergeUserModal from './mergeUserModal/MergeUserModal.component';
 import Loader from '../../common/Loader/Loader.component';
 import { useDebounce } from 'use-debounce';
-import { set } from 'date-fns';
 
 const UserEditor = () => {
   const { getUserById } = useAdmin();

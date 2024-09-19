@@ -106,7 +106,7 @@ export const ChatProvider: React.FC<{ children: React.ReactNode }> = ({
       }
 
       const newWebSocket = new WebSocket(
-        `wss://mentalhealthcharity-backend-production.up.railway.app/ws-chat?token=${data}&chat_id=${selectedChat.id}`,
+        `wss://api.fundacjaperyskop.org/ws-chat?token=${data}&chat_id=${selectedChat.id}`,
       );
 
       newWebSocket.onopen = () => {
@@ -146,7 +146,7 @@ export const ChatProvider: React.FC<{ children: React.ReactNode }> = ({
       const data = await getCookies('jwtToken');
       initUnreadedMessagesWS(
         new WebSocket(
-          `wss://mentalhealthcharity-backend-production.up.railway.app/ws-unread-chats?token=${data}`,
+          `wss://api.fundacjaperyskop.org/ws-unread-chats?token=${data}`,
         ),
       );
     })();

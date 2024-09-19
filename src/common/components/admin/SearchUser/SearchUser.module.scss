@@ -1,0 +1,119 @@
+.search-user {
+  position: relative;
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+
+  &__input-wrapper {
+    position: relative;
+
+    input {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-size: 16px;
+      outline: none;
+
+      &:focus {
+        border-color: #007bff;
+      }
+    }
+
+    &__selected-user {
+      display: flex;
+      align-items: center;
+      margin-top: 10px;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      background: #f8f9fa;
+      cursor: default;
+
+      img {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        margin-right: 10px;
+      }
+
+      span {
+        flex: 1;
+        font-size: 16px;
+      }
+
+      button {
+        background: transparent;
+        border: none;
+        font-size: 20px;
+        cursor: pointer;
+        color: #007bff;
+      }
+    }
+  }
+
+  &__loading {
+    margin-top: 10px;
+    font-size: 16px;
+    color: #007bff;
+  }
+
+  &__error {
+    margin-top: 10px;
+    font-size: 16px;
+    color: #dc3545;
+  }
+
+  &__dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    max-height: 300px;
+    overflow-y: auto;
+    margin-top: 5px;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+
+    &-item {
+      display: flex;
+      align-items: center;
+      padding: 10px;
+      cursor: pointer;
+      transition: background 0.3s;
+
+      &:hover {
+        background: #f1f1f1;
+      }
+
+      .search-user__dropdown-avatar {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        margin-right: 10px;
+      }
+
+      .search-user__dropdown-info {
+        flex: 1;
+
+        .search-user__dropdown-name {
+          font-size: 16px;
+          font-weight: 500;
+          margin: 0;
+        }
+
+        .search-user__dropdown-email {
+          font-size: 14px;
+          color: #6c757d;
+          margin: 0;
+        }
+      }
+    }
+  }
+}
